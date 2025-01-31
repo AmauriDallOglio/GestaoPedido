@@ -1,0 +1,91 @@
+﻿@using GestaoPedido.Dominio.Entidade;
+@model List<Cliente>
+@{
+    ViewData["Title"] = "Gerenciamento de cliente";
+}
+
+<div class="container mt-5">
+    <div class="text-center mb-4">
+        <h1 class="display-5">Gerenciamento de cliente</h1>
+    </div>
+
+    @if (TempData["MensagemSucesso"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Sucesso!</strong> @TempData["MensagemSucesso"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    @if (TempData["MensagemErro"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Erro!</strong> @TempData["MensagemErro"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="d-flex justify-content-end mb-3">
+        <a class="btn btn-outline-primary" role="button"
+           asp-controller="Cliente"
+           asp-action="Incluir">
+            <i class="bi bi-plus-circle"></i> Incluir
+        </a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover" id="GridCliente">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">E-mail</th>
+   
+                    <th scope="col" class="text-center">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    @foreach (var Cliente in Model)
+                    {
+                        <tr>
+                            <td>@Cliente.Id</td>
+                            <td>@Cliente.Nome</td>
+                            <td>@Cliente.Email</td>
+  
+                            <td class="text-center">
+                                <a class="btn btn-outline-warning btn-sm"
+                                   asp-route-id="@Cliente.Id"
+                                   asp-controller="Cliente"
+                                   asp-action="Editar">
+                                    <i class="bi bi-pencil"></i> Editar
+                                </a>
+                                <a class="btn btn-outline-info btn-sm"
+                                   asp-route-id="@Cliente.Id"
+                                   asp-controller="Cliente"
+                                   asp-action="Detalhes">
+                                    <i class="bi bi-eye"></i> Detalhes
+                                </a>
+                                <a class="btn btn-outline-danger btn-sm"
+                                   asp-route-id="@Cliente.Id"
+                                   asp-controller="Cliente"
+                                   asp-action="Excluir">
+                                    <i class="bi bi-trash"></i> Excluir
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="7" class="text-center">Nenhum registro encontrado.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
