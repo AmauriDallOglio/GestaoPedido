@@ -96,5 +96,38 @@ namespace GestaoPedido.Site.Controllers
             }
         }
 
+
+        [HttpGet]
+        public IActionResult Excluir(Guid id)
+        {
+            Cliente cliente = _ClienteServico.ObterPorId(id).Result;
+            return View(cliente);
+        }
+
+        [HttpPost]
+        public IActionResult Excluir(Cliente cliente)
+        {
+            try
+            {
+                //throw new ArgumentException("Teste de erro!");
+
+                var resultado = _ClienteServico.ExcluirAsync(cliente.Id).Result;
+                if (resultado == false)
+                {
+                    TempData["MensagemErro"] = "Empresa não encontrada";
+                    return RedirectToAction("Index");
+                }
+
+                TempData["MensagemSucesso"] = "Empresa excluída com sucesso";
+                return RedirectToAction("Index");
+            }
+            catch (Exception erro)
+            {
+                TempData["MensagemErro"] = $"Atenção: {erro.Message}";
+                return RedirectToAction("Excluir");
+            }
+
+        }
+
     }
 }

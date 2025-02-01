@@ -2,6 +2,7 @@
 using GestaoPedido.Dominio.InterfaceRepositorio;
 using GestaoPedido.Infraestrutura.Contexto;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace GestaoPedido.Infraestrutura.Repositorio
 {
@@ -26,32 +27,48 @@ namespace GestaoPedido.Infraestrutura.Repositorio
             }
             catch (Exception ex)
             {
-                throw new Exception($"Não foi possível incluir o usuário, operação cancelada! {ex.Message}");
+                throw new Exception($"Não foi possível incluir o cliente, operação cancelada! {ex.Message}");
             }
             return cliente;
         }
 
         public async Task<Cliente?> EditarAsync(Cliente cliente)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var aaa = _context.ClienteDb.Update(cliente);
+                int gravar = await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Não foi possível alterar o cliente, operação cancelada! {ex.Message}");
+            }
+            return cliente;
         }
 
-    
-
-        public async Task<Cliente?> ObterClientePorIdAsync(Guid id)
+        public async Task<bool> ExcluirAsync(Cliente cliente)
         {
-            throw new NotImplementedException();
+            EntityEntry<Cliente> deletar = _context.Remove(cliente);
+            if (deletar.Context == null)
+                throw new System.Exception("Não foi possível deletar a cliente!");
+
+            int gravar = await _context.SaveChangesAsync();
+            if (gravar == 0)
+                throw new System.Exception("Não foi possível excluir a cliente, operação cancelada!");
+
+            return true;
         }
 
-        public async Task<Cliente?> ObterPorEmailAsync(string email)
+
+        public async Task<Cliente?> ObterPorIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var cliente = await _context.ClienteDb.FirstAsync(x => x.Id == id);
+            return cliente;
         }
 
-        public async Task<Cliente?> ObterPorEmaiSenhalAsync(string email, string senha)
-        {
-            throw new NotImplementedException();
-        }
+      
+
+ 
 
         public async Task<List<Cliente>> ObterTodosAsync()
         {

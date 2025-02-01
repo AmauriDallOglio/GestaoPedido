@@ -25,7 +25,7 @@ namespace GestaoPedido.Aplicacao.Servico
         {
             try
             {
-                Cliente? resultado = await _iClienteRepositorio.ObterClientePorIdAsync(id);
+                Cliente? resultado = await _iClienteRepositorio.ObterPorIdAsync(id);
                 return resultado ?? new Cliente();
             }
             catch (Exception erro)
@@ -62,6 +62,23 @@ namespace GestaoPedido.Aplicacao.Servico
 
         }
 
+        public async Task<bool> ExcluirAsync(Guid id)
+        {
+            try
+            {
+                Cliente? cliente = await _iClienteRepositorio.ObterPorIdAsync(id);
+                if (cliente == null)
+                    throw new System.Exception("Categoria " + id.ToString() + ", não localizada!");
+
+                bool resultado = await _iClienteRepositorio.ExcluirAsync(cliente);
+
+                return resultado;
+            }
+            catch (Exception erro)
+            {
+                throw new NotImplementedException($"ObterTodos: {erro.Message}");
+            }
+        }
     }
 }
 
