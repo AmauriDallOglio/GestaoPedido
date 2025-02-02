@@ -3,15 +3,16 @@ using GestaoPedido.Dominio.InterfaceRepositorio;
 
 namespace GestaoPedido.Aplicacao.Servico
 {
-    public class ClienteServico(IClienteRepositorio iClienteRepositorio)
+    public class ClienteServico(IClienteRepositorio iClienteRepositorio, IGeneticoRepositorio<Cliente> iGeneticoRepositorio) : IServico<Cliente>
     {
         private readonly IClienteRepositorio _iClienteRepositorio = iClienteRepositorio;
+        private readonly IGeneticoRepositorio<Cliente> _IGeneticoRepositorio = iGeneticoRepositorio;
 
         public async Task<List<Cliente>> ObterTodos()
         {
             try
             {
-                List<Cliente> resultado = await _iClienteRepositorio.ObterTodosAsync();
+                List<Cliente> resultado = await _IGeneticoRepositorio.ObterTodosAsync();
                 return resultado;
             }
             catch (Exception erro)
@@ -25,7 +26,7 @@ namespace GestaoPedido.Aplicacao.Servico
         {
             try
             {
-                Cliente? resultado = await _iClienteRepositorio.ObterPorIdAsync(id);
+                Cliente? resultado = await _IGeneticoRepositorio.ObterPorIdAsync(id);
                 return resultado ?? new Cliente();
             }
             catch (Exception erro)
@@ -39,7 +40,7 @@ namespace GestaoPedido.Aplicacao.Servico
         {
             try
             {
-                Cliente? resultado = await _iClienteRepositorio.IncluirAsync(Cliente);
+                Cliente? resultado = await _IGeneticoRepositorio.IncluirAsync(Cliente);
                 return resultado ?? new Cliente();
             }
             catch (Exception erro)
@@ -52,7 +53,7 @@ namespace GestaoPedido.Aplicacao.Servico
         {
             try
             {
-                Cliente? resultado = await _iClienteRepositorio.EditarAsync(Cliente);
+                Cliente? resultado = await _IGeneticoRepositorio.EditarAsync(Cliente);
                 return resultado ?? new Cliente();
             }
             catch (Exception erro)
@@ -66,11 +67,11 @@ namespace GestaoPedido.Aplicacao.Servico
         {
             try
             {
-                Cliente? cliente = await _iClienteRepositorio.ObterPorIdAsync(id);
+                Cliente? cliente = await _IGeneticoRepositorio.ObterPorIdAsync(id);
                 if (cliente == null)
                     throw new System.Exception("Categoria " + id.ToString() + ", não localizada!");
 
-                bool resultado = await _iClienteRepositorio.ExcluirAsync(cliente);
+                bool resultado = await _IGeneticoRepositorio.ExcluirAsync(cliente);
 
                 return resultado;
             }

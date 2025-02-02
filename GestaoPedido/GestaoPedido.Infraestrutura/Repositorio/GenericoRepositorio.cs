@@ -1,0 +1,77 @@
+﻿using GestaoPedido.Dominio.InterfaceRepositorio;
+using GestaoPedido.Infraestrutura.Contexto;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+
+namespace GestaoPedido.Infraestrutura.Repositorio
+{
+    public class GenericoRepositorio<T> : IGeneticoRepositorio<T> where T : class
+    {
+        protected readonly GenericoContexto _context;
+        private readonly DbSet<T> _dbSet;
+
+        public GenericoRepositorio(GenericoContexto context)
+        {
+            _context = context;
+            _dbSet = _context.Set<T>();
+        }
+
+        public async Task<T?> IncluirAsync(T entidade)
+        {
+            try
+            {
+                await _dbSet.AddAsync(entidade);
+                await _context.SaveChangesAsync();
+                return entidade;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Não foi possível incluir o registro, operação cancelada! {ex.Message}");
+            }
+        }
+
+        public async Task<T?> EditarAsync(T entidade)
+        {
+            try
+            {
+                _dbSet.Update(entidade);
+                await _context.SaveChangesAsync();
+                return entidade;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Não foi possível alterar o registro, operação cancelada! {ex.Message}");
+            }
+        }
+
+        public async Task<bool> ExcluirAsync(T entidade)
+        {
+            try
+            {
+                EntityEntry<T> deletar = _dbSet.Remove(entidade);
+                if (deletar.Context == null)
+                    throw new Exception("Não foi possível deletar o registro!");
+
+                int gravar = await _context.SaveChangesAsync();
+                if (gravar == 0)
+                    throw new Exception("Não foi possível excluir o registro, operação cancelada!");
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Erro ao excluir o registro: {ex.Message}");
+            }
+        }
+
+        public async Task<T?> ObterPorIdAsync(Guid id)
+        {
+            return await _dbSet.FindAsync(id);
+        }
+
+        public async Task<List<T>> ObterTodosAsync()
+        {
+            return await _dbSet.ToListAsync();
+        }
+    }
+}

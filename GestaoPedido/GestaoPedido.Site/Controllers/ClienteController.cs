@@ -9,9 +9,9 @@ namespace GestaoPedido.Site.Controllers
     {
         private readonly ClienteServico _ClienteServico;
       
-        public ClienteController(IClienteRepositorio iClienteRepositorio )
+        public ClienteController(IClienteRepositorio iClienteRepositorio, IGeneticoRepositorio<Cliente> geneticoRepositorio )
         {
-            _ClienteServico = new ClienteServico(iClienteRepositorio);
+            _ClienteServico = new ClienteServico(iClienteRepositorio, geneticoRepositorio);
   
         }
 

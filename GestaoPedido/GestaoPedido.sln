@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35514.174 d17.12
+VisualStudioVersion = 17.12.35514.174
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nucleo", "Nucleo", "{F4759559-5A1C-46BA-91EF-D8A3E05D0052}"
 EndProject
@@ -12,6 +12,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestaoPedido.Infraestrutura", "GestaoPedido.Infraestrutura\GestaoPedido.Infraestrutura.csproj", "{8F4FB876-E540-49EB-B448-0FD68C0C489F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestaoPedido.Site", "GestaoPedido.Site\GestaoPedido.Site.csproj", "{916B614D-E08E-47C8-A8A3-61FBAA0BBCAC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestaoPedido.Api", "GestaoPedido.Api\GestaoPedido.Api.csproj", "{7B881C01-24F2-474D-87F4-31098688DFFB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +37,10 @@ Global
 		{916B614D-E08E-47C8-A8A3-61FBAA0BBCAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{916B614D-E08E-47C8-A8A3-61FBAA0BBCAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{916B614D-E08E-47C8-A8A3-61FBAA0BBCAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B881C01-24F2-474D-87F4-31098688DFFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B881C01-24F2-474D-87F4-31098688DFFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B881C01-24F2-474D-87F4-31098688DFFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B881C01-24F2-474D-87F4-31098688DFFB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

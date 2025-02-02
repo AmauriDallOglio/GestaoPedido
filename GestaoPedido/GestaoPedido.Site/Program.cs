@@ -14,8 +14,9 @@ namespace GestaoPedido.Site
 
 
             builder.Services.AddScoped<IClienteRepositorio, ClienteRepositorio>();
+            builder.Services.AddScoped(typeof(IGeneticoRepositorio<>), typeof(GenericoRepositorio<>));
 
-  
+
 
             builder.Services.AddControllersWithViews();
 
