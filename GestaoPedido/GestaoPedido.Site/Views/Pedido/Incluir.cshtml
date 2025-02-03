@@ -1,0 +1,155 @@
+﻿@model GestaoPedido.Dominio.Entidade.Pedido
+
+@{
+    ViewData["Title"] = "Incluir Pedido";
+    var produtosJson = Json.Serialize(ViewData["Produtos"]);
+    var clientesJson = Json.Serialize(ViewData["Clientes"]);
+}
+
+<div class="container mt-5">
+    <form asp-controller="Pedido"
+          asp-action="Incluir"
+          method="post"
+          class="needs-validation border rounded p-4 shadow-sm"
+          novalidate>
+
+        @if (TempData["MensagemErro"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                @TempData["MensagemErro"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
+        <div class="text-center mb-4">
+            <h1 class="display-4">Novo Pedido</h1>
+        </div>
+
+        <!-- Cliente -->
+        <div class="mb-3">
+            <label for="Id_Cliente" class="form-label">Cliente:</label>
+            @Html.DropDownListFor(a => a.Id_Cliente, (IEnumerable<SelectListItem>)ViewData["Clientes"], "Selecione um cliente", new { @class = "form-control", required = "required" })
+            <div class="form-text">*Campo obrigatório</div>
+            @Html.ValidationMessageFor(a => a.Id_Cliente, null, new { @class = "text-danger" })
+        </div>
+
+        <!-- Lista de Produtos -->
+        <div class="mb-3">
+            <label class="form-label">Produtos:</label>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Produto</th>
+                        <th>Quantidade</th>
+                        <th>Ação</th>
+                    </tr>
+                </thead>
+                <tbody id="produtoTableBody">
+                    <!-- Os produtos serão adicionados aqui -->
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-outline-success" id="adicionarProduto">Adicionar Produto</button>
+        </div>
+
+        <!-- Botões de ação -->
+        <div class="d-flex justify-content-between">
+            <a class="btn btn-outline-secondary"
+               asp-controller="Pedido"
+               asp-action="Index"
+               role="button">Voltar</a>
+
+            <button type="submit" class="btn btn-outline-primary">Gravar</button>
+        </div>
+    </form>
+</div>
+
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let produtos = @Html.Raw(produtosJson); // JSON corretamente formatado
+            let tableBody = document.getElementById("produtoTableBody");
+            let adicionarProdutoBtn = document.getElementById("adicionarProduto");
+
+            adicionarProdutoBtn.addEventListener("click", function () {
+                let index = document.querySelectorAll("#produtoTableBody tr").length;
+
+                let row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>
+                        <select name="PedidoProdutos[${index}].Id_Produto" class="form-control">
+                            ${produtos.map(p => `<option value="${p.value}">${p.text}</option>`).join('')}
+                        </select>
+                    </td>
+                    <td>
+                        <input type="number" name="PedidoProdutos[${index}].Quantidade" class="form-control" min="1" required />
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger btn-sm removerProduto">Remover</button>
+                    </td>
+                `;
+
+                tableBody.appendChild(row);
+            });
+
+            tableBody.addEventListener("click", function (event) {
+                if (event.target.classList.contains("removerProduto")) {
+                    event.target.closest("tr").remove();
+                }
+            });
+        });
+    </script>
+}
+
+
+
+
+
+
+
+@* @model GestaoPedido.Dominio.Entidade.Pedido
+
+@{
+    ViewData["Title"] = "Incluir Pedido";
+}
+
+<div class="container mt-5">
+    <form asp-controller="Pedido"
+          asp-action="Incluir"
+          method="post"
+          class="needs-validation border rounded p-4 shadow-sm"
+          novalidate>
+
+        @if (TempData["MensagemErro"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                @TempData["MensagemErro"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
+        <div class="text-center mb-4">
+            <h1 class="display-4">Formulário de Inserção</h1>
+        </div>
+
+        <div class="mb-3">
+            <label for="id_Tenant" class="form-label">Tenant:</label>
+            @Html.DropDownListFor(a => a.Id_Cliente, (IEnumerable<SelectListItem>)ViewData["Clientes"], "Selecione um cliente", new { @class = "form-control", required = "required" })
+            <div class="form-text">*Campo obrigatório</div>
+            @Html.ValidationMessageFor(a => a.Id_Cliente, null, new { @class = "text-danger" })
+        </div>
+
+      
+
+       
+        <div class="d-flex justify-content-between">
+            <a class="btn btn-outline-secondary"
+               asp-controller="Pedido"
+               asp-action="Index"
+               role="button">Voltar</a>
+
+            <button type="submit" class="btn btn-outline-primary">Gravar</button>
+        </div>
+    </form>
+</div>
+ *@

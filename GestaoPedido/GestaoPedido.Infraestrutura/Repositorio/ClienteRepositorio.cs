@@ -72,7 +72,7 @@ namespace GestaoPedido.Infraestrutura.Repositorio
 
         public async Task<List<Cliente>> ObterTodosAsync()
         {
-            var cliente = await _context.ClienteDb.ToListAsync();
+            var cliente = await _context.ClienteDb.OrderByDescending(a => a.Id).ToListAsync();
             return cliente;
         }
     }

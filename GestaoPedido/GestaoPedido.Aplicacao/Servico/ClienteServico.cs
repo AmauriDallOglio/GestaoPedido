@@ -1,18 +1,18 @@
-﻿using GestaoPedido.Dominio.Entidade;
+﻿using GestaoPedido.Aplicacao.InterfaceServico;
+using GestaoPedido.Dominio.Entidade;
 using GestaoPedido.Dominio.InterfaceRepositorio;
 
 namespace GestaoPedido.Aplicacao.Servico
 {
-    public class ClienteServico(IClienteRepositorio iClienteRepositorio, IGeneticoRepositorio<Cliente> iGeneticoRepositorio) : IServico<Cliente>
+    public class ClienteServico(IClienteRepositorio iClienteRepositorio) : IClienteServico
     {
         private readonly IClienteRepositorio _iClienteRepositorio = iClienteRepositorio;
-        private readonly IGeneticoRepositorio<Cliente> _IGeneticoRepositorio = iGeneticoRepositorio;
 
         public async Task<List<Cliente>> ObterTodos()
         {
             try
             {
-                List<Cliente> resultado = await _IGeneticoRepositorio.ObterTodosAsync();
+                List<Cliente> resultado = await _iClienteRepositorio.ObterTodosAsync();
                 return resultado;
             }
             catch (Exception erro)
@@ -26,7 +26,7 @@ namespace GestaoPedido.Aplicacao.Servico
         {
             try
             {
-                Cliente? resultado = await _IGeneticoRepositorio.ObterPorIdAsync(id);
+                Cliente? resultado = await _iClienteRepositorio.ObterPorIdAsync(id);
                 return resultado ?? new Cliente();
             }
             catch (Exception erro)
@@ -36,11 +36,11 @@ namespace GestaoPedido.Aplicacao.Servico
 
         }
 
-        public async Task<Cliente> Incluir(Cliente Cliente)
+        public async Task<Cliente> IncluirAsync(Cliente cliente)
         {
             try
             {
-                Cliente? resultado = await _IGeneticoRepositorio.IncluirAsync(Cliente);
+                Cliente? resultado = await _iClienteRepositorio.IncluirAsync(cliente);
                 return resultado ?? new Cliente();
             }
             catch (Exception erro)
@@ -49,11 +49,13 @@ namespace GestaoPedido.Aplicacao.Servico
             }
         }
 
-        public async Task<Cliente> EditarAsync(Cliente Cliente)
+
+
+        public async Task<Cliente> EditarAsync(Cliente cliente)
         {
             try
             {
-                Cliente? resultado = await _IGeneticoRepositorio.EditarAsync(Cliente);
+                Cliente? resultado = await _iClienteRepositorio.EditarAsync(cliente);
                 return resultado ?? new Cliente();
             }
             catch (Exception erro)
@@ -67,11 +69,11 @@ namespace GestaoPedido.Aplicacao.Servico
         {
             try
             {
-                Cliente? cliente = await _IGeneticoRepositorio.ObterPorIdAsync(id);
+                Cliente? cliente = await _iClienteRepositorio.ObterPorIdAsync(id);
                 if (cliente == null)
                     throw new System.Exception("Categoria " + id.ToString() + ", não localizada!");
 
-                bool resultado = await _IGeneticoRepositorio.ExcluirAsync(cliente);
+                bool resultado = await _iClienteRepositorio.ExcluirAsync(cliente);
 
                 return resultado;
             }
@@ -80,6 +82,8 @@ namespace GestaoPedido.Aplicacao.Servico
                 throw new NotImplementedException($"ObterTodos: {erro.Message}");
             }
         }
+
+  
     }
 }
 

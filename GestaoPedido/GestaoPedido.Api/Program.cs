@@ -1,4 +1,12 @@
 
+using GestaoPedido.Aplicacao.InterfaceServico;
+using GestaoPedido.Aplicacao.Servico;
+using GestaoPedido.Dominio.Entidade;
+using GestaoPedido.Dominio.InterfaceRepositorio;
+using GestaoPedido.Infraestrutura.Contexto;
+using GestaoPedido.Infraestrutura.Repositorio;
+using System.Text.Json.Serialization;
+
 namespace GestaoPedido.Api
 {
     public class Program
@@ -7,16 +15,37 @@ namespace GestaoPedido.Api
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            builder.Services.AddSqlServer<GenericoContexto>(builder.Configuration.GetConnectionString("ConexaoPadrao"));
 
-            builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            builder.Services.AddControllers().AddJsonOptions(x =>
+            {
+                x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            });
+
+
+
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddScoped<ClienteServico>();
+            builder.Services.AddScoped<IClienteRepositorio, ClienteRepositorio>();
+            builder.Services.AddScoped<IProdutoServico, ProdutoServico>();
+
+            builder.Services.AddScoped<PedidoServico>();
+            builder.Services.AddScoped<IPedidoServico, PedidoServico>();
+            builder.Services.AddScoped<IPedidoRepositorio, PedidoRepositorio>();
+
+ 
+
+
+            builder.Services.AddScoped(typeof(IServicoGenerico<>), typeof(ServicoGenerico<>));
+            builder.Services.AddScoped(typeof(IGeneticoRepositorio<>), typeof(GenericoRepositorio<>));
+
+
+
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();

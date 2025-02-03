@@ -1,6 +1,6 @@
-﻿namespace GestaoPedido.Aplicacao.Servico
+﻿namespace GestaoPedido.Aplicacao.InterfaceServico
 {
-    public interface IServico<T>
+    public interface IServicoGenerico<T>
     {
         Task<List<T>> ObterTodos();
         Task<T> ObterPorId(Guid id);

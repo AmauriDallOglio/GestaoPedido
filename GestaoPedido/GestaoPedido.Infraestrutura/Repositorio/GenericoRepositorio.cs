@@ -26,7 +26,7 @@ namespace GestaoPedido.Infraestrutura.Repositorio
             }
             catch (Exception ex)
             {
-                throw new Exception($"Não foi possível incluir o registro, operação cancelada! {ex.Message}");
+                throw new Exception($"Não foi possível incluir o registro, operação cancelada! {ex.Message} / {ex.InnerException.Message} ");
             }
         }
 

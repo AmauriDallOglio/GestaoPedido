@@ -9,9 +9,9 @@ namespace GestaoPedido.Site.Controllers
     {
         private readonly ClienteServico _ClienteServico;
       
-        public ClienteController(IClienteRepositorio iClienteRepositorio, IGeneticoRepositorio<Cliente> geneticoRepositorio )
+        public ClienteController(IClienteRepositorio iClienteRepositorio )
         {
-            _ClienteServico = new ClienteServico(iClienteRepositorio, geneticoRepositorio);
+            _ClienteServico = new ClienteServico(iClienteRepositorio);
   
         }
 
@@ -35,32 +35,22 @@ namespace GestaoPedido.Site.Controllers
         [HttpGet]
         public IActionResult Incluir()
         {
-
-
             return View();
         }
 
         [HttpPost]
-        public IActionResult Incluir(Cliente Cliente)
+        public IActionResult Incluir(Cliente cliente)
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(Cliente.Nome) || string.IsNullOrWhiteSpace(Cliente.Email))
-                {
-                    TempData["MensagemErro"] = "Todos os campos obrigatórios devem ser preenchidos.";
-                    return View(Cliente);
-                }
-
-
-
-                var resultado = _ClienteServico.Incluir(Cliente);
-                TempData["MensagemSucesso"] = "Cliente cadastrada com sucesso.";
+                var resultado = _ClienteServico.IncluirAsync(cliente);
+                TempData["MensagemSucesso"] = "Cliente cadastrado com sucesso.";
                 return RedirectToAction("Index");
             }
             catch (Exception erro)
             {
                 TempData["MensagemErro"] = $"Erro: {erro.Message}";
-                return View(Cliente);
+                return View(cliente);
             }
         }
 
@@ -76,14 +66,14 @@ namespace GestaoPedido.Site.Controllers
 
 
         [HttpPost]
-        public IActionResult Editar(Cliente Cliente)
+        public IActionResult Editar(Cliente cliente)
         {
             try
             {
-                Task<Cliente> resultado = _ClienteServico.EditarAsync(Cliente);
+                Task<Cliente> resultado = _ClienteServico.EditarAsync(cliente);
                 if (resultado.Exception != null)
                 {
-                    return View(Cliente);
+                    return View(cliente);
                 }
 
                 TempData["MensagemSucesso"] = "Cliente alterado com sucesso";
@@ -114,11 +104,11 @@ namespace GestaoPedido.Site.Controllers
                 var resultado = _ClienteServico.ExcluirAsync(cliente.Id).Result;
                 if (resultado == false)
                 {
-                    TempData["MensagemErro"] = "Empresa não encontrada";
+                    TempData["MensagemErro"] = "Cliente não encontrado";
                     return RedirectToAction("Index");
                 }
 
-                TempData["MensagemSucesso"] = "Empresa excluída com sucesso";
+                TempData["MensagemSucesso"] = "Cliente excluído com sucesso";
                 return RedirectToAction("Index");
             }
             catch (Exception erro)
