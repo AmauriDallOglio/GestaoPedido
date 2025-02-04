@@ -10,16 +10,41 @@
         public Cliente Cliente { get; set; }
         public List<PedidoProduto> PedidoProdutos { get; set; } = new List<PedidoProduto>();
 
-        public Pedido Incluir()
+
+
+        public Pedido Incluir(Guid Id_Cliente, Dictionary<Guid, decimal> listaProdutos)
         {
-            DataPedido = DateTime.Now;
+            Pedido pedido = new Pedido
+            {
+                Id_Cliente = Id_Cliente,
+                PedidoProdutos = PedidoProdutos.Select(x => new PedidoProduto
+                {
+                    Id_Produto = x.Id_Produto,
+                    Quantidade = x.Quantidade,
+                    PrecoUnitario = listaProdutos.TryGetValue(x.Id_Produto, out decimal preco) ? preco : 0
+                }).ToList()
+            };
+            DefineDataPedido();
+            CalculaValorTotal();
+            return pedido;
+        }
+
+
+        public Pedido CalculaValorTotal()
+        {
             foreach (var PedidoProduto in PedidoProdutos)
             {
-                PedidoProduto.Incluir();
                 ValorTotal = PedidoProduto.PrecoUnitario * PedidoProduto.Quantidade;
             }
             return this;
         }
+
+        public Pedido DefineDataPedido()
+        {
+            DataPedido = DateTime.Now;
+            return this;
+        }
+
 
     }
 }

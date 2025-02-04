@@ -12,9 +12,19 @@
         public Pedido Pedido { get; set; }
         public Produto Produto { get; set; }
 
-        public PedidoProduto Incluir()
+
+
+
+        public PedidoProduto Incluir(Guid id_Pedido, Guid id_Produto, int quantidade, decimal precoUnitario)
         {
-            //PrecoUnitario = 2;
+            Id_Pedido = id_Pedido;
+
+            Id_Produto = id_Produto;
+            Quantidade = quantidade;
+            PrecoUnitario = precoUnitario;
+
+
+
             return this;
         }
     }

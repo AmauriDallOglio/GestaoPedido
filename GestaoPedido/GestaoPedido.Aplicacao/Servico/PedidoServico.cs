@@ -34,7 +34,8 @@ namespace GestaoPedido.Aplicacao.Servico
                 var lista = CriaLista(dto).Result;
 
                 Pedido pedido = dto.Incluir(lista);
-                pedido.Incluir();
+                pedido.DefineDataPedido();
+                pedido.CalculaValorTotal();
                 Pedido? resultado = await _iPedidoRepositorio.IncluirAsync(pedido);
                 return resultado.Id;
             }
