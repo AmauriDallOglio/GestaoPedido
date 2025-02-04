@@ -39,6 +39,12 @@ namespace GestaoPedido.Site.Controllers
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(produto.Nome) || string.IsNullOrWhiteSpace(produto.Descricao))
+                {
+                    TempData["MensagemErro"] = "Todos os campos obrigatórios devem ser preenchidos.";
+                    return View(produto);
+                }
+
                 var resultado = _iProdutoServico.Incluir(produto);
                 TempData["MensagemSucesso"] = "Produto cadastrado com sucesso.";
                 return RedirectToAction("Index");

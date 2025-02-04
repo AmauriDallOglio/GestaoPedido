@@ -43,6 +43,7 @@ namespace GestaoPedido.Site.Controllers
         public IActionResult Incluir()
         {
 
+
             var clientes = _iClienteServico.ObterTodos().Result;
             ViewData["Clientes"] = clientes.Select(t => new SelectListItem
             {
@@ -68,6 +69,14 @@ namespace GestaoPedido.Site.Controllers
         {
             try
             {
+                if (pedido.Id_Cliente == Guid.Empty || pedido.PedidoProdutos.Count == 0)
+                {
+                    TempData["MensagemErro"] = "Todos os campos obrigatórios devem ser preenchidos.";
+                    return View(pedido);
+                }
+
+
+
                 var resultado = _iPedidoServico.Incluir(pedido);
                 TempData["MensagemSucesso"] = "Pedido cadastrado com sucesso.";
                 return RedirectToAction("Index");

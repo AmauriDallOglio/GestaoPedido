@@ -20,13 +20,13 @@ namespace GestaoPedido.Infraestrutura.Mapeamento
          * 
          *use GestaoDePedido
 
-         CREATE TABLE Cliente (
-             Id UNIQUEIDENTIFIER NOT NULL PRIMARY KEY,
+CREATE TABLE Cliente (
+    Id UNIQUEIDENTIFIER NOT NULL PRIMARY KEY,
 
-             Nome NVARCHAR(150) NOT NULL,
-             Email NVARCHAR(150) NOT NULL,
-             Ativo BIT NOT NULL DEFAULT 0 -- Define um valor padrão
-         );
+    Nome NVARCHAR(150) NOT NULL,
+    Email NVARCHAR(150) NOT NULL,
+    Ativo BIT NOT NULL DEFAULT 0 -- Define um valor padrão
+);
 
         INSERT INTO Cliente (Id, Nome, Email) 
         VALUES (NEWID(), 'Cliente1', 'cliente1@teste.com.br');

@@ -16,7 +16,7 @@ namespace GestaoPedido.Api.Controllers
         [HttpPost("Inserir"), ActionName("Inserir")]
         public async Task<IActionResult> Inserir([FromBody] Cliente request)
         {
-            var response = await _clienteServico.Incluir(request);
+            var response = await _clienteServico.IncluirAsync(request);
             if (response.Id != Guid.Empty)
             {
                 return Ok(response);
@@ -41,15 +41,20 @@ namespace GestaoPedido.Api.Controllers
         }
 
 
-        [HttpGet("Excluir"), ActionName("Excluir")]
-        public async Task<IActionResult> Excluir([FromQuery] Cliente request)
+        [HttpDelete("Excluir"), ActionName("id")]
+        public async Task<IActionResult> Excluir([FromQuery] Guid id)
         {
-            var resultado = await _clienteServico.ExcluirAsync(request.Id);
+            var resultado = await _clienteServico.ExcluirAsync(id);
 
             return Ok(resultado);
         }
 
+        [HttpGet("ObterPorId/{id}")]
+        public async Task<IActionResult> ObterPorId(Guid id)
+        {
 
+            return Ok();
+        }
 
         [HttpGet("ObterTodos"), ActionName("ObterTodos")]
         public async Task<IActionResult> ObterTodos()

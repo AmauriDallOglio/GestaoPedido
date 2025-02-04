@@ -6,7 +6,7 @@
 
 <div class="container mt-5">
     <div class="text-center mb-4">
-        <h1 class="display-5">Gerenciamento de Pedido</h1>
+        <h1 class="display-5">Gerenciamento de Pedidos</h1>
     </div>
 
     @if (TempData["MensagemSucesso"] != null)
@@ -62,12 +62,12 @@
                             <td>@Pedido.PedidoProdutos.Count()</td>
  
                             <td class="text-center">
-                                <a class="btn btn-outline-warning btn-sm"
+         @*                        <a class="btn btn-outline-warning btn-sm"
                                    asp-route-id="@Pedido.Id"
                                    asp-controller="Pedido"
                                    asp-action="Editar">
                                     <i class="bi bi-pencil"></i> Editar
-                                </a>
+                                </a> *@
                 @*                 <a class="btn btn-outline-info btn-sm"
                                    asp-route-id="@Pedido.Id"
                                    asp-controller="Pedido"

@@ -49,13 +49,13 @@ namespace GestaoPedido.Infraestrutura.Mapeamento
 /*
        * 
        * 
-       * CREATE TABLE Pedido (
-          Id UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
-          Id_Cliente UNIQUEIDENTIFIER NOT NULL,
-          DataPedido DATETIME NOT NULL DEFAULT GETUTCDATE(),
-          ValorTotal DECIMAL(18,2) NOT NULL DEFAULT 0,
-          CONSTRAINT FK_Pedido_Cliente FOREIGN KEY (Id_Cliente) REFERENCES Cliente(Id)
-      );
+CREATE TABLE Pedido (
+    Id UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+    Id_Cliente UNIQUEIDENTIFIER NOT NULL,
+    DataPedido DATETIME NOT NULL DEFAULT GETUTCDATE(),
+    ValorTotal DECIMAL(18,2) NOT NULL DEFAULT 0,
+    CONSTRAINT FK_Pedido_Cliente FOREIGN KEY (Id_Cliente) REFERENCES Cliente(Id)
+);
 
 
 

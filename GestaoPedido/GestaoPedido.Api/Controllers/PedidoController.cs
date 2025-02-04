@@ -1,5 +1,7 @@
 ﻿using GestaoPedido.Aplicacao.Dto;
+using GestaoPedido.Aplicacao.InterfaceServico;
 using GestaoPedido.Aplicacao.Servico;
+using GestaoPedido.Dominio.Entidade;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GestaoPedido.Api.Controllers
@@ -22,6 +24,30 @@ namespace GestaoPedido.Api.Controllers
             return BadRequest("Falha ao inserir cliente.");
         }
 
+
+        [HttpDelete("Excluir"), ActionName("id")]
+        public async Task<IActionResult> Excluir([FromQuery] Guid id)
+        {
+            //var resultado = await _pedidoServico.ExcluirAsync(id);
+
+            return Ok();
+        }
+
+        [HttpGet("ObterPorId/{id}")]
+        public async Task<IActionResult> ObterPorId(Guid id)
+        {
+
+            return Ok();
+        }
+
+
+        [HttpGet("ObterTodos"), ActionName("ObterTodos")]
+        public async Task<IActionResult> ObterTodos()
+        {
+            //List<Cliente> resultado = await _pedidoServico.ObterTodos();
+
+            return Ok();
+        }
 
     }
 }

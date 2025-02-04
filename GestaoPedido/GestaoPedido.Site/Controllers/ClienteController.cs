@@ -43,6 +43,14 @@ namespace GestaoPedido.Site.Controllers
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(cliente.Nome) || string.IsNullOrWhiteSpace(cliente.Email))
+                {
+                    TempData["MensagemErro"] = "Todos os campos obrigatórios devem ser preenchidos.";
+                    return View(cliente);
+                }
+
+
+
                 var resultado = _ClienteServico.IncluirAsync(cliente);
                 TempData["MensagemSucesso"] = "Cliente cadastrado com sucesso.";
                 return RedirectToAction("Index");
