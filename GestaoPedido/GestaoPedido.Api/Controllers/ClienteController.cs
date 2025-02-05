@@ -41,7 +41,7 @@ namespace GestaoPedido.Api.Controllers
         }
 
 
-        [HttpDelete("Excluir"), ActionName("id")]
+        [HttpDelete("Excluir/{id}"), ActionName("Excluir")]
         public async Task<IActionResult> Excluir([FromQuery] Guid id)
         {
             var resultado = await _clienteServico.ExcluirAsync(id);

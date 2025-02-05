@@ -63,7 +63,7 @@ namespace GestaoPedido.Infraestrutura.Repositorio
 
         public async Task<Pedido?> ObterPorIdAsync(Guid id)
         {
-            var pedido = await _context.PedidoDb.Include(a => a.Cliente).FirstAsync(x => x.Id == id);
+            var pedido = await _context.PedidoDb.Include(a => a.PedidoProdutos).Include(a => a.Cliente).FirstAsync(x => x.Id == id);
             return pedido;
         }
 

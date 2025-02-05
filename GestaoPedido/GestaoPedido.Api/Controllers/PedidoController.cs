@@ -25,7 +25,7 @@ namespace GestaoPedido.Api.Controllers
         }
 
 
-        [HttpDelete("Excluir"), ActionName("id")]
+        [HttpDelete("Excluir/{id}"), ActionName("id")]
         public async Task<IActionResult> Excluir([FromQuery] Guid id)
         {
             //var resultado = await _pedidoServico.ExcluirAsync(id);
@@ -36,17 +36,17 @@ namespace GestaoPedido.Api.Controllers
         [HttpGet("ObterPorId/{id}")]
         public async Task<IActionResult> ObterPorId(Guid id)
         {
-
-            return Ok();
+            Pedido resultado = await _pedidoServico.ObterPorId(id);
+            return Ok(resultado);
         }
 
 
         [HttpGet("ObterTodos"), ActionName("ObterTodos")]
         public async Task<IActionResult> ObterTodos()
         {
-            //List<Cliente> resultado = await _pedidoServico.ObterTodos();
+            List<Pedido> resultado = await _pedidoServico.ObterTodos();
 
-            return Ok();
+            return Ok(resultado);
         }
 
     }

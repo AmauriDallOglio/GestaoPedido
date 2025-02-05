@@ -1,4 +1,6 @@
-﻿namespace GestaoPedido.Dominio.Entidade
+﻿using System.Text.Json.Serialization;
+
+namespace GestaoPedido.Dominio.Entidade
 {
     public class PedidoProduto
     {
@@ -9,6 +11,7 @@
         public decimal PrecoUnitario { get; set; }
         public decimal Total => Quantidade * PrecoUnitario;
 
+        [JsonIgnore]
         public Pedido Pedido { get; set; }
         public Produto Produto { get; set; }
 
