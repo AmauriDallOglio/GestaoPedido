@@ -1,10 +1,17 @@
-# GestaoPedido
+FACULDADE XP
+PÓS-GRADUAÇÃO EM ARQUITETURA DE SOFTWARE
+ 
 
-Você é Arquiteto(a) de Software em uma grande empresa de vendas on-line responsável por construir e implantar uma solução que disponibilize publicamente dados de Cliente/Produto/Pedido aos parceiros da empresa, você vai Projetar, Documentar e Implantar uma API REST, no padrão arquitetural MVC, que exponha um endpoint capaz de realizar um CRUD.
 
-Criação de uma APIRESTcomArquitetura MVC Objetivo: O objetivo deste exercício é aplicar os conhecimentos de arquitetura de software focando na implementação de uma API RESTful, seguindo o padrão MVC. A ideia é explorar práticas de design e construção de APIs, documentação de arquitetura e organização de código. Requisitos do exercício:
+-------
 
-Escolha de Plataforma e Linguagem: o Utilize uma plataforma e linguagem de sua preferência (ex.: Java com Spring, Python com Flask, Node.js com Express etc.).
-Funcionalidades da API: o Desenvolva umaAPIRESTfulqueimplemente operações CRUD básicas sobre um domínio de sua escolha (ex.: Clientes, Produtos, Pedidos). o Implementeosseguintes métodos: ▪ CRUD:Criação(Create), Leitura (Read), Atualização (Update) e Exclusão (Delete). ▪ Contagem:Endpoint para retornar o número total de registros. ▪ FindAll: Endpoint para retornar todos os registros. ▪ FindByID:Endpoint para retornar um registro especí co com base no ID. ▪ FindByName:Endpointpararetornar registros que correspondam a umnomeespecí co.
-Arquitetura: o Utilize o padrão MVC (Model-View-Controller) para estruturar a aplicação. o Emboraousodeumbancodedadosnãosejaobrigatório, incluir a persistência dos dados será considerado um diferencial.
-Entrega do Exercício: o Desenhoarquitetural do software: ▪ Entregueodesenhodaarquitetura utilizando UML e/ou C4 e/ou qualquer diagrama de sua preferência, utilizando ferramentas como o draw.io. o Estrutura depastas e explicação dos componentes: ▪ Apresenteaestrutura de pastas do projeto, descrevendo brevemente o papel de cada componente, como o Controller, Model (Entidades) e Service. o (Opcional) Entrega do Código: ▪ Seoptarporentregar o código, faça o upload em um repositório GitHub ou GitLab e compartilhe o link.
+
+Este trabalho tem como objetivo aplicar os conceitos fundamentais da arquitetura de software estudados ao longo dos módulos do curso. Para isso, foi desenvolvida uma solução que disponibiliza publicamente dados de um sistema simulando uma empresa de vendas on-line.
+O projeto foi concebido seguindo princípios arquiteturais sólidos, abordando temas como Fundamentos de Arquitetura de Software, Requisitos Arquiteturais, Modelagem Arquitetural, Design Patterns, Estilos Arquiteturais e Arquiteturas Modernas. A solução implementada consiste em uma API REST, estruturada no padrão arquitetural MVC, que permite a realização de operações CRUD sobre os dados do domínio escolhido, além de funcionalidades adicionais para garantir escalabilidade e segurança.
+Além da implementação, o trabalho inclui a documentação detalhada da arquitetura e do projeto, cobrindo aspectos como estrutura dos componentes, definição dos endpoints, regras de negócio e padrões utilizados. 
+
+![Diagrama sem nome novo](https://github.com/user-attachments/assets/5fde35c9-9e76-4889-ac05-46358d58ce66)
+
+
+![Diagrama sem nome novo 2](https://github.com/user-attachments/assets/be501f6d-75d3-4404-a710-373bd5cee71f)
+
