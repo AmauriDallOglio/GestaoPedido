@@ -5,28 +5,28 @@ namespace GestaoPedido.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class GenericController<T>(IServicoGenerico<T> servicoGenerico) : ControllerBase where T : class, new()
+    public class GenericoController<T>(IServicoGenerico<T> servicoGenerico) : ControllerBase where T : class, new()
     {
         private readonly IServicoGenerico<T> _servicoGenerico = servicoGenerico;
 
         [HttpPost("Inserir")]
-        public async Task<IActionResult> Inserir([FromBody] T request)
+        public async Task<IActionResult> Inserir([FromBody] T request, CancellationToken cancellationToken)
         {
-            var response = await _servicoGenerico.IncluirAsync(request);
+            var response = await _servicoGenerico.IncluirAsync(request, cancellationToken);
             return response != null ? Ok(response) : BadRequest($"Falha ao inserir {typeof(T).Name}.");
         }
 
         [HttpPut("Alterar")]
-        public async Task<IActionResult> Alterar([FromBody] T request)
+        public async Task<IActionResult> Alterar([FromBody] T request, CancellationToken cancellationToken)
         {
-            var response = await _servicoGenerico.EditarAsync(request);
+            var response = await _servicoGenerico.EditarAsync(request, cancellationToken);
             return response != null ? Ok(response) : BadRequest($"Falha ao alterar {typeof(T).Name}.");
         }
 
         [HttpDelete("Excluir/{id}")]
-        public async Task<IActionResult> Excluir(Guid id)
+        public async Task<IActionResult> Excluir(Guid id, CancellationToken cancellationToken)
         {
-            var resultado = await _servicoGenerico.ExcluirAsync(id);
+            var resultado = await _servicoGenerico.ExcluirAsync(id, cancellationToken);
             return resultado ? Ok($"Excluído com sucesso!") : BadRequest($"Falha ao excluir {typeof(T).Name}.");
         }
 

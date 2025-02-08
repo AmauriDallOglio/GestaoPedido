@@ -75,8 +75,13 @@ namespace GestaoPedido.Aplicacao.Servico
         }
 
 
-        public async Task<bool> ExcluirAsync(Pedido pedido, CancellationToken cancellationToken)
-{
+        public async Task<bool> ExcluirAsync(Guid id, CancellationToken cancellationToken)
+        {
+            Pedido? pedido = await _iPedidoRepositorio.ObterPorIdAsync(id, cancellationToken);
+            if (pedido == null)
+                throw new System.Exception("Pedido " + id.ToString() + ", não localizado!");
+
+            bool resultado = await _iGenericoRepositorioPedido.ExcluirAsync(pedido, cancellationToken);
             return await _iGenericoRepositorioPedido.ExcluirAsync(pedido, cancellationToken);
         }
 

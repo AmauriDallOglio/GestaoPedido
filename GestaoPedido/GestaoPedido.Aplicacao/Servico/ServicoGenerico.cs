@@ -5,18 +5,18 @@ namespace GestaoPedido.Aplicacao.Servico
 {
     public class ServicoGenerico<T> : IServicoGenerico<T> where T : class, new()
     {
-        private readonly IGenericoRepositorio<T> _IGeneticoRepositorio;
+        private readonly IGenericoRepositorio<T> _iGeneticoRepositorio;
 
         public ServicoGenerico(IGenericoRepositorio<T> iGeneticoRepositorio)
         {
-            _IGeneticoRepositorio = iGeneticoRepositorio;
+            _iGeneticoRepositorio = iGeneticoRepositorio;
         }
 
         public async Task<T> IncluirAsync(T entidade, CancellationToken cancellationToken)
         {
             try
             {
-                return await _IGeneticoRepositorio.IncluirAsync(entidade, cancellationToken) ?? new T();
+                return await _iGeneticoRepositorio.IncluirAsync(entidade, cancellationToken) ?? new T();
             }
             catch (Exception erro)
             {
@@ -28,7 +28,7 @@ namespace GestaoPedido.Aplicacao.Servico
         {
             try
             {
-                return await _IGeneticoRepositorio.EditarAsync(entidade, cancellationToken) ?? new T();
+                return await _iGeneticoRepositorio.EditarAsync(entidade, cancellationToken) ?? new T();
             }
             catch (Exception erro)
             {
@@ -40,11 +40,11 @@ namespace GestaoPedido.Aplicacao.Servico
         {
             try
             {
-                var entidade = await _IGeneticoRepositorio.ObterPorIdAsync(id, cancellationToken);
+                var entidade = await _iGeneticoRepositorio.ObterPorIdAsync(id, cancellationToken);
                 if (entidade == null)
                     throw new Exception($"{typeof(T).Name} {id} não localizado!");
 
-                return await _IGeneticoRepositorio.ExcluirAsync(entidade, cancellationToken);
+                return await _iGeneticoRepositorio.ExcluirAsync(entidade, cancellationToken);
             }
             catch (Exception erro)
             {

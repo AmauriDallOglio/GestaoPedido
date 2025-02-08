@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestaoPedido.Site", "Gestao
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestaoPedido.Api", "GestaoPedido.Api\GestaoPedido.Api.csproj", "{7B881C01-24F2-474D-87F4-31098688DFFB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestaoPedido.Compartilhado", "GestaoPedido.Compartilhado\GestaoPedido.Compartilhado.csproj", "{221785EE-3C82-45C5-A197-0C7D50A771AC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{7B881C01-24F2-474D-87F4-31098688DFFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B881C01-24F2-474D-87F4-31098688DFFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B881C01-24F2-474D-87F4-31098688DFFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{221785EE-3C82-45C5-A197-0C7D50A771AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{221785EE-3C82-45C5-A197-0C7D50A771AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{221785EE-3C82-45C5-A197-0C7D50A771AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{221785EE-3C82-45C5-A197-0C7D50A771AC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -49,5 +55,6 @@ Global
 		{17DAFC33-A467-43F1-814A-E9DE0A0363A9} = {F4759559-5A1C-46BA-91EF-D8A3E05D0052}
 		{00564837-4B3B-447D-9E1F-C4CEFDE6523B} = {F4759559-5A1C-46BA-91EF-D8A3E05D0052}
 		{8F4FB876-E540-49EB-B448-0FD68C0C489F} = {F4759559-5A1C-46BA-91EF-D8A3E05D0052}
+		{221785EE-3C82-45C5-A197-0C7D50A771AC} = {F4759559-5A1C-46BA-91EF-D8A3E05D0052}
 	EndGlobalSection
 EndGlobal

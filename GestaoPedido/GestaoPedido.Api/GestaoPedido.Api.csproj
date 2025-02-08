@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GestaoPedido.Aplicacao\GestaoPedido.Aplicacao.csproj" />
+    <ProjectReference Include="..\GestaoPedido.Compartilhado\GestaoPedido.Compartilhado.csproj" />
     <ProjectReference Include="..\GestaoPedido.Dominio\GestaoPedido.Dominio.csproj" />
     <ProjectReference Include="..\GestaoPedido.Infraestrutura\GestaoPedido.Infraestrutura.csproj" />
   </ItemGroup>

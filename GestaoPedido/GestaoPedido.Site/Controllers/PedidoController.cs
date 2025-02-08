@@ -72,8 +72,6 @@ namespace GestaoPedido.Site.Controllers
                     return View(pedido);
                 }
 
-
-
                 var resultado = await _iPedidoServico.IncluirAsync(pedido, cancellationToken);
                 TempData["MensagemSucesso"] = "Pedido cadastrado com sucesso.";
                 return RedirectToAction("Index");
@@ -99,7 +97,7 @@ namespace GestaoPedido.Site.Controllers
         {
             try
             {
-                var resultado = await _iPedidoServico.ExcluirAsync(pedido, cancellationToken);
+                var resultado = await _iPedidoServico.ExcluirAsync(pedido.Id, cancellationToken);
                 if (resultado == false)
                 {
                     TempData["MensagemErro"] = "Pedido não encontrado";

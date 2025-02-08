@@ -45,10 +45,10 @@ namespace GestaoPedido.Aplicacao.Servico
 
         public async Task<bool> ExcluirAsync(Guid id, CancellationToken cancellationToken)
 {
-    try
-    {
+            try
+            {
                 Cliente? cliente = await _iClienteRepositorio.ObterPorIdAsync(id, cancellationToken);
-        if (cliente == null)
+                if (cliente == null)
                     throw new System.Exception("Usuário " + id.ToString() + ", não localizado!");
 
                 bool resultado = await _IGeneticoRepositorio.ExcluirAsync(cliente, cancellationToken);
