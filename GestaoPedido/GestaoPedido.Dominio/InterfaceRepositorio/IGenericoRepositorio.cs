@@ -1,6 +1,6 @@
 ﻿namespace GestaoPedido.Dominio.InterfaceRepositorio
 {
-    public interface IGeneticoRepositorio<T> where T : class
+    public interface IGenericoRepositorio<T> where T : class
     {
         Task<List<T>> ObterTodosAsync();
         Task<T> ObterPorIdAsync(Guid id);

@@ -8,7 +8,6 @@ namespace GestaoPedido.Aplicacao.InterfaceServico
         Task<Cliente> EditarAsync(Cliente cliente);
         Task<bool> ExcluirAsync(Guid id);
 
-
         Task<List<Cliente>> ObterTodos();
         Task<Cliente> ObterPorId(Guid id);
     }

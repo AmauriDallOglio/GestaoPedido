@@ -8,15 +8,10 @@ namespace GestaoPedido.Infraestrutura.Repositorio
 {
     public class PedidoRepositorio : IPedidoRepositorio
     {
-
         private readonly GenericoContexto _context;
-
-
         public PedidoRepositorio(GenericoContexto context)
         {
             _context = context;
-
-
         }
 
         public async Task<Pedido?> IncluirAsync(Pedido pedido)
@@ -66,9 +61,6 @@ namespace GestaoPedido.Infraestrutura.Repositorio
             var pedido = await _context.PedidoDb.Include(a => a.PedidoProdutos).Include(a => a.Cliente).FirstAsync(x => x.Id == id);
             return pedido;
         }
-
-
-
 
 
         public async Task<List<Pedido>> ObterTodosAsync()

@@ -1,5 +1,4 @@
 ﻿using GestaoPedido.Aplicacao.InterfaceServico;
-using GestaoPedido.Aplicacao.Servico;
 using GestaoPedido.Dominio.Entidade;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,16 +6,15 @@ namespace GestaoPedido.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ClienteController(ClienteServico clienteServico, IServicoGenerico<Cliente> iServicoGenericoCliente) : ControllerBase
+    public class ClienteController(IClienteServico iclienteServico) : ControllerBase
     {
-        private readonly ClienteServico _clienteServico = clienteServico;
-        private readonly IServicoGenerico<Cliente> _iServicoGenericoCliente = iServicoGenericoCliente;
+        private readonly IClienteServico _iClienteServico = iclienteServico;
 
 
         [HttpPost("Inserir"), ActionName("Inserir")]
         public async Task<IActionResult> Inserir([FromBody] Cliente request)
         {
-            var response = await _clienteServico.IncluirAsync(request);
+            var response = await _iClienteServico.IncluirAsync(request);
             if (response.Id != Guid.Empty)
             {
                 return Ok(response);
@@ -24,14 +22,11 @@ namespace GestaoPedido.Api.Controllers
             return BadRequest("Falha ao inserir cliente.");
         }
 
-
-
-
         [HttpPut("Alterar"), ActionName("Alterar")]
         public async Task<IActionResult> Alterar([FromBody] Cliente request)
         {
 
-            var response = await _clienteServico.EditarAsync(request);
+            var response = await _iClienteServico.EditarAsync(request);
             if (response.Id != Guid.Empty)
             {
                 return Ok(response);
@@ -44,7 +39,7 @@ namespace GestaoPedido.Api.Controllers
         [HttpDelete("Excluir/{id}"), ActionName("Excluir")]
         public async Task<IActionResult> Excluir([FromQuery] Guid id)
         {
-            var resultado = await _clienteServico.ExcluirAsync(id);
+            var resultado = await _iClienteServico.ExcluirAsync(id);
 
             return Ok(resultado);
         }
@@ -59,7 +54,7 @@ namespace GestaoPedido.Api.Controllers
         [HttpGet("ObterTodos"), ActionName("ObterTodos")]
         public async Task<IActionResult> ObterTodos()
         {
-            List<Cliente> resultado = await _iServicoGenericoCliente.ObterTodos();
+            List<Cliente> resultado = await _iClienteServico.ObterTodos();
 
             return Ok(resultado);
         }

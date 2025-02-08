@@ -9,27 +9,23 @@ namespace GestaoPedido.Site.Controllers
     {
         private readonly ClienteServico _ClienteServico;
       
-        public ClienteController(IClienteRepositorio iClienteRepositorio )
+        public ClienteController(IClienteRepositorio iClienteRepositorio, IGenericoRepositorio<Cliente> geneticoRepositorio)
         {
-            _ClienteServico = new ClienteServico(iClienteRepositorio);
+            _ClienteServico = new ClienteServico(iClienteRepositorio, geneticoRepositorio); 
   
         }
+
+ 
 
         [HttpGet]
         public IActionResult Index()
         {
-            try
-            {
-                var teste = _ClienteServico.ObterTodos();
-                //throw new ArgumentException("Teste do erro");
-                List<Cliente> resultado = teste.Result;
-                return View(resultado);
-            }
-            catch (Exception erro)
-            {
-                TempData["MensagemErro"] = $"Atenção: {erro.Message}";
-                return View(new List<Cliente>());
-            }
+   
+            var teste = _ClienteServico.ObterTodos();
+            //throw new ArgumentException("Teste do erro");
+            List<Cliente> resultado = teste.Result;
+            return View(resultado);
+ 
         }
 
         [HttpGet]

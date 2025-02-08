@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace GestaoPedido.Infraestrutura.Repositorio
 {
-    public class GenericoRepositorio<T> : IGeneticoRepositorio<T> where T : class
+    public class GenericoRepositorio<T> : IGenericoRepositorio<T> where T : class
     {
         protected readonly GenericoContexto _context;
         private readonly DbSet<T> _dbSet;
