@@ -6,13 +6,13 @@ namespace GestaoPedido.Aplicacao.InterfaceServico
     public interface IProdutoServico
     {
 
-        Task<Guid> Incluir(Produto produto);
-        Task<Produto> EditarAsync(Produto produto);
-        Task<bool> ExcluirAsync(Guid id);
+        Task<Guid> IncluirAsync(Produto produto, CancellationToken cancellationToken);
+        Task<Produto> EditarAsync(Produto produto, CancellationToken cancellationToken);
+        Task<bool> ExcluirAsync(Guid id, CancellationToken cancellationToken);
 
 
-        Task<List<Produto>> ObterTodos();
-        Task<Produto> ObterPorId(Guid id);
+        Task<List<Produto>> ObterTodos( CancellationToken cancellationToken);
+        Task<Produto> ObterPorId(Guid id, CancellationToken cancellationToken);
 
     }
 }

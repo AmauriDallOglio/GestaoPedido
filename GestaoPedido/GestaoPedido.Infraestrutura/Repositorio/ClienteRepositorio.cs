@@ -14,11 +14,9 @@ namespace GestaoPedido.Infraestrutura.Repositorio
         public ClienteRepositorio(GenericoContexto context)
         {
             _context = context;
-
-
         }
 
-        public async Task<Cliente?> IncluirAsync(Cliente cliente)
+        public async Task<Cliente?> IncluirAsync(Cliente cliente, CancellationToken cancellationToken)
         {
             try
             {
@@ -32,7 +30,7 @@ namespace GestaoPedido.Infraestrutura.Repositorio
             return cliente;
         }
 
-        public async Task<Cliente?> EditarAsync(Cliente cliente)
+        public async Task<Cliente?> EditarAsync(Cliente cliente, CancellationToken cancellationToken)
         {
             try
             {
@@ -46,7 +44,7 @@ namespace GestaoPedido.Infraestrutura.Repositorio
             return cliente;
         }
 
-        public async Task<bool> ExcluirAsync(Cliente cliente)
+        public async Task<bool> ExcluirAsync(Cliente cliente, CancellationToken cancellationToken)
         {
             EntityEntry<Cliente> deletar = _context.Remove(cliente);
             if (deletar.Context == null)
@@ -59,18 +57,13 @@ namespace GestaoPedido.Infraestrutura.Repositorio
             return true;
         }
 
-
-        public async Task<Cliente?> ObterPorIdAsync(Guid id)
+        public async Task<Cliente?> ObterPorIdAsync(Guid id, CancellationToken cancellationToken)
         {
             var cliente = await _context.ClienteDb.FirstAsync(x => x.Id == id);
             return cliente;
         }
 
-      
-
- 
-
-        public async Task<List<Cliente>> ObterTodosAsync()
+        public async Task<List<Cliente>> ObterTodosAsync( CancellationToken cancellationToken)
         {
             var cliente = await _context.ClienteDb.OrderByDescending(a => a.Id).ToListAsync();
             return cliente;

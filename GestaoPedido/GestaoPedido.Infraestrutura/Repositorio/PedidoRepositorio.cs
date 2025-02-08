@@ -14,7 +14,7 @@ namespace GestaoPedido.Infraestrutura.Repositorio
             _context = context;
         }
 
-        public async Task<Pedido?> IncluirAsync(Pedido pedido)
+        public async Task<Pedido?> IncluirAsync(Pedido pedido, CancellationToken cancellationToken)
         {
             try
             {
@@ -28,7 +28,7 @@ namespace GestaoPedido.Infraestrutura.Repositorio
             return pedido;
         }
 
-        public async Task<Pedido?> EditarAsync(Pedido pedido)
+        public async Task<Pedido?> EditarAsync(Pedido pedido, CancellationToken cancellationToken)
         {
             try
             {
@@ -42,7 +42,7 @@ namespace GestaoPedido.Infraestrutura.Repositorio
             return pedido;
         }
 
-        public async Task<bool> ExcluirAsync(Pedido pedido)
+        public async Task<bool> ExcluirAsync(Pedido pedido, CancellationToken cancellationToken)
         {
             EntityEntry<Pedido> deletar = _context.Remove(pedido);
             if (deletar.Context == null)
@@ -56,14 +56,14 @@ namespace GestaoPedido.Infraestrutura.Repositorio
         }
 
 
-        public async Task<Pedido?> ObterPorIdAsync(Guid id)
+        public async Task<Pedido?> ObterPorIdAsync(Guid id, CancellationToken cancellationToken)
         {
             var pedido = await _context.PedidoDb.Include(a => a.PedidoProdutos).Include(a => a.Cliente).FirstAsync(x => x.Id == id);
             return pedido;
         }
 
 
-        public async Task<List<Pedido>> ObterTodosAsync()
+        public async Task<List<Pedido>> ObterTodosAsync(CancellationToken cancellationToken)
         {
             var pedido = await _context.PedidoDb.OrderByDescending(a => a.Id).Include(a => a.PedidoProdutos).Include(a => a.Cliente).ToListAsync();
             return pedido;

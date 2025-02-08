@@ -1,8 +1,6 @@
 ﻿using GestaoPedido.Aplicacao.Dto;
 using GestaoPedido.Aplicacao.InterfaceServico;
-using GestaoPedido.Aplicacao.Servico;
 using GestaoPedido.Dominio.Entidade;
-using GestaoPedido.Dominio.InterfaceRepositorio;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -10,7 +8,6 @@ namespace GestaoPedido.Site.Controllers
 {
     public class PedidoController : Controller
     {
-
         private readonly IPedidoServico _iPedidoServico;
         private readonly IClienteServico _iClienteServico;
         private readonly IProdutoServico _iProdutoServico;
@@ -24,11 +21,11 @@ namespace GestaoPedido.Site.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index( CancellationToken cancellationToken)
         {
             try
             {
-                List<Pedido> resultado = await _iPedidoServico.ObterTodos();
+                List<Pedido> resultado = await _iPedidoServico.ObterTodos(cancellationToken);
                 return View(resultado);
             }
             catch (Exception erro)
@@ -40,11 +37,11 @@ namespace GestaoPedido.Site.Controllers
 
 
         [HttpGet]
-        public IActionResult Incluir()
+        public async Task<IActionResult> Incluir(CancellationToken cancellationToken)
         {
 
 
-            var clientes = _iClienteServico.ObterTodos().Result;
+            var clientes = await _iClienteServico.ObterTodos(cancellationToken);
             ViewData["Clientes"] = clientes.Select(t => new SelectListItem
             {
                 Value = t.Id.ToString(),
@@ -52,7 +49,7 @@ namespace GestaoPedido.Site.Controllers
             }).ToList();
 
 
-            var produtos = _iProdutoServico.ObterTodos().Result;
+            var produtos = await _iProdutoServico.ObterTodos(cancellationToken);
             ViewData["Produtos"] = produtos.Select(p => new SelectListItem
             {
                 Value = p.Id.ToString(),
@@ -65,7 +62,7 @@ namespace GestaoPedido.Site.Controllers
 
 
         [HttpPost]
-        public IActionResult Incluir(PedidoDto pedido)
+        public async Task<IActionResult> Incluir(PedidoDto pedido, CancellationToken cancellationToken)
         {
             try
             {
@@ -77,7 +74,7 @@ namespace GestaoPedido.Site.Controllers
 
 
 
-                var resultado = _iPedidoServico.Incluir(pedido);
+                var resultado = await _iPedidoServico.IncluirAsync(pedido, cancellationToken);
                 TempData["MensagemSucesso"] = "Pedido cadastrado com sucesso.";
                 return RedirectToAction("Index");
             }
@@ -91,18 +88,18 @@ namespace GestaoPedido.Site.Controllers
 
 
         [HttpGet]
-        public IActionResult Excluir(Guid id)
+        public async Task<IActionResult> Excluir(Guid id, CancellationToken cancellationToken)
         {
-            Pedido pedido = _iPedidoServico.ObterPorId(id).Result;
+            Pedido pedido = await _iPedidoServico.ObterPorId(id, cancellationToken);
             return View(pedido);
         }
 
         [HttpPost]
-        public IActionResult Excluir(Pedido pedido)
+        public async Task<IActionResult> Excluir(Pedido pedido, CancellationToken cancellationToken)
         {
             try
             {
-                var resultado = _iPedidoServico.ExcluirAsync(pedido).Result;
+                var resultado = await _iPedidoServico.ExcluirAsync(pedido, cancellationToken);
                 if (resultado == false)
                 {
                     TempData["MensagemErro"] = "Pedido não encontrado";

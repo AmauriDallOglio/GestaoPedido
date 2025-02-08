@@ -14,11 +14,11 @@ namespace GestaoPedido.Site.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index( CancellationToken cancellationToken)
         {
             try
             {
-                List<Produto> resultado = await _iProdutoServico.ObterTodos();
+                List<Produto> resultado = await _iProdutoServico.ObterTodos(cancellationToken);
                 return View(resultado);
             }
             catch (Exception erro)
@@ -35,7 +35,7 @@ namespace GestaoPedido.Site.Controllers
         }
 
         [HttpPost]
-        public IActionResult Incluir(Produto produto)
+        public async Task<IActionResult> Incluir(Produto produto, CancellationToken cancellationToken)
         {
             try
             {
@@ -45,7 +45,7 @@ namespace GestaoPedido.Site.Controllers
                     return View(produto);
                 }
 
-                var resultado = _iProdutoServico.Incluir(produto);
+                var resultado = await _iProdutoServico.IncluirAsync(produto, cancellationToken);
                 TempData["MensagemSucesso"] = "Produto cadastrado com sucesso.";
                 return RedirectToAction("Index");
             }
@@ -58,18 +58,18 @@ namespace GestaoPedido.Site.Controllers
 
 
         [HttpGet]
-        public IActionResult Editar(Guid id)
+        public async Task<IActionResult> Editar(Guid id, CancellationToken cancellationToken)
         {
-            Produto produto = _iProdutoServico.ObterPorId(id).Result;
+            Produto produto = await _iProdutoServico.ObterPorId(id, cancellationToken);
             return View(produto);
         }
 
         [HttpPost]
-        public IActionResult Editar(Produto produto)
+        public async Task<IActionResult> Editar(Produto produto, CancellationToken cancellationToken)
         {
             try
             {
-                Task<Produto> resultado = _iProdutoServico.EditarAsync(produto);
+                Task<Produto> resultado = _iProdutoServico.EditarAsync(produto, cancellationToken);
                 if (resultado.Exception != null)
                 {
                     return View(produto);
@@ -87,18 +87,18 @@ namespace GestaoPedido.Site.Controllers
 
 
         [HttpGet]
-        public IActionResult Excluir(Guid id)
+        public async Task<IActionResult> Excluir(Guid id, CancellationToken cancellationToken)
         {
-            Produto produto = _iProdutoServico.ObterPorId(id).Result;
+            Produto produto = await _iProdutoServico.ObterPorId(id, cancellationToken);
             return View(produto);
         }
 
         [HttpPost]
-        public IActionResult Excluir(Produto produto)
+        public async Task<IActionResult> Excluir(Produto produto, CancellationToken cancellationToken)
         {
             try
             {
-                var resultado = _iProdutoServico.ExcluirAsync(produto.Id).Result;
+                var resultado = await _iProdutoServico.ExcluirAsync(produto.Id, cancellationToken);
                 if (resultado == false)
                 {
                     TempData["MensagemErro"] = "Produto não encontrado";

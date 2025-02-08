@@ -1,31 +1,25 @@
-﻿using GestaoPedido.Aplicacao.Servico;
+﻿using GestaoPedido.Aplicacao.InterfaceServico;
 using GestaoPedido.Dominio.Entidade;
-using GestaoPedido.Dominio.InterfaceRepositorio;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GestaoPedido.Site.Controllers
 {
     public class ClienteController : Controller
     {
-        private readonly ClienteServico _ClienteServico;
-      
-        public ClienteController(IClienteRepositorio iClienteRepositorio, IGenericoRepositorio<Cliente> geneticoRepositorio)
+        private readonly IClienteServico _iClienteServico;
+        public ClienteController(IClienteServico iClienteServico)
         {
-            _ClienteServico = new ClienteServico(iClienteRepositorio, geneticoRepositorio); 
+            _iClienteServico = iClienteServico; 
   
         }
 
- 
-
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index(CancellationToken cancellationToken)
         {
-   
-            var teste = _ClienteServico.ObterTodos();
+            var clientes = await _iClienteServico.ObterTodos(cancellationToken);
             //throw new ArgumentException("Teste do erro");
-            List<Cliente> resultado = teste.Result;
+            List<Cliente> resultado = clientes;
             return View(resultado);
- 
         }
 
         [HttpGet]
@@ -35,7 +29,7 @@ namespace GestaoPedido.Site.Controllers
         }
 
         [HttpPost]
-        public IActionResult Incluir(Cliente cliente)
+        public async Task<IActionResult> Incluir(Cliente cliente, CancellationToken cancellationToken)
         {
             try
             {
@@ -44,10 +38,7 @@ namespace GestaoPedido.Site.Controllers
                     TempData["MensagemErro"] = "Todos os campos obrigatórios devem ser preenchidos.";
                     return View(cliente);
                 }
-
-
-
-                var resultado = _ClienteServico.IncluirAsync(cliente);
+                var resultado = await _iClienteServico.IncluirAsync(cliente, cancellationToken);
                 TempData["MensagemSucesso"] = "Cliente cadastrado com sucesso.";
                 return RedirectToAction("Index");
             }
@@ -59,22 +50,19 @@ namespace GestaoPedido.Site.Controllers
         }
 
         [HttpGet]
-        public IActionResult Editar(Guid id)
+        public async Task<IActionResult> Editar(Guid id, CancellationToken cancellationToken)
         {
- 
-            Cliente Cliente = _ClienteServico.ObterPorId(id).Result;
- 
-
+            Cliente Cliente = await _iClienteServico.ObterPorId(id, cancellationToken);
             return View(Cliente);
         }
 
 
         [HttpPost]
-        public IActionResult Editar(Cliente cliente)
+        public async Task<IActionResult> Editar(Cliente cliente, CancellationToken cancellationToken)
         {
             try
             {
-                Task<Cliente> resultado = _ClienteServico.EditarAsync(cliente);
+                Task<Cliente> resultado = _iClienteServico.EditarAsync(cliente, cancellationToken);
                 if (resultado.Exception != null)
                 {
                     return View(cliente);
@@ -92,20 +80,20 @@ namespace GestaoPedido.Site.Controllers
 
 
         [HttpGet]
-        public IActionResult Excluir(Guid id)
+        public async Task<IActionResult> Excluir(Guid id, CancellationToken cancellationToken)
         {
-            Cliente cliente = _ClienteServico.ObterPorId(id).Result;
+            Cliente cliente = await _iClienteServico.ObterPorId(id, cancellationToken);
             return View(cliente);
         }
 
         [HttpPost]
-        public IActionResult Excluir(Cliente cliente)
+        public async Task<IActionResult> Excluir(Cliente cliente, CancellationToken cancellationToken)
         {
             try
             {
                 //throw new ArgumentException("Teste de erro!");
 
-                var resultado = _ClienteServico.ExcluirAsync(cliente.Id).Result;
+                var resultado = await _iClienteServico.ExcluirAsync(cliente.Id, cancellationToken);
                 if (resultado == false)
                 {
                     TempData["MensagemErro"] = "Cliente não encontrado";

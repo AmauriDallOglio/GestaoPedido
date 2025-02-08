@@ -6,12 +6,12 @@ namespace GestaoPedido.Aplicacao.InterfaceServico
     public interface IPedidoServico
     {
 
-        Task<Guid> Incluir(PedidoDto pedido);
+        Task<Guid> IncluirAsync(PedidoDto pedido, CancellationToken cancellationToken);
         //Task<Pedido> EditarAsync(Pedido pedido);
-        Task<bool> ExcluirAsync(Pedido excluir);
+        Task<bool> ExcluirAsync(Pedido excluir, CancellationToken cancellationToken);
 
 
-        Task<List<Pedido>> ObterTodos();
-        Task<Pedido> ObterPorId(Guid id);
+        Task<List<Pedido>> ObterTodos(CancellationToken cancellationToken);
+        Task<Pedido> ObterPorId(Guid id, CancellationToken cancellationToken);
     }
 }

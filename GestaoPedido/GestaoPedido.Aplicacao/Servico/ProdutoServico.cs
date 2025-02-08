@@ -4,19 +4,23 @@ using GestaoPedido.Dominio.InterfaceRepositorio;
 
 namespace GestaoPedido.Aplicacao.Servico
 {
-
-
-    public class ProdutoServico(IProdutoRepositorio iProdutoRepositorio) : IProdutoServico
+    public class ProdutoServico : IProdutoServico
     {
-        private readonly IProdutoRepositorio _iProdutoRepositorio = iProdutoRepositorio;
+        private readonly IProdutoRepositorio _iProdutoRepositorio;
+        private readonly IGenericoRepositorio<Produto> _iGenericoRepositorioProduto;
 
+        public ProdutoServico(IProdutoRepositorio iProdutoRepositorio, IGenericoRepositorio<Produto> iGenericoRepositorioProduto)
+        {
+            _iProdutoRepositorio = iProdutoRepositorio;
+            _iGenericoRepositorioProduto = iGenericoRepositorioProduto;
+        }
 
-        public async Task<Guid> Incluir(Produto produto)
+        public async Task<Guid> IncluirAsync(Produto produto, CancellationToken cancellationToken)
         {
             try
             {
                 produto.Incluir();
-                Produto? resultado = await _iProdutoRepositorio.IncluirAsync(produto);
+                Produto? resultado = await _iGenericoRepositorioProduto.IncluirAsync(produto, cancellationToken);
                 return resultado.Id;
             }
             catch (Exception erro)
@@ -25,11 +29,11 @@ namespace GestaoPedido.Aplicacao.Servico
             }
         }
 
-        public async Task<Produto> EditarAsync(Produto produto)
+        public async Task<Produto> EditarAsync(Produto produto, CancellationToken cancellationToken)
         {
             try
             {
-                return await _iProdutoRepositorio.EditarAsync(produto);
+                return await _iGenericoRepositorioProduto.EditarAsync(produto, cancellationToken);
             }
             catch (Exception erro)
             {
@@ -37,15 +41,15 @@ namespace GestaoPedido.Aplicacao.Servico
             }
         }
 
-        public async Task<bool> ExcluirAsync(Guid id)
+        public async Task<bool> ExcluirAsync(Guid id, CancellationToken cancellationToken)
         {
             try
             {
-                var entidade = await _iProdutoRepositorio.ObterPorIdAsync(id);
+                var entidade = await _iProdutoRepositorio.ObterPorIdAsync(id, cancellationToken);
                 if (entidade == null)
                     throw new Exception($"Produto não localizado!");
 
-                return await _iProdutoRepositorio.ExcluirAsync(entidade);
+                return await _iGenericoRepositorioProduto.ExcluirAsync(entidade, cancellationToken);
             }
             catch (Exception erro)
             {
@@ -54,11 +58,11 @@ namespace GestaoPedido.Aplicacao.Servico
         }
 
 
-        public async Task<Produto> ObterPorId(Guid id)
+        public async Task<Produto> ObterPorId(Guid id, CancellationToken cancellationToken)
         {
             try
             {
-                return await _iProdutoRepositorio.ObterPorIdAsync(id);
+                return await _iProdutoRepositorio.ObterPorIdAsync(id, cancellationToken);
             }
             catch (Exception erro)
             {
@@ -66,11 +70,11 @@ namespace GestaoPedido.Aplicacao.Servico
             }
         }
 
-        public async Task<List<Produto>> ObterTodos()
+        public async Task<List<Produto>> ObterTodos( CancellationToken cancellationToken)
         {
             try
             {
-                return await _iProdutoRepositorio.ObterTodosAsync();
+                return await _iProdutoRepositorio.ObterTodosAsync( cancellationToken);
             }
             catch (Exception erro)
             {

@@ -2,9 +2,9 @@
 {
     public interface IServicoGenerico<T>
     {
-        Task<T> IncluirAsync(T entity);
-        Task<T> EditarAsync(T entity);
-        Task<bool> ExcluirAsync(Guid id);
+        Task<T> IncluirAsync(T entity, CancellationToken cancellationToken);
+        Task<T> EditarAsync(T entity, CancellationToken cancellationToken);
+        Task<bool> ExcluirAsync(Guid id, CancellationToken cancellationToken);
     }
 
 }

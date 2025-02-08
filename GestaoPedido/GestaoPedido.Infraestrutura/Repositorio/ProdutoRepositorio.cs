@@ -10,7 +10,6 @@ namespace GestaoPedido.Infraestrutura.Repositorio
     {
         private readonly GenericoContexto _context;
 
-
         public ProdutoRepositorio(GenericoContexto context)
         {
             _context = context;
@@ -18,7 +17,7 @@ namespace GestaoPedido.Infraestrutura.Repositorio
 
         }
 
-        public async Task<Produto?> IncluirAsync(Produto produto)
+        public async Task<Produto?> IncluirAsync(Produto produto, CancellationToken cancellationToken)
         {
             try
             {
@@ -32,7 +31,7 @@ namespace GestaoPedido.Infraestrutura.Repositorio
             return produto;
         }
 
-        public async Task<Produto?> EditarAsync(Produto produto)
+        public async Task<Produto?> EditarAsync(Produto produto, CancellationToken cancellationToken)
         {
             try
             {
@@ -46,7 +45,7 @@ namespace GestaoPedido.Infraestrutura.Repositorio
             return produto;
         }
 
-        public async Task<bool> ExcluirAsync(Produto produto)
+        public async Task<bool> ExcluirAsync(Produto produto, CancellationToken cancellationToken)
         {
             EntityEntry<Produto> deletar = _context.Remove(produto);
             if (deletar.Context == null)
@@ -59,18 +58,13 @@ namespace GestaoPedido.Infraestrutura.Repositorio
             return true;
         }
 
-
-        public async Task<Produto?> ObterPorIdAsync(Guid id)
+        public async Task<Produto?> ObterPorIdAsync(Guid id, CancellationToken cancellationToken)
         {
             var produto = await _context.ProdutoDb.FirstAsync(x => x.Id == id);
             return produto;
         }
 
-
-
-
-
-        public async Task<List<Produto>> ObterTodosAsync()
+        public async Task<List<Produto>> ObterTodosAsync(CancellationToken cancellationToken)
         {
             var produto = await _context.ProdutoDb.OrderByDescending(a => a.Id).ToListAsync();
             return produto;

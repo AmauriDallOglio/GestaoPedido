@@ -4,9 +4,7 @@ namespace GestaoPedido.Dominio.InterfaceRepositorio
 {
     public interface IClienteRepositorio
     {
-
-        Task<Cliente?> ObterPorIdAsync(Guid id);
-        Task<List<Cliente>> ObterTodosAsync();
-
+        Task<Cliente?> ObterPorIdAsync(Guid id, CancellationToken cancellationToken);
+        Task<List<Cliente>> ObterTodosAsync( CancellationToken cancellationToken);
     }
 }

@@ -3,15 +3,20 @@ using GestaoPedido.Dominio.InterfaceRepositorio;
 
 namespace GestaoPedido.Aplicacao.Servico
 {
-    public class ServicoGenerico<T>(IGenericoRepositorio<T> iGeneticoRepositorio) : IServicoGenerico<T> where T : class, new()
+    public class ServicoGenerico<T> : IServicoGenerico<T> where T : class, new()
     {
-        private readonly IGenericoRepositorio<T> _IGeneticoRepositorio = iGeneticoRepositorio;
+        private readonly IGenericoRepositorio<T> _IGeneticoRepositorio;
 
-        public async Task<T> IncluirAsync(T entidade)
+        public ServicoGenerico(IGenericoRepositorio<T> iGeneticoRepositorio)
+        {
+            _IGeneticoRepositorio = iGeneticoRepositorio;
+        }
+
+        public async Task<T> IncluirAsync(T entidade, CancellationToken cancellationToken)
         {
             try
             {
-                return await _IGeneticoRepositorio.IncluirAsync(entidade) ?? new T();
+                return await _IGeneticoRepositorio.IncluirAsync(entidade, cancellationToken) ?? new T();
             }
             catch (Exception erro)
             {
@@ -19,11 +24,11 @@ namespace GestaoPedido.Aplicacao.Servico
             }
         }
 
-        public async Task<T> EditarAsync(T entidade)
+        public async Task<T> EditarAsync(T entidade, CancellationToken cancellationToken)
         {
             try
             {
-                return await _IGeneticoRepositorio.EditarAsync(entidade) ?? new T();
+                return await _IGeneticoRepositorio.EditarAsync(entidade, cancellationToken) ?? new T();
             }
             catch (Exception erro)
             {
@@ -31,15 +36,15 @@ namespace GestaoPedido.Aplicacao.Servico
             }
         }
 
-        public async Task<bool> ExcluirAsync(Guid id)
+        public async Task<bool> ExcluirAsync(Guid id, CancellationToken cancellationToken)
         {
             try
             {
-                var entidade = await _IGeneticoRepositorio.ObterPorIdAsync(id);
+                var entidade = await _IGeneticoRepositorio.ObterPorIdAsync(id, cancellationToken);
                 if (entidade == null)
                     throw new Exception($"{typeof(T).Name} {id} não localizado!");
 
-                return await _IGeneticoRepositorio.ExcluirAsync(entidade);
+                return await _IGeneticoRepositorio.ExcluirAsync(entidade, cancellationToken);
             }
             catch (Exception erro)
             {

@@ -16,7 +16,7 @@ namespace GestaoPedido.Infraestrutura.Repositorio
             _dbSet = _context.Set<T>();
         }
 
-        public async Task<T?> IncluirAsync(T entidade)
+        public async Task<T?> IncluirAsync(T entidade, CancellationToken cancellationToken)
         {
             try
             {
@@ -30,8 +30,8 @@ namespace GestaoPedido.Infraestrutura.Repositorio
             }
         }
 
-        public async Task<T?> EditarAsync(T entidade)
-        {
+        public async Task<T?> EditarAsync(T entidade, CancellationToken cancellationToken)
+{
             try
             {
                 _dbSet.Update(entidade);
@@ -44,7 +44,7 @@ namespace GestaoPedido.Infraestrutura.Repositorio
             }
         }
 
-        public async Task<bool> ExcluirAsync(T entidade)
+        public async Task<bool> ExcluirAsync(T entidade, CancellationToken cancellationToken)
         {
             try
             {
@@ -64,12 +64,12 @@ namespace GestaoPedido.Infraestrutura.Repositorio
             }
         }
 
-        public async Task<T?> ObterPorIdAsync(Guid id)
+        public async Task<T?> ObterPorIdAsync(Guid id, CancellationToken cancellationToken)
         {
             return await _dbSet.FindAsync(id);
         }
 
-        public async Task<List<T>> ObterTodosAsync()
+        public async Task<List<T>> ObterTodosAsync(CancellationToken cancellationToken)
         {
             return await _dbSet.ToListAsync();
         }

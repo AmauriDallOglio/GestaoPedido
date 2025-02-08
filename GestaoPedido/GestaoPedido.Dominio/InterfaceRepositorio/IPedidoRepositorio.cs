@@ -4,15 +4,10 @@ namespace GestaoPedido.Dominio.InterfaceRepositorio
 {
     public interface IPedidoRepositorio
     {
-        Task<Pedido?> IncluirAsync(Pedido pedido);
-
+        Task<Pedido?> IncluirAsync(Pedido pedido, CancellationToken cancellationToken);
         //Task<Pedido?> EditarAsync(Pedido pedido);
-        Task<bool> ExcluirAsync(Pedido pedido);
-
-
-        Task<Pedido?> ObterPorIdAsync(Guid id);
-        Task<List<Pedido>> ObterTodosAsync();
-
-
+        Task<bool> ExcluirAsync(Pedido pedido, CancellationToken cancellationToken);
+        Task<Pedido?> ObterPorIdAsync(Guid id, CancellationToken cancellationToken);
+        Task<List<Pedido>> ObterTodosAsync( CancellationToken cancellationToken);
     }
 }

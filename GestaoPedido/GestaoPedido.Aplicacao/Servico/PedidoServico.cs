@@ -9,19 +9,20 @@ namespace GestaoPedido.Aplicacao.Servico
     {
         private readonly IPedidoRepositorio _iPedidoRepositorio;
         private readonly IProdutoRepositorio _iProdutoRepositorio;
-        public PedidoServico(IPedidoRepositorio iPedidoRepositorio, IProdutoRepositorio iProdutoRepositorio)
+        private readonly IGenericoRepositorio<Pedido> _iGenericoRepositorioPedido;
+        public PedidoServico(IPedidoRepositorio iPedidoRepositorio, IProdutoRepositorio iProdutoRepositorio, IGenericoRepositorio<Pedido> iGenericoRepositorioPedido)
         {
             _iPedidoRepositorio = iPedidoRepositorio;
             _iProdutoRepositorio = iProdutoRepositorio;
+            _iGenericoRepositorioPedido = iGenericoRepositorioPedido;
         }
 
 
-        public async Task<Guid> Incluir(PedidoDto dto)
+        public async Task<Guid> IncluirAsync(PedidoDto dto, CancellationToken cancellationToken)
         {
 
             try
             {
-
                 //var idsProdutos = dto.PedidoProdutos.Select(p => p.Id_Produto).Distinct().ToList();
                 //var lista = new Dictionary<Guid, decimal>();
 
@@ -31,12 +32,13 @@ namespace GestaoPedido.Aplicacao.Servico
                 //    if (produto != null)
                 //        lista[id] = produto.Preco;
                 //}
-                var lista = CriaLista(dto).Result;
+
+                var lista = RetornaValorDosProdutos(dto, cancellationToken).Result;
 
                 Pedido pedido = dto.Incluir(lista);
                 pedido.DefineDataPedido();
                 pedido.CalculaValorTotal();
-                Pedido? resultado = await _iPedidoRepositorio.IncluirAsync(pedido);
+                Pedido? resultado = await _iGenericoRepositorioPedido.IncluirAsync(pedido, cancellationToken);
                 return resultado.Id;
             }
             catch (Exception erro)
@@ -45,14 +47,14 @@ namespace GestaoPedido.Aplicacao.Servico
             }
         }
 
-        public async Task<Dictionary<Guid, decimal>> CriaLista(PedidoDto dto)
-        {
+        private async Task<Dictionary<Guid, decimal>> RetornaValorDosProdutos(PedidoDto dto, CancellationToken cancellationToken)
+{
             var idsProdutos = dto.PedidoProdutos.Select(p => p.Id_Produto).Distinct().ToList();
             var lista = new Dictionary<Guid, decimal>();
 
             foreach (var id in idsProdutos)
             {
-                Produto? produto = await _iProdutoRepositorio.ObterPorIdAsync(id);
+                Produto? produto = await _iProdutoRepositorio.ObterPorIdAsync(id, cancellationToken);
                 if (produto != null)
                     lista[id] = produto.Preco;
             }
@@ -60,11 +62,11 @@ namespace GestaoPedido.Aplicacao.Servico
             return lista;
         }
 
-        public async Task<Pedido?> IncluirAsync(Pedido pedido)
-        {
+        public async Task<Pedido?> IncluirAsync(Pedido pedido, CancellationToken cancellationToken)
+{
             try
             {
-                return await _iPedidoRepositorio.IncluirAsync(pedido);
+                return await _iGenericoRepositorioPedido.IncluirAsync(pedido, cancellationToken);
             }
             catch (Exception erro)
             {
@@ -73,24 +75,19 @@ namespace GestaoPedido.Aplicacao.Servico
         }
 
 
-        //public Task<Pedido?> EditarAsync(Pedido pedido)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        public async Task<bool> ExcluirAsync(Pedido pedido)
-        {
-            return await _iPedidoRepositorio.ExcluirAsync(pedido);
+        public async Task<bool> ExcluirAsync(Pedido pedido, CancellationToken cancellationToken)
+{
+            return await _iGenericoRepositorioPedido.ExcluirAsync(pedido, cancellationToken);
         }
 
 
  
 
 
-        public async Task<Pedido?> ObterPorId(Guid id)
-        {
+        public async Task<Pedido?> ObterPorId(Guid id, CancellationToken cancellationToken)
+{
 
-            var entidade = await _iPedidoRepositorio.ObterPorIdAsync(id);
+            var entidade = await _iPedidoRepositorio.ObterPorIdAsync(id, cancellationToken);
             if (entidade == null)
                 throw new Exception($"Pedido não localizado!");
 
@@ -98,11 +95,11 @@ namespace GestaoPedido.Aplicacao.Servico
 
         }
 
-        public async Task<List<Pedido>> ObterTodos()
-        {
+        public async Task<List<Pedido>> ObterTodos( CancellationToken cancellationToken)
+{
             try
             {
-                return await _iPedidoRepositorio.ObterTodosAsync();
+                return await _iPedidoRepositorio.ObterTodosAsync(cancellationToken);
             }
             catch (Exception erro)
             {
@@ -110,11 +107,11 @@ namespace GestaoPedido.Aplicacao.Servico
             }
         }
 
-        public async Task<List<Pedido>> ObterTodosAsync()
-        {
+        public async Task<List<Pedido>> ObterTodosAsync(CancellationToken cancellationToken)
+{
             try
             {
-                return await _iPedidoRepositorio.ObterTodosAsync();
+                return await _iPedidoRepositorio.ObterTodosAsync(cancellationToken);
             }
             catch (Exception erro)
             {
