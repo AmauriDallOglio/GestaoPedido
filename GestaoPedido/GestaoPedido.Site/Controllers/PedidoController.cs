@@ -3,6 +3,7 @@ using GestaoPedido.Aplicacao.InterfaceServico;
 using GestaoPedido.Dominio.Entidade;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace GestaoPedido.Site.Controllers
 {
@@ -40,24 +41,30 @@ namespace GestaoPedido.Site.Controllers
         public async Task<IActionResult> Incluir(CancellationToken cancellationToken)
         {
 
-
-            var clientes = await _iClienteServico.ObterTodos(cancellationToken);
-            ViewData["Clientes"] = clientes.Select(t => new SelectListItem
+            try
             {
-                Value = t.Id.ToString(),
-                Text = t.Nome
-            }).ToList();
+                var clientes = await _iClienteServico.ObterTodos(cancellationToken);
+                ViewData["Clientes"] = clientes.Select(t => new SelectListItem
+                {
+                    Value = t.Id.ToString(),
+                    Text = t.Nome
+                }).ToList();
 
 
-            var produtos = await _iProdutoServico.ObterTodos(cancellationToken);
-            ViewData["Produtos"] = produtos.Select(p => new SelectListItem
+                var produtos = await _iProdutoServico.ObterTodos(cancellationToken);
+                ViewData["Produtos"] = produtos.Select(p => new SelectListItem
+                {
+                    Value = p.Id.ToString(),
+                    Text = p.Nome
+                }).ToList();
+                return View();
+
+            }
+            catch (Exception erro)
             {
-                Value = p.Id.ToString(),
-                Text = p.Nome
-            }).ToList();
-
-
-            return View();
+                TempData["MensagemErro"] = $"Atenção: {erro.Message}";
+                return View();
+            }
         }
 
 
@@ -79,7 +86,7 @@ namespace GestaoPedido.Site.Controllers
             catch (Exception erro)
             {
                 TempData["MensagemErro"] = $"Erro: {erro.Message}";
-                return View(pedido);
+                return RedirectToAction("Incluir");
             }
         }
 
@@ -88,8 +95,16 @@ namespace GestaoPedido.Site.Controllers
         [HttpGet]
         public async Task<IActionResult> Excluir(Guid id, CancellationToken cancellationToken)
         {
-            Pedido pedido = await _iPedidoServico.ObterPorId(id, cancellationToken);
-            return View(pedido);
+            try
+            {
+                Pedido pedido = await _iPedidoServico.ObterPorId(id, cancellationToken);
+                return View(pedido);
+            }
+            catch (Exception erro)
+            {
+                TempData["MensagemErro"] = $"Erro: {erro.Message}";
+                return View();
+            }
         }
 
         [HttpPost]

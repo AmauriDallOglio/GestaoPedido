@@ -16,5 +16,13 @@ namespace GestaoPedido.Dominio.Entidade
         public string Email { get; set; } = string.Empty;
 
         public bool Ativo { get; set; } = true;
+
+        public Cliente() { }
+
+        public Cliente(string nome, string email)
+        {
+            Nome = nome;
+            Email = email;
+        }
     }
 }

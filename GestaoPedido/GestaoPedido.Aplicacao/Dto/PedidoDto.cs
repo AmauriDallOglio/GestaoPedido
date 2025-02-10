@@ -21,38 +21,6 @@ namespace GestaoPedido.Aplicacao.Dto
             };
             return pedido;
         }
-
-
-        //public Pedido Incluir()
-        //{
-        //    Pedido pedido = new Pedido
-        //    {
-        //        Id_Cliente = Id_Cliente,
-        //        PedidoProdutos = PedidoProdutos.Select(x => new PedidoProduto
-        //        {
-        //            Id_Produto = x.Id_Produto,
-        //            Quantidade = x.Quantidade,
-        //            PrecoUnitario = x.PrecoUnitario
-        //        }).ToList()
-        //    };
-        //    return pedido;
-        //}
-
-        //public Pedido Incluir(Dictionary<Guid, decimal> listaProdutos)
-        //{
-
-        //    Pedido pedido = new Pedido
-        //    {
-        //        Id_Cliente = Id_Cliente,
-        //        PedidoProdutos = PedidoProdutos.Select(x => new PedidoProduto
-        //        {
-        //            Id_Produto = x.Id_Produto,
-        //            Quantidade = x.Quantidade,
-        //            PrecoUnitario = listaProdutos.Where(p => p.Key == x.Id_Produto).FirstOrDefault().Value
-        //        }).ToList()
-        //    };
-        //    return pedido;
-        //}
     }
 
     public class PedidoProdutoRequestDto

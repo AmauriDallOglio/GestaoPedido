@@ -52,7 +52,7 @@ namespace GestaoPedido.Site.Controllers
             catch (Exception erro)
             {
                 TempData["MensagemErro"] = $"Erro: {erro.Message}";
-                return View(produto);
+                return RedirectToAction("Incluir");
             }
         }
 
@@ -60,8 +60,16 @@ namespace GestaoPedido.Site.Controllers
         [HttpGet]
         public async Task<IActionResult> Editar(Guid id, CancellationToken cancellationToken)
         {
-            Produto produto = await _iProdutoServico.ObterPorId(id, cancellationToken);
-            return View(produto);
+            try
+            {
+                Produto produto = await _iProdutoServico.ObterPorId(id, cancellationToken);
+                return View(produto);
+            }
+            catch (Exception erro)
+            {
+                TempData["MensagemErro"] = $"Atenção: {erro.Message}";
+                return RedirectToAction("Index");
+            }
         }
 
         [HttpPost]

@@ -27,12 +27,31 @@ namespace GestaoPedido.Dominio.Entidade
 
         // Relacionamento com Pedidos (Muitos para Muitos)
         //public List<PedidoProduto> PedidoProdutos { get; set; } = new List<PedidoProduto>();
+  
+        public Produto() { }
 
+        public Produto(string nome, string descricao, decimal preco, int quantidade, bool ativo)
+        {
+            Nome = nome;
+            Descricao = descricao;
+            Preco = preco;
+            Quantidade = quantidade;
+        }
 
         public Produto Incluir()
         {
             Ativo = true;
             DataCadastro = DateTime.Now;
+            return this;
+        }
+
+        public Produto Alterar(string nome, string descricao, decimal preco, int quantidade, bool ativo)
+        {
+            Nome = nome;
+            Descricao = descricao;
+            Preco = preco;
+            Quantidade = quantidade;
+            Ativo = ativo;
             return this;
         }
     }

@@ -57,7 +57,7 @@ namespace GestaoPedido.Api.Util
                 : StatusCodes.Status500InternalServerError;
 
             string mensagemDoLog = await new ArquivoLog().IncluirLinha(_caminhoLog, exception, _PathString, "Erro inesperado");
-
+            await new ArquivoLog().IncluirLinha(_caminhoLog, exception, _PathString, mensagemDoLog);
             try
             {
                 using (var scope = context.RequestServices.CreateScope())

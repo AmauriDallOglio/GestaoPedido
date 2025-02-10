@@ -45,15 +45,24 @@ namespace GestaoPedido.Site.Controllers
             catch (Exception erro)
             {
                 TempData["MensagemErro"] = $"Erro: {erro.Message}";
-                return View(cliente);
+                return RedirectToAction("Incluir");
             }
         }
 
         [HttpGet]
         public async Task<IActionResult> Editar(Guid id, CancellationToken cancellationToken)
         {
-            Cliente Cliente = await _iClienteServico.ObterPorId(id, cancellationToken);
-            return View(Cliente);
+            try
+            {
+                Cliente Cliente = await _iClienteServico.ObterPorId(id, cancellationToken);
+                return View(Cliente);
+            }
+            catch (Exception erro)
+            {
+                TempData["MensagemErro"] = $"Atenção: {erro.Message}";
+                return RedirectToAction("Index");
+            }
+
         }
 
 

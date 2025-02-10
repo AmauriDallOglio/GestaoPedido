@@ -31,7 +31,7 @@ namespace GestaoPedido.Infraestrutura.Repositorio
         }
 
         public async Task<T?> EditarAsync(T entidade, CancellationToken cancellationToken)
-{
+        {
             try
             {
                 _dbSet.Update(entidade);

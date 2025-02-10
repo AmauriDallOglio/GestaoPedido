@@ -10,6 +10,18 @@
         public Cliente Cliente { get; set; }
         public List<PedidoProduto> PedidoProdutos { get; set; } = new List<PedidoProduto>();
 
+        public Pedido()
+        {
+
+        }
+
+        public Pedido(Guid id_Cliente, DateTime dataPedido, decimal valorTotal, Cliente cliente, List<PedidoProduto> pedidoProdutos)
+        {
+            Id_Cliente = id_Cliente;
+            ValorTotal = valorTotal;
+            Cliente = cliente;
+            PedidoProdutos = pedidoProdutos;
+        }
 
 
         public Pedido Incluir(Guid Id_Cliente, Dictionary<Guid, decimal> listaProdutos)

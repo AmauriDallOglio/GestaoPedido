@@ -1,3 +1,4 @@
+using GestaoPedido.Api.Util;
 using GestaoPedido.Aplicacao.InjecaoDependencia;
 using GestaoPedido.Infraestrutura.Contexto;
 using System.Text.Json.Serialization;
@@ -16,6 +17,11 @@ namespace GestaoPedido.Api
             });
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.InformacaoCabecalhoApi();
+            builder.Services.VersionamentoApi();
+ 
+
             ServicosDependencia.RegistrarServicosInjecaoDependencia(builder.Services);
 
             var app = builder.Build();
@@ -27,6 +33,8 @@ namespace GestaoPedido.Api
             app.UseHttpsRedirection();
             app.UseAuthorization();
             app.MapControllers();
+            app.UseMiddleware<MiddlewareError>();
+
             app.Run();
         }
     }

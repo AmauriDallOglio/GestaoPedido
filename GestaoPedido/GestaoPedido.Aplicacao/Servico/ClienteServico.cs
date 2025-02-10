@@ -7,85 +7,48 @@ namespace GestaoPedido.Aplicacao.Servico
     public class ClienteServico : IClienteServico
     {
         private readonly IClienteRepositorio _iClienteRepositorio;
-        private readonly IGenericoRepositorio<Cliente> _IGeneticoRepositorio;
+        private readonly IGenericoRepositorio<Cliente> _IGeneticoRepositorioCliente;
 
         public ClienteServico(IClienteRepositorio iClienteRepositorio, IGenericoRepositorio<Cliente> iGeneticoRepositorio)
         {
             _iClienteRepositorio = iClienteRepositorio;
-            _IGeneticoRepositorio = iGeneticoRepositorio;
+            _IGeneticoRepositorioCliente = iGeneticoRepositorio;
         }
 
         public async Task<Guid> IncluirAsync(Cliente Cliente, CancellationToken cancellationToken)
         {
-            try
-            {
-                Cliente? resultado = await _IGeneticoRepositorio.IncluirAsync(Cliente, cancellationToken);
-                return  resultado.Id;
-            
-            }
-            catch (Exception erro)
-            {
-                throw new NotImplementedException($"Incluir: {erro.Message}");
-            }
+            Cliente? resultado = await _IGeneticoRepositorioCliente.IncluirAsync(Cliente, cancellationToken);
+            return  resultado.Id;
         }
 
         public async Task<Cliente> EditarAsync(Cliente Cliente, CancellationToken cancellationToken)
-{
-            try
-            {
-                Cliente? resultado = await _IGeneticoRepositorio.EditarAsync(Cliente, cancellationToken);
-                return resultado;
-            }
-            catch (Exception erro)
-            {
-                throw new NotImplementedException($"Alterar: {erro.Message}");
-            }
-
+        {
+             Cliente? resultado = await _IGeneticoRepositorioCliente.EditarAsync(Cliente, cancellationToken);
+             return resultado;
         }
 
         public async Task<bool> ExcluirAsync(Guid id, CancellationToken cancellationToken)
-{
-            try
-            {
-                Cliente? cliente = await _iClienteRepositorio.ObterPorIdAsync(id, cancellationToken);
-                if (cliente == null)
-                    throw new System.Exception("Usuário " + id.ToString() + ", não localizado!");
+        {
+            Cliente? cliente = await _IGeneticoRepositorioCliente.ObterPorIdAsync(id, cancellationToken);
+            if (cliente == null)
+                throw new System.Exception("Usuário " + id.ToString() + ", não localizado!");
 
-                bool resultado = await _IGeneticoRepositorio.ExcluirAsync(cliente, cancellationToken);
+            bool resultado = await _IGeneticoRepositorioCliente.ExcluirAsync(cliente, cancellationToken);
 
-                return resultado;
-            }
-            catch (Exception erro)
-            {
-                throw new NotImplementedException($"ObterTodos: {erro.Message}");
-            }
+            return resultado;
         }
 
 
         public async Task<List<Cliente>> ObterTodos( CancellationToken cancellationToken)
         {
-            try
-            {
-                List<Cliente> resultado = await _iClienteRepositorio.ObterTodosAsync(cancellationToken);
-                return resultado;
-            }
-            catch (Exception erro)
-            {
-                throw new NotImplementedException($"ObterTodos: {erro.Message}");
-            }
+            List<Cliente> resultado = await _IGeneticoRepositorioCliente.ObterTodosAsync(cancellationToken);
+            return resultado;
         }
 
         public async Task<Cliente> ObterPorId(Guid id, CancellationToken cancellationToken)
         {
-            try
-            {
-                Cliente? resultado = await _iClienteRepositorio.ObterPorIdAsync(id, cancellationToken);
-                return resultado ?? new Cliente();
-            }
-            catch (Exception erro)
-            {
-                throw new NotImplementedException($"Alterar: {erro.Message}");
-            }
+            Cliente? resultado = await _IGeneticoRepositorioCliente.ObterPorIdAsync(id, cancellationToken);
+            return resultado ?? new Cliente();
         }
     }
 }

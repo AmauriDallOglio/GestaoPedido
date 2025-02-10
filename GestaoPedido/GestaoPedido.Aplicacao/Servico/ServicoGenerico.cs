@@ -14,42 +14,23 @@ namespace GestaoPedido.Aplicacao.Servico
 
         public async Task<T> IncluirAsync(T entidade, CancellationToken cancellationToken)
         {
-            try
-            {
-                return await _iGeneticoRepositorio.IncluirAsync(entidade, cancellationToken) ?? new T();
-            }
-            catch (Exception erro)
-            {
-                throw new NotImplementedException($"Incluir: {erro.Message}");
-            }
+            return await _iGeneticoRepositorio.IncluirAsync(entidade, cancellationToken) ?? new T();
         }
 
         public async Task<T> EditarAsync(T entidade, CancellationToken cancellationToken)
         {
-            try
-            {
-                return await _iGeneticoRepositorio.EditarAsync(entidade, cancellationToken) ?? new T();
-            }
-            catch (Exception erro)
-            {
-                throw new NotImplementedException($"Alterar: {erro.Message}");
-            }
+            return await _iGeneticoRepositorio.EditarAsync(entidade, cancellationToken) ?? new T();
         }
 
         public async Task<bool> ExcluirAsync(Guid id, CancellationToken cancellationToken)
         {
-            try
-            {
-                var entidade = await _iGeneticoRepositorio.ObterPorIdAsync(id, cancellationToken);
-                if (entidade == null)
-                    throw new Exception($"{typeof(T).Name} {id} não localizado!");
 
-                return await _iGeneticoRepositorio.ExcluirAsync(entidade, cancellationToken);
-            }
-            catch (Exception erro)
-            {
-                throw new NotImplementedException($"Excluir: {erro.Message}");
-            }
+            var entidade = await _iGeneticoRepositorio.ObterPorIdAsync(id, cancellationToken);
+            if (entidade == null)
+                throw new Exception($"{typeof(T).Name} {id} não localizado!");
+
+            return await _iGeneticoRepositorio.ExcluirAsync(entidade, cancellationToken);
+
         }
     }
 }

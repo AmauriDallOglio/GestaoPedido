@@ -1,5 +1,4 @@
 ﻿using GestaoPedido.Aplicacao.Dto;
-using GestaoPedido.Aplicacao.InterfaceServico;
 using GestaoPedido.Aplicacao.Servico;
 using GestaoPedido.Dominio.Entidade;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace GestaoPedido.Api.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/v{version:apiVersion}/Pedido")]
+    [ApiVersion("1.0")]
     public class PedidoController(PedidoServico pedidoServico) : ControllerBase
     {
         private readonly PedidoServico _pedidoServico = pedidoServico;
@@ -21,23 +21,30 @@ namespace GestaoPedido.Api.Controllers
             {
                 return Ok(response);
             }
-            return BadRequest("Falha ao inserir cliente.");
+            return BadRequest("Falha ao inserir pedido.");
         }
 
 
         [HttpDelete("Excluir/{id}"), ActionName("id")]
         public async Task<IActionResult> Excluir([FromQuery] Guid id, CancellationToken cancellationToken)
         {
-            var resultado = await _pedidoServico.ExcluirAsync(id, cancellationToken);
-
-            return Ok();
+            var response = await _pedidoServico.ExcluirAsync(id, cancellationToken);
+            if (response)
+            {
+                return Ok(response);
+            }
+            return BadRequest("Falha ao excluir o pedido.");
         }
 
         [HttpGet("ObterPorId/{id}")]
         public async Task<IActionResult> ObterPorId(Guid id, CancellationToken cancellationToken)
         {
             Pedido resultado = await _pedidoServico.ObterPorId(id, cancellationToken);
-            return Ok(resultado);
+            if (resultado != null)
+            {
+                return Ok(resultado);
+            }
+            return BadRequest("Falha ao obter o pedido.");
         }
 
 
@@ -45,8 +52,11 @@ namespace GestaoPedido.Api.Controllers
         public async Task<IActionResult> ObterTodos(CancellationToken cancellationToken)
         {
             List<Pedido> resultado = await _pedidoServico.ObterTodos(cancellationToken);
-
-            return Ok(resultado);
+            if (resultado != null)
+            {
+                return Ok(resultado);
+            }
+            return BadRequest("Falha ao obter todos os pedidos.");
         }
 
     }
