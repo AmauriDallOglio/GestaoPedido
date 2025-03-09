@@ -7,7 +7,6 @@ namespace GestaoPedido.Aplicacao.InterfaceServico
     {
 
         Task<Guid> IncluirAsync(PedidoDto pedido, CancellationToken cancellationToken);
-        //Task<Pedido> EditarAsync(Pedido pedido);
         Task<bool> ExcluirAsync(Guid id, CancellationToken cancellationToken);
 
 

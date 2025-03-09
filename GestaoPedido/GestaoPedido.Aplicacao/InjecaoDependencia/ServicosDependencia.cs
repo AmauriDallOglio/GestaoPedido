@@ -10,11 +10,11 @@ namespace GestaoPedido.Aplicacao.InjecaoDependencia
     {
         public static void RegistrarServicosInjecaoDependencia(IServiceCollection services)
         {
-            //services.AddScoped<ClienteServico>();
+ 
             services.AddScoped<IClienteServico, ClienteServico>();
             services.AddScoped<IClienteRepositorio, ClienteRepositorio>();
 
-           // services.AddScoped<PedidoServico>();
+ 
             services.AddScoped<IPedidoServico, PedidoServico>();
             services.AddScoped<IPedidoRepositorio, PedidoRepositorio>();
 

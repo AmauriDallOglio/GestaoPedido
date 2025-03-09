@@ -1,23 +1,27 @@
 ﻿using GestaoPedido.Aplicacao.InterfaceServico;
 using GestaoPedido.Dominio.Entidade;
 using GestaoPedido.Dominio.InterfaceRepositorio;
+using GestaoPedido.Infraestrutura.Contexto;
+using GestaoPedido.Infraestrutura.Repositorio;
 
 namespace GestaoPedido.Aplicacao.Servico
 {
     public class ClienteServico : IClienteServico
     {
         private readonly IClienteRepositorio _iClienteRepositorio;
+        private readonly GenericoRepositorio<Cliente> _ClienteRepositorio;
         private readonly IGenericoRepositorio<Cliente> _IGeneticoRepositorioCliente;
 
-        public ClienteServico(IClienteRepositorio iClienteRepositorio, IGenericoRepositorio<Cliente> iGeneticoRepositorio)
+        public ClienteServico(IClienteRepositorio iClienteRepositorio, IGenericoRepositorio<Cliente> iGeneticoRepositorio, GenericoContexto genericoContexto)
         {
             _iClienteRepositorio = iClienteRepositorio;
+            _ClienteRepositorio = new GenericoRepositorio<Cliente>(genericoContexto);
             _IGeneticoRepositorioCliente = iGeneticoRepositorio;
         }
 
         public async Task<Guid> IncluirAsync(Cliente Cliente, CancellationToken cancellationToken)
         {
-            Cliente? resultado = await _IGeneticoRepositorioCliente.IncluirAsync(Cliente, cancellationToken);
+            Cliente? resultado = await _ClienteRepositorio.IncluirAsync(Cliente, cancellationToken);
             return  resultado.Id;
         }
 

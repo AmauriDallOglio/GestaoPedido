@@ -14,6 +14,8 @@ namespace GestaoPedido.Api.Controllers
 
 
         [HttpPost("Inserir"), ActionName("Inserir")]
+        [ProducesResponseType(typeof(Cliente), 201)]
+        [ProducesResponseType(typeof(Guid), 501)]
         public async Task<IActionResult> Inserir([FromBody] Cliente request, CancellationToken cancellationToken)
         {
             var response = await _iClienteServico.IncluirAsync(request, cancellationToken);
