@@ -8,6 +8,8 @@ namespace GestaoPedido.Site
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+
             builder.Services.AddSqlServer<GenericoContexto>(builder.Configuration.GetConnectionString("ConexaoPadrao"));
 
             ServicosDependencia.RegistrarServicosInjecaoDependencia(builder.Services);

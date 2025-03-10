@@ -3,9 +3,9 @@ using GestaoPedido.Compartilhado.Mediatr.Response;
 using GestaoPedido.Compartilhado.Util;
 using MediatR;
 
-namespace GestaoPedido.Api.Util
+namespace GestaoPedido.Api.Middleware
 {
-    public class MiddlewareError
+    public class ErrorMiddleware
     {
 
         private readonly RequestDelegate _next;
@@ -13,7 +13,7 @@ namespace GestaoPedido.Api.Util
 
         private static PathString _PathString { get; set; }
 
-        public MiddlewareError(RequestDelegate next)
+        public ErrorMiddleware(RequestDelegate next)
         {
             _next = next;
 

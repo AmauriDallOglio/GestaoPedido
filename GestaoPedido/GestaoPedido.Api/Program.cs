@@ -1,5 +1,7 @@
+using GestaoPedido.Api.Middleware;
 using GestaoPedido.Api.Util;
 using GestaoPedido.Aplicacao.InjecaoDependencia;
+using GestaoPedido.Aplicacao.MediatR.Command.ClienteCommand.Inserir;
 using GestaoPedido.Infraestrutura.Contexto;
 using System.Text.Json.Serialization;
 
@@ -20,7 +22,17 @@ namespace GestaoPedido.Api
 
             builder.Services.InformacaoCabecalhoApi();
             builder.Services.VersionamentoApi();
- 
+
+            //Registrar MediatR
+            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<ClienteInserirHandler>());
+
+            //Registrar FluentValidation
+            //builder.Services.AddValidatorsFromAssemblyContaining<ClienteInserirValidator>();
+
+
+            //Health Checks monitora a saúde da aplicação.
+            //builder.Services.AddHealthChecks().AddDbContextCheck<GenericoContexto>("ConexaoPadrao");
+
 
             ServicosDependencia.RegistrarServicosInjecaoDependencia(builder.Services);
 
@@ -33,7 +45,11 @@ namespace GestaoPedido.Api
             app.UseHttpsRedirection();
             app.UseAuthorization();
             app.MapControllers();
-            app.UseMiddleware<MiddlewareError>();
+            app.UseMiddleware<ErrorMiddleware>();
+            app.UseMiddleware<ExceptionMiddleware>();
+
+            //Health Checks monitora a saúde da aplicação.
+           //app.MapHealthChecks("/health");
 
             app.Run();
         }
