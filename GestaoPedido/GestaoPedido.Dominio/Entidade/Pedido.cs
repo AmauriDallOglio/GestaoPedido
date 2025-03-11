@@ -1,4 +1,6 @@
-﻿namespace GestaoPedido.Dominio.Entidade
+﻿using static GestaoPedido.Dominio.Util.Enums;
+
+namespace GestaoPedido.Dominio.Entidade
 {
     public class Pedido
     {
@@ -6,6 +8,8 @@
         public Guid Id_Cliente { get; set; }
         public DateTime DataPedido { get; set; }
         public decimal ValorTotal { get; set; }
+        public SituacaoPedido Situacao { get; set; }
+
 
         public Cliente Cliente { get; set; }
         public List<PedidoProduto> PedidoProdutos { get; set; } = new List<PedidoProduto>();
@@ -21,6 +25,7 @@
             ValorTotal = valorTotal;
             Cliente = cliente;
             PedidoProdutos = pedidoProdutos;
+            Situacao = (int)SituacaoPedido.Pendente;
         }
 
 
@@ -36,6 +41,7 @@
                     PrecoUnitario = listaProdutos.TryGetValue(x.Id_Produto, out decimal preco) ? preco : 0
                 }).ToList()
             };
+            Situacao = (int)SituacaoPedido.Pendente;
             DefineDataPedido();
             CalculaValorTotal();
             return pedido;

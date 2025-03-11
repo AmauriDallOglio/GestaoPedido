@@ -46,7 +46,7 @@ namespace GestaoPedido.Api
             app.UseAuthorization();
             app.MapControllers();
             app.UseMiddleware<ErrorMiddleware>();
-            app.UseMiddleware<ExceptionMiddleware>();
+            //app.UseMiddleware<ExceptionMiddleware>();
 
             //Health Checks monitora a saúde da aplicação.
            //app.MapHealthChecks("/health");

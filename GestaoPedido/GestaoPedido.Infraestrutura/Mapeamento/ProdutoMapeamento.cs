@@ -23,15 +23,15 @@ namespace GestaoPedido.Infraestrutura.Mapeamento
         /*
          * 
          * 
-CREATE TABLE Produto (
-    Id UNIQUEIDENTIFIER NOT NULL PRIMARY KEY DEFAULT NEWID(),
-    Nome NVARCHAR(200) NOT NULL,
-    Descricao NVARCHAR(500) NULL,
-    Preco DECIMAL(18,2) NOT NULL,
-    Quantidade INT NOT NULL,
-    Ativo BIT NOT NULL DEFAULT 1,
-    DataCadastro DATETIME NOT NULL DEFAULT GETDATE()
-);
+            CREATE TABLE Produto (
+                Id UNIQUEIDENTIFIER NOT NULL PRIMARY KEY DEFAULT NEWID(),
+                Nome NVARCHAR(200) NOT NULL,
+                Descricao NVARCHAR(500) NULL,
+                Preco DECIMAL(18,2) NOT NULL,
+                Quantidade INT NOT NULL,
+                Ativo BIT NOT NULL DEFAULT 1,
+                DataCadastro DATETIME NOT NULL DEFAULT GETDATE()
+            );
 
          */
     }

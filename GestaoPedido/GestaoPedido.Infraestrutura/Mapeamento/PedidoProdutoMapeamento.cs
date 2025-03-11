@@ -36,16 +36,16 @@ namespace GestaoPedido.Infraestrutura.Mapeamento
 
 /*
        * 
-CREATE TABLE PedidoProduto (
-    Id UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
-    Id_Pedido UNIQUEIDENTIFIER NOT NULL,
-    Id_Produto UNIQUEIDENTIFIER NOT NULL,
-    Quantidade INT NOT NULL CHECK (Quantidade > 0),
-    PrecoUnitario DECIMAL(18,2) NOT NULL CHECK (PrecoUnitario >= 0),
-    Total AS (Quantidade * PrecoUnitario) PERSISTED,
-    CONSTRAINT FK_PedidoProduto_Pedido FOREIGN KEY (Id_Pedido) REFERENCES Pedido(Id) ON DELETE CASCADE,
-    CONSTRAINT FK_PedidoProduto_Produto FOREIGN KEY (Id_Produto) REFERENCES Produto(Id)
-);
+        CREATE TABLE PedidoProduto (
+            Id UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+            Id_Pedido UNIQUEIDENTIFIER NOT NULL,
+            Id_Produto UNIQUEIDENTIFIER NOT NULL,
+            Quantidade INT NOT NULL CHECK (Quantidade > 0),
+            PrecoUnitario DECIMAL(18,2) NOT NULL CHECK (PrecoUnitario >= 0),
+            Total AS (Quantidade * PrecoUnitario) PERSISTED,
+            CONSTRAINT FK_PedidoProduto_Pedido FOREIGN KEY (Id_Pedido) REFERENCES Pedido(Id) ON DELETE CASCADE,
+            CONSTRAINT FK_PedidoProduto_Produto FOREIGN KEY (Id_Produto) REFERENCES Produto(Id)
+        );
 
        * 
        */
