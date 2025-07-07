@@ -1,5 +1,6 @@
 using GestaoPedido.Aplicacao.InjecaoDependencia;
 using GestaoPedido.Infraestrutura.Contexto;
+using Microsoft.EntityFrameworkCore;
 
 namespace GestaoPedido.Site
 {
@@ -10,7 +11,27 @@ namespace GestaoPedido.Site
             var builder = WebApplication.CreateBuilder(args);
 
 
-            builder.Services.AddSqlServer<GenericoContexto>(builder.Configuration.GetConnectionString("ConexaoPadrao"));
+            
+
+            if (!builder.Environment.IsDevelopment())
+            {
+                string AZURE_DB = Environment.GetEnvironmentVariable("ConexaoPadrao");
+                Console.WriteLine("ConexaoPadrao: " + AZURE_DB);
+                builder.Services.AddDbContext<GenericoContexto>(options => options.UseSqlServer(AZURE_DB));
+            }
+            else
+            {
+                // builder.Services.AddSqlServer<GenericoContexto>(builder.Configuration.GetConnectionString("ConexaoPadrao"));
+
+                string filePath = "C:\\Amauri\\GitHub\\ServicosNetAzureWebConnection.txt";
+                string AZURE_DB = File.ReadAllText(filePath).Replace("\\\\", "\\");
+                Console.WriteLine("AZURE_DB: " + AZURE_DB);
+
+                builder.Services.AddDbContext<GenericoContexto>(options => options.UseSqlServer(AZURE_DB));
+            }
+
+
+
 
             ServicosDependencia.RegistrarServicosInjecaoDependencia(builder.Services);
 

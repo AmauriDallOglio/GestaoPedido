@@ -1,7 +1,7 @@
 ﻿using GestaoPedido.Aplicacao.Dto;
 using GestaoPedido.Dominio.Entidade;
 
-namespace GestaoPedido.Aplicacao.InterfaceServico
+namespace GestaoPedido.Aplicacao.Servico.InterfaceServico
 {
     public interface IPedidoServico
     {

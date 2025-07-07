@@ -24,8 +24,4 @@
     <ProjectReference Include="..\GestaoPedido.Infraestrutura\GestaoPedido.Infraestrutura.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="MediatR\Query\ClienteQuery\ObterTodos\" />
-  </ItemGroup>
-
 </Project>

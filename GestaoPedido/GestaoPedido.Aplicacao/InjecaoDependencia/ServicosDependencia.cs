@@ -1,5 +1,5 @@
-﻿using GestaoPedido.Aplicacao.InterfaceServico;
-using GestaoPedido.Aplicacao.Servico;
+﻿using GestaoPedido.Aplicacao.Servico;
+using GestaoPedido.Aplicacao.Servico.InterfaceServico;
 using GestaoPedido.Dominio.InterfaceRepositorio;
 using GestaoPedido.Infraestrutura.Repositorio;
 using Microsoft.Extensions.DependencyInjection;

@@ -1,4 +1,4 @@
-﻿using GestaoPedido.Aplicacao.InterfaceServico;
+﻿using GestaoPedido.Aplicacao.Servico.InterfaceServico;
 using GestaoPedido.Dominio.InterfaceRepositorio;
 
 namespace GestaoPedido.Aplicacao.Servico

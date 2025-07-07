@@ -1,4 +1,4 @@
-﻿using GestaoPedido.Aplicacao.InterfaceServico;
+﻿using GestaoPedido.Aplicacao.Servico.InterfaceServico;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GestaoPedido.Api.Controllers

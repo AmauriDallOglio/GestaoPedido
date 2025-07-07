@@ -1,4 +1,4 @@
-﻿using GestaoPedido.Aplicacao.InterfaceServico;
+﻿using GestaoPedido.Aplicacao.Servico.InterfaceServico;
 using GestaoPedido.Dominio.Entidade;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq.Expressions;

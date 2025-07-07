@@ -1,4 +1,4 @@
-﻿namespace GestaoPedido.Aplicacao.InterfaceServico
+﻿namespace GestaoPedido.Aplicacao.Servico.InterfaceServico
 {
     public interface IServicoGenerico<T>
     {
