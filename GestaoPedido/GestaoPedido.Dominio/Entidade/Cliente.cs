@@ -4,7 +4,7 @@ namespace GestaoPedido.Dominio.Entidade
 {
     public class Cliente
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
+        public Guid Id { get; set; }
 
 
         [Required(ErrorMessage = "O campo nome é obrigatório.")]

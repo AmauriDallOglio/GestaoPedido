@@ -20,18 +20,18 @@ namespace GestaoPedido.Aplicacao.Servico
             _IGeneticoRepositorioCliente = iGeneticoRepositorio;
         }
 
-        public async Task<Guid> IncluirAsync(Cliente Cliente, CancellationToken cancellationToken)
+        public async Task<Guid> IncluirAsync(Cliente cliente, CancellationToken cancellationToken)
         {
-            Cliente? resultado = await _ClienteRepositorio.IncluirAsync(Cliente, cancellationToken);
+            Cliente? resultado = await _ClienteRepositorio.IncluirAsync(cliente, cancellationToken);
             return  resultado.Id;
         }
 
-        public async Task<ResultadoOperacao> EditarAsync(Cliente Cliente, CancellationToken cancellationToken)
+        public async Task<ResultadoOperacao> EditarAsync(Cliente cliente, CancellationToken cancellationToken)
         {
             ResultadoOperacao resultadoOperacao = new();
             try
             {
-                await _IGeneticoRepositorioCliente.EditarAsync(Cliente, cancellationToken);
+                await _IGeneticoRepositorioCliente.EditarAsync(cliente, cancellationToken);
                 resultadoOperacao = ResultadoOperacao.CriarSucesso("Alterado com sucesso!");
             }
             catch (Exception ex)
