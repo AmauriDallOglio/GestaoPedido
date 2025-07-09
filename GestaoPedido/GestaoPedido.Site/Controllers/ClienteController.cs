@@ -1,4 +1,5 @@
 ﻿using GestaoPedido.Aplicacao.Servico.InterfaceServico;
+using GestaoPedido.Compartilhado.Util;
 using GestaoPedido.Dominio.Entidade;
 using Microsoft.AspNetCore.Mvc;
 
@@ -71,8 +72,8 @@ namespace GestaoPedido.Site.Controllers
         {
             try
             {
-                Task<Cliente> resultado = _iClienteServico.EditarAsync(cliente, cancellationToken);
-                if (resultado.Exception != null)
+                Task<ResultadoOperacao> resultado = _iClienteServico.EditarAsync(cliente, cancellationToken);
+                if (!resultado.Result.Sucesso)
                 {
                     return View(cliente);
                 }

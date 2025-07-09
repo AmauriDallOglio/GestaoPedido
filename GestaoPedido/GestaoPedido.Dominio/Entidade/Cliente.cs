@@ -15,7 +15,7 @@ namespace GestaoPedido.Dominio.Entidade
         [EmailAddress(ErrorMessage = "O e-mail informado é inválido.")]
         public string Email { get; set; } = string.Empty;
 
-        public bool Ativo { get; set; } = true;
+        public bool Inativo { get; set; } = false;
 
         public Cliente() { }
 
@@ -24,5 +24,7 @@ namespace GestaoPedido.Dominio.Entidade
             Nome = nome;
             Email = email;
         }
+
+
     }
 }

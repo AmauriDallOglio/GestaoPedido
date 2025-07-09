@@ -12,8 +12,8 @@ namespace GestaoPedido.Infraestrutura.Mapeamento
             builder.HasKey(u => u.Id);
             builder.Property(u => u.Id).ValueGeneratedNever().IsRequired(true);
             builder.Property(u => u.Nome).HasColumnType("varchar").HasMaxLength(150).IsRequired(true);
-            builder.Property(u => u.Email).HasColumnType("varchar").HasMaxLength(250).IsRequired(true);
-            builder.Property(t => t.Ativo).HasColumnName("Ativo").IsRequired(true);
+            builder.Property(u => u.Email).HasColumnType("varchar").HasMaxLength(150).IsRequired(true);
+            builder.Property(t => t.Inativo).HasColumnName("Inativo").IsRequired(true);
         }
 
         /*

@@ -1,4 +1,5 @@
 ﻿using GestaoPedido.Aplicacao.Servico.InterfaceServico;
+using GestaoPedido.Compartilhado.Util;
 using GestaoPedido.Dominio.Entidade;
 using GestaoPedido.Dominio.InterfaceRepositorio;
 using GestaoPedido.Infraestrutura.Contexto;
@@ -25,10 +26,19 @@ namespace GestaoPedido.Aplicacao.Servico
             return  resultado.Id;
         }
 
-        public async Task<Cliente> EditarAsync(Cliente Cliente, CancellationToken cancellationToken)
+        public async Task<ResultadoOperacao> EditarAsync(Cliente Cliente, CancellationToken cancellationToken)
         {
-             Cliente? resultado = await _IGeneticoRepositorioCliente.EditarAsync(Cliente, cancellationToken);
-             return resultado;
+            ResultadoOperacao resultadoOperacao = new();
+            try
+            {
+                await _IGeneticoRepositorioCliente.EditarAsync(Cliente, cancellationToken);
+                resultadoOperacao = ResultadoOperacao.CriarSucesso("Alterado com sucesso!");
+            }
+            catch (Exception ex)
+            {
+                resultadoOperacao = ResultadoOperacao.CriarFalha(ex.InnerException?.Message??ex.Message);
+            }
+            return resultadoOperacao;
         }
 
         public async Task<bool> ExcluirAsync(Guid id, CancellationToken cancellationToken)
