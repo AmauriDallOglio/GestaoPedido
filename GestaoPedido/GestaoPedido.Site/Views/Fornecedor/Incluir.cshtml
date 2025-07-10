@@ -1,6 +1,6 @@
-﻿@model GestaoPedido.Dominio.Entidade.Fornecedor
+﻿ @model GestaoPedido.Dominio.Entidade.Fornecedor
 @{
-    ViewData["Title"] = "Incluir";
+    ViewData["Title"] = "Incluir Fornecedor";
 }
 
 <div class="container mt-5">
@@ -20,7 +20,9 @@
             }
 
             <div class="text-center mb-4">
-                <h1 class="display-6 text-primary">Formulário de Inserção</h1>
+                <h1 class="display-6 text-primary">
+                    <i class="bi bi-plus-circle"></i> Incluir Fornecedor
+                </h1>
             </div>
 
             <div class="row g-3 mb-4">
@@ -37,15 +39,14 @@
                 </div>
             </div>
 
-            <div class="d-flex justify-content-sm-between gap-2">
+            <div class="d-flex justify-content-between gap-2">
                 <a class="btn btn-outline-secondary"
                    asp-controller="Fornecedor"
                    asp-action="Index"
                    role="button">Cancelar</a>
 
-                <button type="submit"     class="btn btn-outline-primary">Gravar</button>
+                <button type="submit" class="btn btn-outline-primary">Gravar</button>
             </div>
-
         </form>
     </div>
 </div>

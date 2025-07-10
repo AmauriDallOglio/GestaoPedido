@@ -1,19 +1,25 @@
 ﻿@using GestaoPedido.Dominio.Entidade;
 @model List<Cliente>
+
 @{
-    ViewData["Title"] = "Gerenciamento de clientes";
+    ViewData["Title"] = "Gerenciamento de Clientes";
+    var filtro = Context.Request.Query["filtro"];
 }
 
 <div class="container mt-5">
+
     <div class="text-center mb-4">
-        <h1 class="display-5">Gerenciamento de clientes</h1>
+        <h1 class="display-6 text-primary">
+            <i class="bi bi-people"></i> Gerenciamento de Clientes
+        </h1>
     </div>
 
+    @* MENSAGENS *@
     @if (TempData["MensagemSucesso"] != null)
     {
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             <strong>Sucesso!</strong> @TempData["MensagemSucesso"]
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
         </div>
     }
 
@@ -21,71 +27,82 @@
     {
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
             <strong>Erro!</strong> @TempData["MensagemErro"]
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
         </div>
     }
 
-    <div class="d-flex justify-content-end mb-3">
-        <a class="btn btn-outline-primary" role="button"
+    @* BLOCO 1 - FILTRO (opcional, pode ativar quando quiser) *@
+    <div class="shadow-sm p-3 bg-white rounded mb-3">
+        <form asp-controller="Cliente" asp-action="Index" method="get" class="row g-2 align-items-end">
+            <div class="col-md-6">
+                <label for="filtro" class="form-label">Pesquisar cliente</label>
+                <input type="text" name="filtro" id="filtro" class="form-control"
+                       value="@filtro" placeholder="Digite nome ou e-mail">
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-outline-primary">
+                    <i class="bi bi-search"></i> Buscar
+                </button>
+            </div>
+        </form>
+    </div>
+
+    @* BLOCO 2 - BOTÃO NOVO *@
+    <div class="shadow-sm p-3 bg-white rounded mb-3 d-flex justify-content-start">
+        <a class="btn btn-outline-success"
            asp-controller="Cliente"
            asp-action="Incluir">
             <i class="bi bi-plus-circle"></i> Incluir
         </a>
     </div>
 
-    <div class="table-responsive">
-        <table class="table table-striped table-hover" id="GridCliente">
-            <thead class="table-dark">
-                <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">Nome</th>
-                    <th scope="col">E-mail</th>
-   
-                    <th scope="col" class="text-center">Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (Model != null && Model.Any())
-                {
-                    @foreach (var Cliente in Model)
+    @* BLOCO 3 - GRID *@
+    <div class="shadow-sm p-3 bg-white rounded">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover table-striped align-middle text-lg-start">
+                <thead class="table-primary">
+                    <tr>
+                        <th style="width: 10%">ID</th>
+                        <th style="width: 35%">Nome</th>
+                        <th style="width: 35%">E-mail</th>
+                        <th class="text-center" style="width: 20%">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        @foreach (var cliente in Model)
+                        {
+                            <tr>
+                                <td>@cliente.Id</td>
+                                <td>@cliente.Nome</td>
+                                <td>@cliente.Email</td>
+                                <td class="text-center">
+                                    <a class="btn btn-outline-warning btn-sm"
+                                       asp-route-id="@cliente.Id"
+                                       asp-controller="Cliente"
+                                       asp-action="Editar">
+                                        <i class="bi bi-pencil"></i> Editar
+                                    </a>
+                                    <a class="btn btn-outline-danger btn-sm"
+                                       asp-route-id="@cliente.Id"
+                                       asp-controller="Cliente"
+                                       asp-action="Excluir">
+                                        <i class="bi bi-trash"></i> Excluir
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
                     {
                         <tr>
-                            <td>@Cliente.Id</td>
-                            <td>@Cliente.Nome</td>
-                            <td>@Cliente.Email</td>
-  
-                            <td class="text-center">
-                                <a class="btn btn-outline-warning btn-sm"
-                                   asp-route-id="@Cliente.Id"
-                                   asp-controller="Cliente"
-                                   asp-action="Editar">
-                                    <i class="bi bi-pencil"></i> Editar
-                                </a>
-  @*                               <a class="btn btn-outline-info btn-sm"
-                                   asp-route-id="@Cliente.Id"
-                                   asp-controller="Cliente"
-                                   asp-action="Detalhes">
-                                    <i class="bi bi-eye"></i> Detalhes
-                                </a> *@
-                                <a class="btn btn-outline-danger btn-sm"
-                                   asp-route-id="@Cliente.Id"
-                                   asp-controller="Cliente"
-                                   asp-action="Excluir">
-                                    <i class="bi bi-trash"></i> Excluir
-                                </a>
-                            </td>
+                            <td colspan="4" class="text-center">Nenhum registro encontrado.</td>
                         </tr>
                     }
-                }
-                else
-                {
-                    <tr>
-                        <td colspan="7" class="text-center">Nenhum registro encontrado.</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     </div>
 
 </div>
-

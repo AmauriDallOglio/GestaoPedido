@@ -1,64 +1,59 @@
 ﻿@model GestaoPedido.Dominio.Entidade.Cliente
 @{
-    ViewData["Title"] = "Editar";
+    ViewData["Title"] = "Editar Cliente";
 }
 
-
 <div class="container mt-5">
-    <form asp-controller="Cliente"
-          asp-action="Editar"
-          method="post"
-          class="needs-validation border rounded p-4 shadow-sm"
-          novalidate>
+    <div class="shadow-sm p-4 bg-white rounded">
+        <form asp-controller="Cliente"
+              asp-action="Editar"
+              method="post"
+              class="needs-validation"
+              novalidate>
 
-        @if (TempData["MensagemErro"] != null)
-        {
-            <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
-                @TempData["MensagemErro"]
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            @if (TempData["MensagemErro"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show mb-3" role="alert">
+                    @TempData["MensagemErro"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+                </div>
+            }
+
+            <div class="text-center mb-4">
+                <h1 class="display-6 text-primary">
+                    <i class="bi bi-pencil-square"></i> Edição de Cliente
+                </h1>
             </div>
-        }
-        <div class="text-center mb-4">
-            <h1 class="display-4">Formulário de edição!</h1>
-        </div>
 
+            <div class="row g-3 mb-4">
+                <div class="col-md-6">
+                    <label for="Nome" class="form-label">Nome:</label>
+                    <input type="text" asp-for="Nome" class="form-control" placeholder="Digite o nome" required />
+                    <div class="form-text">*Campo obrigatório</div>
+                    @Html.ValidationMessageFor(a => a.Nome, null, new { @class = "text-danger" })
+                </div>
 
+                <div class="col-md-6">
+                    <label for="Email" class="form-label">E-mail:</label>
+                    <input type="email" asp-for="Email" class="form-control" placeholder="Digite o e-mail" required />
+                    <div class="form-text">*Campo obrigatório</div>
+                    @Html.ValidationMessageFor(a => a.Email, null, new { @class = "text-danger" })
+                </div>
+            </div>
 
- 
+            <div class="mb-3 form-check">
+                <input type="checkbox" asp-for="Inativo" class="form-check-input" id="inativoCheck" />
+                <label class="form-check-label" for="inativoCheck">Inativar</label>
+            </div>
 
-        <div class="mb-3">
-            <label for="nome" class="form-label">Nome:</label>
-            <input type="text" asp-for="Nome" class="form-control" placeholder="Digite o nome" required>
-            <div class="form-text">*Campo obrigatório</div>
-            @Html.ValidationMessageFor(a => a.Nome, null, new { @class = "text-danger" })
-        </div>
+            <div class="d-flex justify-content-between gap-2">
+                <a class="btn btn-outline-secondary"
+                   asp-controller="Cliente"
+                   asp-action="Index"
+                   role="button">Cancelar</a>
 
-        <div class="mb-3">
-            <label for="email" class="form-label">E-mail:</label>
-            <input type="email" asp-for="Email" class="form-control" placeholder="Digite o e-mail" required>
-            <div class="form-text">*Campo obrigatório</div>
-            @Html.ValidationMessageFor(a => a.Email, null, new { @class = "text-danger" })
-        </div>
-
-        <div class="mb-3 form-check">
-            <input type="checkbox" asp-for="Inativo" class="form-check-input" id="inativoCheck">
-            <label class="form-check-label" for="inativoCheck">Inativar</label>
-        </div>
-
- 
-
-        <div class="d-flex justify-content-between">
-            <a class="btn btn-outline-secondary"
-               asp-controller="Cliente"
-               asp-action="Index"
-               role="button">Voltar</a>
-
-            <button type="submit" class="btn btn-outline-primary"> Gravar </button>
-        </div>
-    </form>
+                <button type="submit" class="btn btn-outline-primary">Gravar</button>
+            </div>
+        </form>
+    </div>
 </div>
-
-
-
-
-
