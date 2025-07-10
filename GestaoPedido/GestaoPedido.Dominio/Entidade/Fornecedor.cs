@@ -17,7 +17,7 @@ namespace GestaoPedido.Dominio.Entidade
         [Required(ErrorMessage = "O campo inativo é obrigatório.")]
         public bool Inativo { get; set; }
 
-        protected Fornecedor() { }
+        public Fornecedor() { }
 
 
         public Fornecedor(string nome, string documento)
