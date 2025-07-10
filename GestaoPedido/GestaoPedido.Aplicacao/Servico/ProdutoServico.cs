@@ -1,4 +1,5 @@
-﻿using GestaoPedido.Aplicacao.Servico.InterfaceServico;
+﻿using GestaoPedido.Aplicacao.Dto;
+using GestaoPedido.Aplicacao.Servico.InterfaceServico;
 using GestaoPedido.Dominio.Entidade;
 using GestaoPedido.Dominio.InterfaceRepositorio;
 
@@ -15,16 +16,20 @@ namespace GestaoPedido.Aplicacao.Servico
             _iGenericoRepositorioProduto = iGenericoRepositorioProduto;
         }
 
-        public async Task<Guid> IncluirAsync(Produto produto, CancellationToken cancellationToken)
+        public async Task<Guid> IncluirAsync(ProdutoIncluirDto dto, CancellationToken cancellationToken)
         {
-            produto.Incluir();
-            Produto? resultado = await _iGenericoRepositorioProduto.IncluirAsync(produto, cancellationToken);
+            Produto produto = new Produto().Incluir(dto.Nome, dto.Descricao, dto.Preco, dto.Quantidade, dto.Codigo);
+
+            Produto resultado = await _iGenericoRepositorioProduto.IncluirAsync(produto, cancellationToken);
             return resultado.Id;
         }
 
-        public async Task<Produto> EditarAsync(Produto produto, CancellationToken cancellationToken)
+        public async Task<Produto> EditarAsync(ProdutoAlterarDto dto, CancellationToken cancellationToken)
         {
-            return await _iGenericoRepositorioProduto.EditarAsync(produto, cancellationToken);
+            Produto produto = await _iGenericoRepositorioProduto.ObterPorIdAsync(dto.Id, cancellationToken);
+            produto.Alterar(dto.Nome, dto.Descricao, dto.Preco, dto.Quantidade, dto.Codigo, dto.Inativo);
+            await _iGenericoRepositorioProduto.EditarAsync(produto, cancellationToken);
+            return produto;
         }
 
         public async Task<bool> ExcluirAsync(Guid id, CancellationToken cancellationToken)

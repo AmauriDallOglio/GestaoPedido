@@ -20,18 +20,26 @@ namespace GestaoPedido.Infraestrutura.Mapeamento
          * 
          *use GestaoDePedido
 
-CREATE TABLE Cliente (
-    Id UNIQUEIDENTIFIER NOT NULL PRIMARY KEY,
+PRINT 'Criando tabela Cliente'
+GO
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'Cliente' AND type = 'U')
+	BEGIN
+		CREATE TABLE Cliente
+		(
+			Id UNIQUEIDENTIFIER NOT NULL DEFAULT NEWSEQUENTIALID(),
+			Nome NVARCHAR(150) NOT NULL,
+			Email NVARCHAR(150) NOT NULL,
+			Inativo BIT NOT NULL DEFAULT 0,
 
-    Nome NVARCHAR(150) NOT NULL,
-    Email NVARCHAR(150) NOT NULL,
-    Ativo BIT NOT NULL DEFAULT 0 -- Define um valor padrão
-);
-
-        INSERT INTO Cliente (Id, Nome, Email) 
-        VALUES (NEWID(), 'Cliente1', 'cliente1@teste.com.br');
-
-          select * from Cliente
+			CONSTRAINT PK_Cliente PRIMARY KEY (Id),
+			CONSTRAINT UQ_Cliente_Email UNIQUE (Email)
+		);
+	END
+ELSE
+	BEGIN
+		PRINT '--> Tabela CLIENTE já existe.'
+	END
+GO
 
 
          */

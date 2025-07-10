@@ -17,4 +17,34 @@ namespace GestaoPedido.Infraestrutura.Mapeamento
             builder.Property(f => f.Inativo).IsRequired().HasDefaultValue(false);
         }
     }
+
+
+    /*
+     * 
+     * 
+     * 
+	 
+PRINT 'Criando tabela Fornecedor'
+GO
+
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'Fornecedor' AND type = 'U')
+BEGIN
+    CREATE TABLE Fornecedor
+    (
+        Id UNIQUEIDENTIFIER NOT NULL DEFAULT NEWSEQUENTIALID(),
+        Nome NVARCHAR(100) NOT NULL,
+        Documento NVARCHAR(20) NOT NULL,
+		Inativo BIT NOT NULL DEFAULT 0,
+
+        CONSTRAINT PK_Fornecedor PRIMARY KEY (Id),
+        CONSTRAINT UQ_Fornecedor_Documento UNIQUE (Documento)
+    );
+END
+ELSE
+BEGIN
+    PRINT '--> Tabela FORNECEDOR já existe.'
+END
+GO
+     * 
+     * */
 }

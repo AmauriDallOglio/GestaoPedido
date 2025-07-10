@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GestaoPedido.Infraestrutura.Repositorio
 {
-    public class ProdutoRepositorio : IProdutoRepositorio
+    public class ProdutoRepositorio : GenericoRepositorio<Fornecedor>, IProdutoRepositorio
     {
         private readonly GenericoContexto _context;
 
-        public ProdutoRepositorio(GenericoContexto context)
+        public ProdutoRepositorio(GenericoContexto context) : base(context)
         {
             _context = context;
         }
@@ -19,11 +19,6 @@ namespace GestaoPedido.Infraestrutura.Repositorio
             var produto = await _context.ProdutoDb.FirstAsync(x => x.Id == id);
             return produto;
         }
-
-        public async Task<List<Produto>> ObterTodosAsync(CancellationToken cancellationToken)
-        {
-            var produto = await _context.ProdutoDb.OrderByDescending(a => a.Id).ToListAsync();
-            return produto;
-        }
+ 
     }
 }

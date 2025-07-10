@@ -14,26 +14,26 @@ namespace GestaoPedido.Api.Controllers
 
 
         [HttpPost("Inserir"), ActionName("Inserir")]
-        public async Task<IActionResult> Inserir([FromBody] ProdutoIncluirDto dto, CancellationToken cancellationToken)
+        public async Task<IActionResult> Inserir([FromBody] ProdutoIncluirDto request, CancellationToken cancellationToken)
         {
-            if (dto == null)
+            if (request == null)
                 return BadRequest("Dados inválidos.");
 
-            var produto = new Produto(dto.Nome, dto.Descricao, dto.Preco, dto.Quantidade, true);
 
-
-            var response = await _iProdutoServico.IncluirAsync(produto, cancellationToken);
+            var response = await _iProdutoServico.IncluirAsync(request, cancellationToken);
             if (response != Guid.Empty)
             {
-                //return CreatedAtAction(nameof(ObterPorId), new { id = response }, response);  
                 return Ok(response);
             }
             return BadRequest("Falha ao inserir o Produto.");
         }
 
         [HttpPut("Alterar"), ActionName("Alterar")]
-        public async Task<IActionResult> Alterar([FromBody] Produto request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Alterar([FromBody] ProdutoAlterarDto request, CancellationToken cancellationToken)
         {
+            if (request == null)
+                return BadRequest("Dados inválidos.");
+
             var response = await _iProdutoServico.EditarAsync(request, cancellationToken);
             if (response.Id != Guid.Empty)
             {

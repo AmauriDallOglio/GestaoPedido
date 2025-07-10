@@ -1,4 +1,5 @@
-﻿using GestaoPedido.Dominio.Entidade;
+﻿using GestaoPedido.Aplicacao.Dto;
+using GestaoPedido.Dominio.Entidade;
 
 namespace GestaoPedido.Aplicacao.Servico.InterfaceServico
 {
@@ -6,8 +7,8 @@ namespace GestaoPedido.Aplicacao.Servico.InterfaceServico
     public interface IProdutoServico
     {
 
-        Task<Guid> IncluirAsync(Produto produto, CancellationToken cancellationToken);
-        Task<Produto> EditarAsync(Produto produto, CancellationToken cancellationToken);
+        Task<Guid> IncluirAsync(ProdutoIncluirDto dto, CancellationToken cancellationToken);
+        Task<Produto> EditarAsync(ProdutoAlterarDto dto, CancellationToken cancellationToken);
         Task<bool> ExcluirAsync(Guid id, CancellationToken cancellationToken);
 
 
