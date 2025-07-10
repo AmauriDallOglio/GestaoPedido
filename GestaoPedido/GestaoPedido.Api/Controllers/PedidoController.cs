@@ -26,7 +26,7 @@ namespace GestaoPedido.Api.Controllers
 
 
         [HttpDelete("Excluir/{id}"), ActionName("id")]
-        public async Task<IActionResult> Excluir([FromQuery] Guid id, CancellationToken cancellationToken)
+        public async Task<IActionResult> Excluir([FromRoute] Guid id, CancellationToken cancellationToken)
         {
             var response = await _pedidoServico.ExcluirAsync(id, cancellationToken);
             if (response)
@@ -37,7 +37,7 @@ namespace GestaoPedido.Api.Controllers
         }
 
         [HttpGet("ObterPorId/{id}")]
-        public async Task<IActionResult> ObterPorId(Guid id, CancellationToken cancellationToken)
+        public async Task<IActionResult> ObterPorId([FromRoute] Guid id, CancellationToken cancellationToken)
         {
             Pedido resultado = await _pedidoServico.ObterPorId(id, cancellationToken);
             if (resultado != null)

@@ -1,8 +1,8 @@
 using GestaoPedido.Api.Middleware;
 using GestaoPedido.Api.Util;
 using GestaoPedido.Aplicacao.InjecaoDependencia;
-using GestaoPedido.Aplicacao.MediatR.Command.ClienteCommand.Inserir;
 using GestaoPedido.Infraestrutura.Contexto;
+using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
 namespace GestaoPedido.Api
@@ -12,7 +12,29 @@ namespace GestaoPedido.Api
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            builder.Services.AddSqlServer<GenericoContexto>(builder.Configuration.GetConnectionString("ConexaoPadrao"));
+           // builder.Services.AddSqlServer<GenericoContexto>(builder.Configuration.GetConnectionString("ConexaoPadrao"));
+
+
+            if (!builder.Environment.IsDevelopment())
+            {
+                string AZURE_DB = Environment.GetEnvironmentVariable("ConexaoPadrao");
+                Console.WriteLine("ConexaoPadrao: " + AZURE_DB);
+                builder.Services.AddDbContext<GenericoContexto>(options => options.UseSqlServer(AZURE_DB));
+            }
+            else
+            {
+                // builder.Services.AddSqlServer<GenericoContexto>(builder.Configuration.GetConnectionString("ConexaoPadrao"));
+
+                string filePath = "C:\\Amauri\\GitHub\\ServicosNetAzureWebConnection.txt";
+                string AZURE_DB = File.ReadAllText(filePath).Replace("\\\\", "\\");
+                Console.WriteLine("AZURE_DB: " + AZURE_DB);
+
+                builder.Services.AddDbContext<GenericoContexto>(options => options.UseSqlServer(AZURE_DB));
+            }
+
+
+
+
             builder.Services.AddControllers().AddJsonOptions(x =>
             {
                 x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
@@ -24,7 +46,7 @@ namespace GestaoPedido.Api
             builder.Services.VersionamentoApi();
 
             //Registrar MediatR
-            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<ClienteInserirHandler>());
+            //builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<ClienteInserirHandler>());
 
             //Registrar FluentValidation
             //builder.Services.AddValidatorsFromAssemblyContaining<ClienteInserirValidator>();

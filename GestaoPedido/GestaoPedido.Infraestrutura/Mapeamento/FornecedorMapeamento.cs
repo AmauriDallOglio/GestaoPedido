@@ -13,7 +13,7 @@ namespace GestaoPedido.Infraestrutura.Mapeamento
             builder.Property(f => f.Id).IsRequired().HasDefaultValueSql("NEWSEQUENTIALID()");
             builder.Property(f => f.Nome).IsRequired().HasMaxLength(100);
             builder.Property(f => f.Documento).IsRequired().HasMaxLength(20);
-            builder.HasIndex(f => f.Documento).IsUnique().HasDatabaseName("UQ_Fornecedor_Documento");
+           // builder.HasIndex(f => f.Documento).IsUnique().HasDatabaseName("UQ_Fornecedor_Documento");
             builder.Property(f => f.Inativo).IsRequired().HasDefaultValue(false);
         }
     }

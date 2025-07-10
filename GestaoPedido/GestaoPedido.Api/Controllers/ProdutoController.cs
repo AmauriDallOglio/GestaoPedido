@@ -25,6 +25,7 @@ namespace GestaoPedido.Api.Controllers
             var response = await _iProdutoServico.IncluirAsync(produto, cancellationToken);
             if (response != Guid.Empty)
             {
+                //return CreatedAtAction(nameof(ObterPorId), new { id = response }, response);  
                 return Ok(response);
             }
             return BadRequest("Falha ao inserir o Produto.");
@@ -42,14 +43,14 @@ namespace GestaoPedido.Api.Controllers
         }
 
         [HttpDelete("Excluir/{id}"), ActionName("Excluir")]
-        public async Task<IActionResult> Excluir([FromQuery] Guid id, CancellationToken cancellationToken)
+        public async Task<IActionResult> Excluir([FromRoute] Guid id, CancellationToken cancellationToken)
         {
             var resultado = await _iProdutoServico.ExcluirAsync(id, cancellationToken);
             return Ok(resultado);
         }
 
-        [HttpGet("ObterPorId/{id}")]
-        public async Task<IActionResult> ObterPorId(Guid id, CancellationToken cancellationToken)
+        [HttpGet("ObterPorId/{id}"), ActionName("ObterPorId")]
+        public async Task<IActionResult> ObterPorId([FromRoute] Guid id, CancellationToken cancellationToken)
         {
             var resultado = await _iProdutoServico.ObterPorId(id, cancellationToken);
             return Ok(resultado);

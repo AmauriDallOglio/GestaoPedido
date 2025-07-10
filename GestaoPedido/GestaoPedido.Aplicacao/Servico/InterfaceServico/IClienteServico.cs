@@ -1,5 +1,4 @@
-﻿using GestaoPedido.Aplicacao.Dto;
-using GestaoPedido.Compartilhado.Util;
+﻿using GestaoPedido.Compartilhado.Util;
 using GestaoPedido.Dominio.Entidade;
 
 namespace GestaoPedido.Aplicacao.Servico.InterfaceServico
