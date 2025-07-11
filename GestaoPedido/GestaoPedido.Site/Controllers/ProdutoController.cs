@@ -1,4 +1,5 @@
-﻿using GestaoPedido.Aplicacao.Servico.InterfaceServico;
+﻿using GestaoPedido.Aplicacao.Dto;
+using GestaoPedido.Aplicacao.Servico.InterfaceServico;
 using GestaoPedido.Dominio.Entidade;
 using Microsoft.AspNetCore.Mvc;
 
@@ -35,7 +36,7 @@ namespace GestaoPedido.Site.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Incluir(Produto produto, CancellationToken cancellationToken)
+        public async Task<IActionResult> Incluir(ProdutoIncluirDto produto, CancellationToken cancellationToken)
         {
             try
             {
@@ -73,13 +74,15 @@ namespace GestaoPedido.Site.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Editar(Produto produto, CancellationToken cancellationToken)
+        public async Task<IActionResult> Editar(ProdutoAlterarDto produto, CancellationToken cancellationToken)
         {
             try
             {
-                Task<Produto> resultado = _iProdutoServico.EditarAsync(produto, cancellationToken);
-                if (resultado.Exception != null)
+                var resultado = await _iProdutoServico.EditarAsync(produto, cancellationToken);
+
+                if (resultado == null)
                 {
+                    TempData["MensagemErro"] = "Erro ao editar o produto.";
                     return View(produto);
                 }
 
@@ -89,8 +92,24 @@ namespace GestaoPedido.Site.Controllers
             catch (Exception erro)
             {
                 TempData["MensagemErro"] = $"Atenção: {erro.Message}";
-                return RedirectToAction("Alterar");
+                return View(produto);
             }
+            //try
+            //{
+            //    Task<Produto> resultado = _iProdutoServico.EditarAsync(produto, cancellationToken);
+            //    if (resultado.Exception != null)
+            //    {
+            //        return View(produto);
+            //    }
+
+            //    TempData["MensagemSucesso"] = "Produto alterado com sucesso";
+            //    return RedirectToAction("Index");
+            //}
+            //catch (Exception erro)
+            //{
+            //    TempData["MensagemErro"] = $"Atenção: {erro.Message}";
+            //    return RedirectToAction("Alterar");
+            //}
         }
 
 
