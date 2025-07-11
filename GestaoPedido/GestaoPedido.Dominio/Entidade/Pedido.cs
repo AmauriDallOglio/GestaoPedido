@@ -5,13 +5,14 @@ namespace GestaoPedido.Dominio.Entidade
     public class Pedido
     {
         public Guid Id { get; set; }
-        public Guid Id_Cliente { get; set; }
-        public DateTime DataPedido { get; set; }
-        public decimal ValorTotal { get; set; }
-        public SituacaoPedido Situacao { get; set; }
-
-
+        public Guid IdCliente { get; set; }
         public Cliente Cliente { get; set; }
+        public string NumeroPedido { get; set; } = string.Empty;
+        public decimal ValorTotal { get; set; }
+        public byte Situacao { get; set; }
+        public DateTime DataCadastro { get; set; }
+        public DateTime? DataAlteracao { get; set; }
+
         public List<PedidoProduto> PedidoProdutos { get; set; } = new List<PedidoProduto>();
 
         public Pedido()
@@ -21,7 +22,7 @@ namespace GestaoPedido.Dominio.Entidade
 
         public Pedido(Guid id_Cliente, DateTime dataPedido, decimal valorTotal, Cliente cliente, List<PedidoProduto> pedidoProdutos)
         {
-            Id_Cliente = id_Cliente;
+            IdCliente = id_Cliente;
             ValorTotal = valorTotal;
             Cliente = cliente;
             PedidoProdutos = pedidoProdutos;
@@ -33,12 +34,12 @@ namespace GestaoPedido.Dominio.Entidade
         {
             Pedido pedido = new Pedido
             {
-                Id_Cliente = Id_Cliente,
+                IdCliente = Id_Cliente,
                 PedidoProdutos = PedidoProdutos.Select(x => new PedidoProduto
                 {
-                    Id_Produto = x.Id_Produto,
+                    IdProduto = x.IdProduto,
                     Quantidade = x.Quantidade,
-                    PrecoUnitario = listaProdutos.TryGetValue(x.Id_Produto, out decimal preco) ? preco : 0
+                    PrecoUnitario = listaProdutos.TryGetValue(x.IdProduto, out decimal preco) ? preco : 0
                 }).ToList()
             };
             Situacao = (int)SituacaoPedido.Pendente;
@@ -59,7 +60,7 @@ namespace GestaoPedido.Dominio.Entidade
 
         public Pedido DefineDataPedido()
         {
-            DataPedido = DateTime.Now;
+            DataCadastro = DateTime.Now;
             return this;
         }
 

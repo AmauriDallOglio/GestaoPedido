@@ -30,7 +30,7 @@ namespace GestaoPedido.Aplicacao.Servico
 
         private async Task<Dictionary<Guid, decimal>> RetornaValorDosProdutos(PedidoDto dto, CancellationToken cancellationToken)
         {
-            var idsProdutos = dto.PedidoProdutos.Select(p => p.Id_Produto).Distinct().ToList();
+            var idsProdutos = dto.PedidoProdutos.Select(p => p.IdProduto).Distinct().ToList();
             var lista = new Dictionary<Guid, decimal>();
 
             foreach (var id in idsProdutos)
@@ -43,10 +43,6 @@ namespace GestaoPedido.Aplicacao.Servico
             return lista;
         }
 
-        public async Task<Pedido?> IncluirAsync(Pedido pedido, CancellationToken cancellationToken)
-        {
-            return await _iGenericoRepositorioPedido.IncluirAsync(pedido, cancellationToken);
-        }
 
 
         public async Task<bool> ExcluirAsync(Guid id, CancellationToken cancellationToken)
@@ -72,7 +68,14 @@ namespace GestaoPedido.Aplicacao.Servico
 
         public async Task<List<Pedido>> ObterTodos( CancellationToken cancellationToken)
         {
-            return await _iPedidoRepositorio.ObterTodosIncludeAsync(cancellationToken);
+            try
+            {
+                return await _iPedidoRepositorio.ObterTodosIncludeAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Não foi possível obter a lista de pedidos no momento. Tente novamente mais tarde.", ex);
+            }
         }
 
 

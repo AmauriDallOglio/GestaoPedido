@@ -10,31 +10,24 @@ namespace GestaoPedido.Infraestrutura.Mapeamento
         {
             builder.ToTable("Pedido");
             builder.HasKey(p => p.Id);
-            builder.Property(p => p.Id).IsRequired();
+            builder.Property(p => p.Id).IsRequired().HasDefaultValueSql("NEWSEQUENTIALID()");
+            builder.Property(p => p.IdCliente).IsRequired();
+            builder.Property(p => p.NumeroPedido).IsRequired().HasMaxLength(30);
+            builder.HasIndex(p => p.NumeroPedido).IsUnique();
+            builder.Property(p => p.ValorTotal).IsRequired().HasColumnType("decimal(18,2)").HasDefaultValue(0);
+            builder.Property(p => p.Situacao).IsRequired().HasDefaultValue((byte)0);
+            builder.Property(p => p.DataCadastro).IsRequired().HasDefaultValueSql("GETDATE()");
+            builder.Property(p => p.DataAlteracao).IsRequired(false);
 
-            builder.Property(p => p.Id_Cliente).IsRequired();
-
-            builder.Property(p => p.DataPedido)
-                   .HasColumnType("datetime")
-                   .IsRequired();
-
-            builder.Property(p => p.ValorTotal)
-                   .HasColumnType("decimal(18,2)")
-                   .IsRequired();
-
-            builder.Property(p => p.Situacao)
-                   .HasConversion<int>()  
-                   .IsRequired();
-
-
+            // Relacionamento
             builder.HasOne(p => p.Cliente)
-                 .WithMany()
-                 .HasForeignKey(p => p.Id_Cliente)
-                 .OnDelete(DeleteBehavior.Restrict);
+                .WithMany()
+                .HasForeignKey(p => p.IdCliente)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasMany(p => p.PedidoProdutos)
                 .WithOne(pp => pp.Pedido)
-                .HasForeignKey(pp => pp.Id_Pedido)
+                .HasForeignKey(pp => pp.IdPedido)
                 .OnDelete(DeleteBehavior.Cascade);
 
         }
@@ -47,16 +40,33 @@ namespace GestaoPedido.Infraestrutura.Mapeamento
 /*
        * 
        * 
-        CREATE TABLE Pedido (
-            Id UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
-            Id_Cliente UNIQUEIDENTIFIER NOT NULL,
-            DataPedido DATETIME NOT NULL DEFAULT GETUTCDATE(),
-            ValorTotal DECIMAL(18,2) NOT NULL DEFAULT 0,
-            CONSTRAINT FK_Pedido_Cliente FOREIGN KEY (Id_Cliente) REFERENCES Cliente(Id)
-        );
 
 
-        ALTER TABLE Pedido ADD Situacao INT NOT NULL DEFAULT 0;
+PRINT 'Criando tabela Pedido'
+GO
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'Pedido' AND type = 'U')
+BEGIN
+    CREATE TABLE Pedido
+    (
+        Id UNIQUEIDENTIFIER NOT NULL DEFAULT NEWSEQUENTIALID(),
+        IdCliente UNIQUEIDENTIFIER NOT NULL,
+        NumeroPedido NVARCHAR(30) NOT NULL,
+        ValorTotal DECIMAL(18,2) NOT NULL DEFAULT 0,
+        Situacao tinyint NOT NULL DEFAULT 0,
+        DataCadastro DATETIME NOT NULL DEFAULT GETDATE(),
+        DataAlteracao DATETIME NULL,
+
+        CONSTRAINT PK_Pedido PRIMARY KEY (Id),
+        CONSTRAINT FK_Pedido_Cliente FOREIGN KEY (IdCliente) REFERENCES Cliente(Id),
+        CONSTRAINT UQ_Pedido_NumeroPedido UNIQUE (NumeroPedido)
+    );
+END
+ELSE
+BEGIN
+    PRINT '--> Tabela PEDIDO já existe.'
+END
+GO
+
 
        * 
        */

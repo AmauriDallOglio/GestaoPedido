@@ -22,12 +22,12 @@ namespace GestaoPedido.Infraestrutura.Mapeamento
 
             builder.HasOne(pp => pp.Pedido)
                 .WithMany(p => p.PedidoProdutos)
-                .HasForeignKey(pp => pp.Id_Pedido)
+                .HasForeignKey(pp => pp.IdPedido)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(pp => pp.Produto)
                 .WithMany()
-                .HasForeignKey(pp => pp.Id_Produto)
+                .HasForeignKey(pp => pp.IdProduto)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

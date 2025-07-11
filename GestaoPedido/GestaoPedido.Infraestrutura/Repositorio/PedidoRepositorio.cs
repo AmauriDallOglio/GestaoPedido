@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GestaoPedido.Infraestrutura.Repositorio
 {
-    public class PedidoRepositorio : IPedidoRepositorio
+    public class PedidoRepositorio : GenericoRepositorio<Pedido>, IPedidoRepositorio
     {
         private readonly GenericoContexto _context;
-        public PedidoRepositorio(GenericoContexto context)
+        public PedidoRepositorio(GenericoContexto context) : base(context) 
         {
             _context = context;
         }

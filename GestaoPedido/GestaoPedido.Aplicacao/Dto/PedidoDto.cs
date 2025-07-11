@@ -4,19 +4,19 @@ namespace GestaoPedido.Aplicacao.Dto
 {
     public class PedidoDto
     {
-        public Guid Id_Cliente { get; set; }
+        public Guid IdCliente { get; set; }
         public List<PedidoProdutoRequestDto> PedidoProdutos { get; set; } = new();
 
         public Pedido Incluir(Dictionary<Guid, decimal> listaProdutos)
         {
             Pedido pedido = new Pedido
             {
-                Id_Cliente = Id_Cliente,
+                IdCliente = IdCliente,
                 PedidoProdutos = PedidoProdutos.Select(x => new PedidoProduto
                 {
-                    Id_Produto = x.Id_Produto,
+                    IdProduto = x.IdProduto,
                     Quantidade = x.Quantidade,
-                    PrecoUnitario = listaProdutos.TryGetValue(x.Id_Produto, out decimal preco) ? preco : 0
+                    PrecoUnitario = listaProdutos.TryGetValue(x.IdProduto, out decimal preco) ? preco : 0
                 }).ToList()
             };
             return pedido;
@@ -25,7 +25,7 @@ namespace GestaoPedido.Aplicacao.Dto
 
     public class PedidoProdutoRequestDto
     {
-        public Guid Id_Produto { get; set; }
+        public Guid IdProduto { get; set; }
         public int Quantidade { get; set; }
         public decimal PrecoUnitario { get; set; }
     }
