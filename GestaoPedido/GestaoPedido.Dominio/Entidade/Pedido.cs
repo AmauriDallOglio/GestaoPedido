@@ -56,7 +56,8 @@ namespace GestaoPedido.Dominio.Entidade
             };
             Situacao = (int)SituacaoPedido.Pendente;
             DefineDataPedido();
-            CalculaValorTotal();
+            CalculaValorTotal();     
+
             return pedido;
         }
 

@@ -12,6 +12,7 @@ namespace GestaoPedido.Infraestrutura.Contexto
         public DbSet<PedidoProduto> PedidoProdutoDb { get; set; }
 
         public DbSet<Fornecedor> Fornecedor { get; set; }
+        public DbSet<EtapaProducao> EtapaProducao { get; set; }
 
         public GenericoContexto(DbContextOptions<GenericoContexto> options) : base(options)
         {

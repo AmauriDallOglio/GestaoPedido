@@ -28,7 +28,8 @@ namespace GestaoPedido.Aplicacao.InjecaoDependencia
             services.AddScoped<IProdutoRepositorio, ProdutoRepositorio>();
 
 
-
+            services.AddScoped<IEtapaProducaoServico, EtapaProducaoServico>();
+            services.AddScoped<IEtapaProducaoRepositorio, EtapaProducaoRepositorio>();
 
             services.AddScoped(typeof(IServicoGenerico<>), typeof(ServicoGenerico<>));
             services.AddScoped(typeof(IGenericoRepositorio<>), typeof(GenericoRepositorio<>));

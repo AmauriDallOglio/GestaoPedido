@@ -10,11 +10,14 @@ namespace GestaoPedido.Aplicacao.Servico
         private readonly IPedidoRepositorio _iPedidoRepositorio;
         private readonly IProdutoRepositorio _iProdutoRepositorio;
         private readonly IGenericoRepositorio<Pedido> _iGenericoRepositorioPedido;
-        public PedidoServico(IPedidoRepositorio iPedidoRepositorio, IProdutoRepositorio iProdutoRepositorio, IGenericoRepositorio<Pedido> iGenericoRepositorioPedido)
+        private readonly IEtapaProducaoServico _IEtapaProducaoServico;
+
+        public PedidoServico(IPedidoRepositorio iPedidoRepositorio, IProdutoRepositorio iProdutoRepositorio, IGenericoRepositorio<Pedido> iGenericoRepositorioPedido, IEtapaProducaoServico iEtapaProducaoServico)
         {
             _iPedidoRepositorio = iPedidoRepositorio;
             _iProdutoRepositorio = iProdutoRepositorio;
             _iGenericoRepositorioPedido = iGenericoRepositorioPedido;
+            _IEtapaProducaoServico = iEtapaProducaoServico;
         }
 
 
@@ -28,7 +31,13 @@ namespace GestaoPedido.Aplicacao.Servico
                 pedido.DefineDataPedido();
                 pedido.CalculaValorTotal();
                 Pedido? resultado = await _iGenericoRepositorioPedido.IncluirAsync(pedido, cancellationToken);
+
+                EtapaProducao etapaProducao = new EtapaProducao().IncluirNoPedido(resultado.Id, resultado.NumeroPedido, resultado.PedidoProdutos.Sum(a => a.Quantidade), resultado.DataCadastro, null);
+                var resultadoEtapa = await _IEtapaProducaoServico.IncluirNoPedidoAsync(etapaProducao, cancellationToken);
+
+
                 return resultado.Id;
+
             }
             catch (Exception ex)
             {
