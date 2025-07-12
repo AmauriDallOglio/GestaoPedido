@@ -1,0 +1,147 @@
+﻿@using GestaoPedido.Dominio.Entidade
+@model List<EtapaProducao>
+
+@{
+    ViewData["Title"] = "Gerenciamento de Etapas de Produção";
+
+    var filtroDescricao = Context.Request.Query["filtroDescricao"].ToString();
+    var filtroSituacao = Context.Request.Query["filtroSituacao"].ToString();
+}
+
+<div class="container mt-5 shadow-sm p-3 bg-white rounded mb-3">
+
+    <div class="text-center mb-4">
+        <h1 class="display-6 text-primary">
+            <i class="bi bi-gear-wide-connected"></i> Gerenciamento de Etapas de Produção
+        </h1>
+    </div>
+
+    @* Mensagens *@
+    @if (TempData["MensagemSucesso"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Sucesso!</strong> @TempData["MensagemSucesso"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+        </div>
+    }
+    @if (TempData["MensagemErro"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Erro!</strong> @TempData["MensagemErro"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+        </div>
+    }
+
+    @* Filtros *@
+    <div class="shadow-sm p-3 bg-white rounded mb-3">
+        <form asp-controller="EtapaProducao" asp-action="Index" method="get" class="row g-3 align-items-end">
+            <div class="col-md-6">
+                <label for="filtroDescricao" class="form-label">Descrição</label>
+                <input type="text" name="filtroDescricao" id="filtroDescricao" class="form-control"
+                       value="@filtroDescricao" placeholder="Digite a descrição">
+            </div>
+            <div class="col-md-3">
+                <label for="filtroSituacao" class="form-label">Situação</label>
+                <select class="form-select" name="filtroSituacao" id="filtroSituacao">
+                    <option value="">Todos</option>
+@*                     <option value="0" @(filtroSituacao == "0" ? "selected" : "")>Pendente</option>
+                    <option value="1" @(filtroSituacao == "1" ? "selected" : "")>Em Andamento</option>
+                    <option value="2" @(filtroSituacao == "2" ? "selected" : "")>Concluído</option> *@
+                </select>
+            </div>
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-outline-primary w-100">
+                    <i class="bi bi-search"></i> Buscar
+                </button>
+            </div>
+        </form>
+    </div>
+
+    @* Botão Novo *@
+    <div class="shadow-sm p-3 bg-white rounded mb-3 d-flex justify-content-start">
+        <a class="btn btn-outline-success"
+           asp-controller="EtapaProducao"
+           asp-action="Incluir">
+            <i class="bi bi-plus-circle"></i> Incluir
+        </a>
+    </div>
+
+    @* Tabela *@
+    <div class="shadow-sm p-3 bg-white rounded">
+        <table class="table table-bordered table-hover table-striped align-middle">
+            <thead class="table-primary">
+                <tr>
+                    <th>Descrição</th>
+                    <th class="text-center">Quantidade</th>
+                    <th class="text-center">Situação</th>
+                    <th class="text-center">Data Inicial</th>
+                    <th class="text-center">Data Final</th>
+                    <th class="text-center">Data Cadastro</th>
+                    <th class="text-center">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var etapa in Model)
+                    {
+                        <tr>
+                            <td>@etapa.Descricao</td>
+                            <td class="text-center">@etapa.Quantidade</td>
+                            <td class="text-center">
+                                @{
+                                    var situacao = etapa.Situacao switch
+                                    {
+                                        0 => "Pendente",
+                                        1 => "Em Andamento",
+                                        2 => "Concluído",
+                                        _ => "Desconhecida"
+                                    };
+                                }
+                                @situacao
+                            </td>
+                            <td class="text-center">@etapa.DataInicialFabricacao.ToString("dd/MM/yyyy")</td>
+                            <td class="text-center">
+                                @(etapa.DataFinalFabricacao?.ToString("dd/MM/yyyy") ?? "-")
+                            </td>
+                            <td class="text-center">@etapa.DataCadastro.ToString("dd/MM/yyyy")</td>
+                            <td class="text-center">
+                                <a class="btn btn-outline-warning btn-sm"
+                                   asp-route-id="@etapa.Id"
+                                   asp-controller="EtapaProducao"
+                                   asp-action="Editar">
+                                    <i class="bi bi-pencil"></i> Editar
+                                </a>
+
+                                <a class="btn btn-outline-danger btn-sm"
+                                   asp-controller="EtapaProducao"
+                                   asp-action="Excluir"
+                                   asp-route-id="@etapa.Id">
+                                    <i class="bi bi-trash"></i> Excluir
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="7" class="text-center">Nenhum registro encontrado.</td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot class="table-primary">
+                <tr>
+                    <td colspan="7" class="fw-bold text-center">Total de Etapas: @Model.Count()</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.forEach(el => new bootstrap.Tooltip(el));
+    </script>
+}

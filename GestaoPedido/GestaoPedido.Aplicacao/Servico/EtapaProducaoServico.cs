@@ -1,4 +1,5 @@
 ﻿using GestaoPedido.Aplicacao.Servico.InterfaceServico;
+using GestaoPedido.Compartilhado.Util;
 using GestaoPedido.Dominio.Entidade;
 using GestaoPedido.Dominio.InterfaceRepositorio;
 
@@ -27,8 +28,47 @@ namespace GestaoPedido.Aplicacao.Servico
             {
                 throw new ApplicationException(ex.Message.ToString());
             }
-
         }
+
+        public async Task<ResultadoOperacao> EditarAsync(EtapaProducao etapaProducao, CancellationToken cancellationToken)
+        {
+            ResultadoOperacao resultadoOperacao = new();
+            try
+            {
+                await _iGenericoRepositorioEtapaProducao.EditarAsync(etapaProducao, cancellationToken);
+                resultadoOperacao = ResultadoOperacao.CriarSucesso("Alterado com sucesso!");
+            }
+            catch (Exception ex)
+            {
+                resultadoOperacao = ResultadoOperacao.CriarFalha(ex.InnerException?.Message ?? ex.Message);
+            }
+            return resultadoOperacao;
+        }
+
+        public async Task<List<EtapaProducao>> ObterTodos(CancellationToken cancellationToken)
+        {
+            try
+            {
+                return await _iGenericoRepositorioEtapaProducao.ObterTodosAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Não foi possível obter a lista de pedidos no momento. Tente novamente mais tarde.", ex);
+            }
+        }
+
+
+        public async Task<EtapaProducao?> ObterPorId(Guid id, CancellationToken cancellationToken)
+        {
+            EtapaProducao? entidade = await _iGenericoRepositorioEtapaProducao.ObterPorIdAsync(id, cancellationToken);
+            if (entidade == null)
+                throw new Exception($"Etapa de Produção não localizado!");
+
+
+
+            return entidade;
+        }
+
 
         //private async Task<Dictionary<Guid, decimal>> RetornaValorDosProdutos(EtapaProducaoIncluirDto dto, CancellationToken cancellationToken)
         //{
@@ -59,14 +99,6 @@ namespace GestaoPedido.Aplicacao.Servico
 
 
 
-        //public async Task<EtapaProducao?> ObterPorId(Guid id, CancellationToken cancellationToken)
-        //{
-        //    EtapaProducao? entidade = await _iEtapaProducaoRepositorio.ObterPorIdIncludeAsync(id, cancellationToken);
-        //    if (entidade == null)
-        //        throw new Exception($"EtapaProducao não localizado!");
-
-        //    return entidade;
-        //}
 
         //public async Task<List<EtapaProducao>> ObterTodos(CancellationToken cancellationToken)
         //{

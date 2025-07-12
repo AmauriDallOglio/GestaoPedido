@@ -1,0 +1,106 @@
+﻿@model GestaoPedido.Dominio.Entidade.EtapaProducao
+@{
+    ViewData["Title"] = "Editar Etapa de Produção";
+}
+
+<div class="container mt-5">
+    <div class="shadow-sm p-4 bg-white rounded">
+        <form asp-controller="EtapaProducao"
+              asp-action="Editar"
+              method="post"
+              class="needs-validation"
+              novalidate>
+
+            @if (TempData["MensagemErro"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show mb-3" role="alert">
+                    @TempData["MensagemErro"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+                </div>
+            }
+
+            <div class="text-center mb-4">
+                <h1 class="display-6 text-primary">Editar Etapa de Produção</h1>
+            </div>
+
+            <input type="hidden" asp-for="Id" />
+
+            <div class="row g-3 mb-4">
+                <div class="col-md-6">
+                    <label asp-for="Descricao" class="form-label">Descrição:</label>
+                    <input asp-for="Descricao" class="form-control" placeholder="Digite a descrição" required readonly />
+                    <div class="form-text">*Campo obrigatório</div>
+                    @Html.ValidationMessageFor(a => a.Descricao, null, new { @class = "text-danger" })
+                </div>
+
+                <div class="col-md-3">
+                    <label asp-for="Quantidade" class="form-label">Quantidade:</label>
+                    <input asp-for="Quantidade" class="form-control" type="number" min="1" required readonly />
+                    <div class="form-text">*Campo obrigatório</div>
+                    @Html.ValidationMessageFor(a => a.Quantidade, null, new { @class = "text-danger" })
+                </div>
+
+                <div class="col-md-3">
+                    <label asp-for="Situacao" class="form-label">Situação:</label>
+                    <select asp-for="Situacao" class="form-select">
+                        <option value="0">Pendente</option>
+                        <option value="1">Em Andamento</option>
+                        <option value="2">Concluído</option>
+                    </select>
+                    @Html.ValidationMessageFor(a => a.Situacao, null, new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="row g-3 mb-4">
+                <div class="col-md-4">
+                    <label asp-for="DataInicialFabricacao" class="form-label">Data Inicial Fabricação:</label>
+                    <input asp-for="DataInicialFabricacao" class="form-control" type="date" required  />
+                    @Html.ValidationMessageFor(a => a.DataInicialFabricacao, null, new { @class = "text-danger" })
+                </div>
+
+                <div class="col-md-4">
+                    <label asp-for="DataFinalFabricacao" class="form-label">Data Final Fabricação:</label>
+                    <input asp-for="DataFinalFabricacao" class="form-control" type="date" />
+                    @Html.ValidationMessageFor(a => a.DataFinalFabricacao, null, new { @class = "text-danger" })
+                </div>
+
+                <div class="col-md-4">
+                    <label asp-for="DataCadastro" class="form-label">Data de Cadastro:</label>
+                    <input asp-for="DataCadastro" class="form-control" type="date" readonly />
+                </div>
+            </div>
+
+            <div class="row g-3 mb-4">
+@*                 <div class="col-md-6">
+                    <label asp-for="IdPedido" class="form-label">Pedido:</label>
+                    <select asp-for="IdPedido" asp-items="ViewBag.Pedidos" class="form-select" required readonly>
+                        <option value="">Selecione</option>
+                    </select>
+                    @Html.ValidationMessageFor(a => a.IdPedido, null, new { @class = "text-danger" })
+                </div> *@
+
+                <input type="hidden" asp-for="IdPedido" />
+
+
+
+                <div class="col-md-6">
+                    <label asp-for="IdFornecedor" class="form-label">Fornecedor:</label>
+                    <select asp-for="IdFornecedor" asp-items="ViewBag.Fornecedores" class="form-select">
+                        <option value="">Selecione (opcional)</option>
+                    </select>
+                    @Html.ValidationMessageFor(a => a.IdFornecedor, null, new { @class = "text-danger" })
+                </div>
+
+            </div>
+
+            <div class="d-flex justify-content-between gap-2">
+                <a class="btn btn-outline-secondary"
+                   asp-controller="EtapaProducao"
+                   asp-action="Index"
+                   role="button">Cancelar</a>
+
+                <button type="submit" class="btn btn-outline-primary">Gravar</button>
+            </div>
+        </form>
+    </div>
+</div>

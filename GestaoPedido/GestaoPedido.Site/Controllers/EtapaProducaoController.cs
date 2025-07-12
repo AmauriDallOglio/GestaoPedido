@@ -1,0 +1,87 @@
+﻿using GestaoPedido.Aplicacao.Servico;
+using GestaoPedido.Aplicacao.Servico.InterfaceServico;
+using GestaoPedido.Compartilhado.Util;
+using GestaoPedido.Dominio.Entidade;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Globalization;
+
+namespace GestaoPedido.Site.Controllers
+{
+    public class EtapaProducaoController : Controller
+    {
+        private readonly IEtapaProducaoServico _IEtapaProducaoServico;
+        private readonly IFornecedorServico _IFornecedorServico;
+        public EtapaProducaoController(IEtapaProducaoServico iEtapaProducaoServico, IFornecedorServico iFornecedorServico)
+        {
+            _IEtapaProducaoServico = iEtapaProducaoServico;
+            _IFornecedorServico = iFornecedorServico;
+
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Index(CancellationToken cancellationToken)
+        {
+            var etapas = await _IEtapaProducaoServico.ObterTodos(cancellationToken);
+            //throw new ArgumentException("Teste do erro");
+            List<EtapaProducao> resultado = etapas;
+            return View(resultado);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Editar(Guid id, CancellationToken cancellationToken)
+        {
+            try
+            {
+                EtapaProducao etapa = await _IEtapaProducaoServico.ObterPorId(id, cancellationToken);
+                await CarregarViewDataAsync(cancellationToken);
+                return View(etapa);
+            }
+            catch (Exception erro)
+            {
+                TempData["MensagemErro"] = $"Atenção: {erro.Message}";
+                return RedirectToAction("Index");
+            }
+
+        }
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> Editar(EtapaProducao etapaProducao, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var resultado = await _IEtapaProducaoServico.EditarAsync(etapaProducao, cancellationToken);
+
+                if (resultado == null)
+                {
+                    TempData["MensagemErro"] = "Erro ao editar a etapa de produção.";
+                    return View(etapaProducao);
+                }
+
+                TempData["MensagemSucesso"] = "Etapa do produção alterado com sucesso";
+                return RedirectToAction("Index");
+            }
+            catch (Exception erro)
+            {
+                TempData["MensagemErro"] = $"Atenção: {erro.Message}";
+                return View(etapaProducao);
+            }
+        }
+
+        private async Task CarregarViewDataAsync(CancellationToken cancellationToken)
+        {
+            var clientes = await _IFornecedorServico.ObterTodos(cancellationToken);
+            ViewData["Fornecedores"] = clientes.Select(t => new SelectListItem
+            {
+                Value = t.Id.ToString(),
+                Text = t.Nome
+            }).ToList();
+        }
+
+
+
+
+    }
+}
