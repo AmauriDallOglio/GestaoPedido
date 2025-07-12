@@ -3,6 +3,7 @@ using GestaoPedido.Aplicacao.Servico.InterfaceServico;
 using GestaoPedido.Dominio.Entidade;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Globalization;
 
 namespace GestaoPedido.Site.Controllers
 {
@@ -51,11 +52,20 @@ namespace GestaoPedido.Site.Controllers
 
 
                 var produtos = await _iProdutoServico.ObterTodos(cancellationToken);
-                ViewData["Produtos"] = produtos.Select(p => new SelectListItem
+                //ViewData["Produtos"] = produtos.Select(p => new SelectListItem
+                //{
+                //    Value = p.Id.ToString(),
+                //    Text = p.Nome,
+                //}).ToList();
+
+                var produtosLista = produtos.Select(p => new
                 {
-                    Value = p.Id.ToString(),
-                    Text = p.Nome
+                    value = p.Id.ToString(),
+                    text = p.Nome,
+                    preco = p.Preco
                 }).ToList();
+                ViewData["Produtos"] = produtosLista;
+
                 return View();
 
             }
@@ -68,25 +78,53 @@ namespace GestaoPedido.Site.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Incluir(PedidoDto pedido, CancellationToken cancellationToken)
+        public async Task<IActionResult> Incluir(PedidoIncluirDto pedidoDto, CancellationToken cancellationToken)
         {
             try
             {
-                if (pedido.IdCliente == Guid.Empty || pedido.PedidoProdutos.Count == 0)
+                if (!ModelState.IsValid)
                 {
-                    TempData["MensagemErro"] = "Todos os campos obrigatórios devem ser preenchidos.";
-                    return View(pedido);
+                    await CarregarViewDataAsync(cancellationToken);
+                    return View(pedidoDto);
                 }
 
-                var resultado = await _iPedidoServico.IncluirAsync(pedido, cancellationToken);
+                if (pedidoDto.IdCliente == Guid.Empty || pedidoDto.PedidoProdutos.Count == 0)
+                {
+                    TempData["MensagemErro"] = "Todos os campos obrigatórios devem ser preenchidos.";
+                    await CarregarViewDataAsync(cancellationToken);
+                    return View(pedidoDto);
+                }
+
+                var resultado = await _iPedidoServico.IncluirAsync(pedidoDto, cancellationToken);
                 TempData["MensagemSucesso"] = "Pedido cadastrado com sucesso.";
                 return RedirectToAction("Index");
             }
             catch (Exception erro)
             {
-                TempData["MensagemErro"] = $"Erro: {erro.Message}";
-                return RedirectToAction("Incluir");
+                TempData["MensagemErro"] = $"{erro.Message}";
+                await CarregarViewDataAsync(cancellationToken);
+                return View(pedidoDto);
             }
+        }
+
+        private async Task CarregarViewDataAsync(CancellationToken cancellationToken)
+        {
+            var clientes = await _iClienteServico.ObterTodos(cancellationToken);
+            ViewData["Clientes"] = clientes.Select(t => new SelectListItem
+            {
+                Value = t.Id.ToString(),
+                Text = t.Nome
+            }).ToList();
+
+            var produtos = await _iProdutoServico.ObterTodos(cancellationToken);
+            var produtosLista = produtos.Select(p => new
+            {
+                value = p.Id.ToString(),
+                text = p.Nome,
+                preco = p.Preco.ToString("F2", CultureInfo.InvariantCulture)
+            }).ToList();
+
+            ViewData["Produtos"] = produtosLista;
         }
 
 

@@ -1,155 +1,281 @@
-﻿@model GestaoPedido.Dominio.Entidade.Pedido
+﻿
+
+
+
+ @model GestaoPedido.Aplicacao.Dto.PedidoIncluirDto
 
 @{
     ViewData["Title"] = "Incluir Pedido";
     var produtosJson = Json.Serialize(ViewData["Produtos"]);
-    var clientesJson = Json.Serialize(ViewData["Clientes"]);
+    var clientes = (IEnumerable<SelectListItem>)ViewData["Clientes"];
 }
 
 <div class="container mt-5">
-    <form asp-controller="Pedido"
-          asp-action="Incluir"
-          method="post"
-          class="needs-validation border rounded p-4 shadow-sm"
-          novalidate>
+    <div class="shadow-sm p-4 bg-white rounded">
+        <form asp-controller="Pedido"
+              asp-action="Incluir"
+              method="post"
+              class="needs-validation"
+              novalidate>
 
-        @if (TempData["MensagemErro"] != null)
-        {
-            <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
-                @TempData["MensagemErro"]
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            @if (TempData["MensagemErro"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show mb-3" role="alert">
+                    @TempData["MensagemErro"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+                </div>
+            }
+
+            <div class="text-center mb-4">
+                <h1 class="display-6 text-primary">
+                    <i class="bi bi-cart4"></i> Incluir Pedido
+                </h1>
             </div>
-        }
 
-        <div class="text-center mb-4">
-            <h1 class="display-4">Novo Pedido</h1>
-        </div>
+            <div class="row g-3 mb-4">
+                <div class="col-md-6">
+                    <label class="form-label">Cliente:</label>
+                    @Html.DropDownListFor(m => m.IdCliente, clientes, "Selecione um cliente", new { @class = "form-control", required = "required" })
+                    @Html.ValidationMessageFor(m => m.IdCliente, null, new { @class = "text-danger" })
+                </div>
 
-        <!-- Cliente -->
-        <div class="mb-3">
-            <label for="Id_Cliente" class="form-label">Cliente:</label>
-            @Html.DropDownListFor(a => a.IdCliente, (IEnumerable<SelectListItem>)ViewData["Clientes"], "Selecione um cliente", new { @class = "form-control", required = "required" })
-            <div class="form-text">*Campo obrigatório</div>
-            @Html.ValidationMessageFor(a => a.IdCliente, null, new { @class = "text-danger" })
-        </div>
+                <div class="col-md-6">
+                    <label class="form-label">Número do Pedido:</label>
+                    <input asp-for="NumeroPedido" class="form-control" placeholder="Digite o número do pedido" required />
+                    @Html.ValidationMessageFor(m => m.NumeroPedido, null, new { @class = "text-danger" })
+                </div>
 
-        <!-- Lista de Produtos -->
-        <div class="mb-3">
-            <label class="form-label">Produtos:</label>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Produto</th>
-                        <th>Quantidade</th>
-                        <th>Ação</th>
-                    </tr>
-                </thead>
-                <tbody id="produtoTableBody">
-                    <!-- Os produtos serão adicionados aqui -->
-                </tbody>
-            </table>
-            <button type="button" class="btn btn-outline-success" id="adicionarProduto">Adicionar Produto</button>
-        </div>
+                <div class="col-md-4">
+                    <label class="form-label">Situação:</label>
+                    <select asp-for="Situacao" class="form-control" required>
+                        <option value="">Selecione</option>
+                        <option value="0">Aberto</option>
+                        <option value="1">Em Processamento</option>
+                        <option value="2">Concluído</option>
+                        <option value="3">Cancelado</option>
+                    </select>
+                    @Html.ValidationMessageFor(m => m.Situacao, null, new { @class = "text-danger" })
+                </div>
 
-        <!-- Botões de ação -->
-        <div class="d-flex justify-content-between">
-            <a class="btn btn-outline-secondary"
-               asp-controller="Pedido"
-               asp-action="Index"
-               role="button">Voltar</a>
+                <div class="col-md-4">
+                    <label class="form-label">Data de Cadastro:</label>
+                    <input asp-for="DataCadastro" type="date" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" readonly />
+                </div>
 
-            <button type="submit" class="btn btn-outline-primary">Gravar</button>
-        </div>
-    </form>
+@*                 <div class="col-md-4 d-flex align-items-end">
+                    <label class="form-label w-100">Valor Total:</label>
+                    <input asp-for="ValorTotal" id="valorTotalPedido" class="form-control" readonly />
+                </div>
+ *@
+   
+
+
+                <div class="col-md-4">
+                    <label for="Preco" class="form-label">Preço:</label>
+                    <input type="number" asp-for="ValorTotal" class="form-control" id="valorTotalPedido" step="0.01" placeholder="R$ " readonly />
+                    @Html.ValidationMessageFor(a => a.ValorTotal, null, new { @class = "text-danger" })
+                </div>
+
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label">Produtos do Pedido:</label>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Produto</th>
+                            <th>Quantidade</th>
+                            <th>Preço Unitário</th>
+                            <th>Total</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="produtoTableBody"></tbody>
+
+                    <tfoot>
+                        <tr>
+                            <td colspan="3" class="text-end fw-bold">Total Pedido:</td>
+                            <td><input id="totalPedido" class="form-control" readonly /></td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <button type="button" class="btn btn-outline-success" id="btnAdicionarProduto">Adicionar Produto</button>
+            </div>
+
+            <div class="d-flex justify-content-between gap-2">
+                <a class="btn btn-outline-secondary" asp-controller="Pedido" asp-action="Index">Cancelar</a>
+                <button type="submit" class="btn btn-outline-primary">Gravar</button>
+            </div>
+        </form>
+    </div>
 </div>
 
 
 @section Scripts {
     <script>
+        // Aguarda o carregamento completo do DOM
         document.addEventListener("DOMContentLoaded", function () {
-            let produtos = @Html.Raw(produtosJson); // JSON corretamente formatado
-            let tableBody = document.getElementById("produtoTableBody");
-            let adicionarProdutoBtn = document.getElementById("adicionarProduto");
 
-            adicionarProdutoBtn.addEventListener("click", function () {
-                let index = document.querySelectorAll("#produtoTableBody tr").length;
+            // Obtém a lista de produtos enviada pelo backend (JSON serializado)
+            const produtos = @Html.Raw(produtosJson);
 
-                let row = document.createElement("tr");
-                row.innerHTML = `
+            // Referências aos elementos importantes da tabela e formulário
+            const tbody = document.getElementById("produtoTableBody");          // Corpo da tabela dos produtos
+            const btnAdicionar = document.getElementById("btnAdicionarProduto"); // Botão para adicionar novo produto
+            const totalPedidoInput = document.getElementById("totalPedido");    // Campo que exibe o total do pedido
+            const valorTotalInput = document.getElementById("valorTotalPedido"); // Campo oculto que envia o valor total ao backend
+
+            // Função para formatar números para pt-BR com vírgula decimal e 2 casas decimais
+            function formatarNumero(valor) {
+                return valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            }
+
+            // Calcula o total de uma linha (produto * quantidade)
+            function calcularTotalLinha(linha) {
+                // Obtém a quantidade (como número) da linha, padrão 0 se inválido
+                const qtd = parseFloat(linha.querySelector("input[name$='.Quantidade']").value) || 0;
+
+                // Obtém o preço unitário da linha, substitui vírgula por ponto para parseFloat funcionar
+                const preco = parseFloat(linha.querySelector("input[name$='.PrecoUnitario']").value.replace(',', '.')) || 0;
+
+                // Calcula total da linha
+                const total = qtd * preco;
+
+                // Atualiza o texto exibido da célula de total formatado para o usuário
+                linha.querySelector(".totalProduto").textContent = formatarNumero(total);
+
+                // Busca input hidden para o total da linha (para envio ao backend)
+                let totalInput = linha.querySelector("input[name$='.Total']");
+
+                // Se não existir, cria esse input hidden e anexa na linha
+                if (!totalInput) {
+                    totalInput = document.createElement("input");
+                    totalInput.type = "hidden";
+
+                    // Define o nome do input baseado no nome do PrecoUnitario (troca PrecoUnitario por Total)
+                    totalInput.name = linha.querySelector("input[name$='.PrecoUnitario']").name.replace("PrecoUnitario", "Total");
+                    linha.appendChild(totalInput);
+                }
+
+                // Define o valor do input hidden com o total da linha, com ponto decimal para backend
+                totalInput.value = total.toFixed(2);
+
+                return total;
+            }
+
+            // Atualiza o total geral do pedido somando todas as linhas
+            function atualizarTotalPedido() {
+                let soma = 0;
+
+                // Para cada linha, soma o total calculado
+                tbody.querySelectorAll("tr").forEach(linha => soma += calcularTotalLinha(linha));
+
+                // Atualiza o campo de exibição do total formatado para o usuário (com vírgula)
+                totalPedidoInput.value = formatarNumero(soma);
+
+                // Atualiza o campo oculto que envia o valor total com ponto decimal
+                valorTotalInput.value = soma.toFixed(2);
+            }
+
+            // Evento para adicionar nova linha/produto ao clicar no botão
+            btnAdicionar.addEventListener("click", function () {
+                // Índice para os nomes dos inputs baseado na quantidade atual de linhas
+                const index = tbody.querySelectorAll("tr").length;
+
+                // Cria a nova linha da tabela com inputs e select para produtos
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
                     <td>
-                        <select name="PedidoProdutos[${index}].Id_Produto" class="form-control">
-                            ${produtos.map(p => `<option value="${p.value}">${p.text}</option>`).join('')}
+                        <select name="PedidoProdutos[${index}].IdProduto" class="form-control selectProduto" required>
+                            <option value="">Selecione</option>
+                            ${produtos.map(p => `<option value="${p.value}" data-preco="${p.preco}">${p.text}</option>`).join('')}
                         </select>
                     </td>
-                    <td>
-                        <input type="number" name="PedidoProdutos[${index}].Quantidade" class="form-control" min="1" required />
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-danger btn-sm removerProduto">Remover</button>
-                    </td>
+                    <td><input type="number" name="PedidoProdutos[${index}].Quantidade" min="1" value="1" class="form-control" required /></td>
+                    <td><input type="text" name="PedidoProdutos[${index}].PrecoUnitario" value="0,00" class="form-control" readonly /></td>
+                    <td class="totalProduto">0,00</td>
+                    <td><button type="button" class="btn btn-danger btn-sm btnRemoverProduto">Remover</button></td>
                 `;
 
-                tableBody.appendChild(row);
+                // Obtém referências aos inputs recém-criados na linha
+                const selectProduto = tr.querySelector("select");
+                const precoInput = tr.querySelector(`input[name$='.PrecoUnitario']`);
+                const qtdInput = tr.querySelector(`input[name$='.Quantidade']`);
+
+                // Quando o produto for selecionado, atualiza o preço unitário e recalcula total da linha e pedido
+                selectProduto.addEventListener("change", function () {
+                    const preco = parseFloat(this.selectedOptions[0]?.getAttribute("data-preco")) || 0;
+                    precoInput.value = formatarNumero(preco);
+                    calcularTotalLinha(tr);
+                    atualizarTotalPedido();
+                });
+
+                // Quando a quantidade for alterada, recalcula total da linha e pedido
+                qtdInput.addEventListener("input", () => {
+                    calcularTotalLinha(tr);
+                    atualizarTotalPedido();
+                });
+
+                // Adiciona a linha na tabela
+                tbody.appendChild(tr);
+
+                // Calcula e atualiza os totais para a nova linha
+                calcularTotalLinha(tr);
+                atualizarTotalPedido();
             });
 
-            tableBody.addEventListener("click", function (event) {
-                if (event.target.classList.contains("removerProduto")) {
-                    event.target.closest("tr").remove();
+            // Evento para remover linha ao clicar no botão remover
+            tbody.addEventListener("click", function (e) {
+                if (e.target.classList.contains("btnRemoverProduto")) {
+                    // Remove a linha correspondente
+                    e.target.closest("tr").remove();
+
+                    // Atualiza totais e reindexa os nomes dos inputs para manter a ordem correta
+                    atualizarTotalPedido();
+                    reindexar();
                 }
+            });
+
+            // Reindexa os nomes dos inputs após remoção de linhas para evitar gaps na coleção do backend
+            function reindexar() {
+                const linhas = tbody.querySelectorAll("tr");
+                linhas.forEach((linha, i) => {
+                    linha.querySelector("select").name = `PedidoProdutos[${i}].IdProduto`;
+                    linha.querySelector("input[name$='.Quantidade']").name = `PedidoProdutos[${i}].Quantidade`;
+                    linha.querySelector("input[name$='.PrecoUnitario']").name = `PedidoProdutos[${i}].PrecoUnitario`;
+                    const totalInput = linha.querySelector("input[name$='.Total']");
+                    if (totalInput) totalInput.name = `PedidoProdutos[${i}].Total`;
+                });
+            }
+
+            // Antes de enviar o formulário
+            document.querySelector("form").addEventListener("submit", () => {
+                // Garante que cada linha tenha o input 'Total' atualizado
+                tbody.querySelectorAll("tr").forEach(linha => {
+                    let totalInput = linha.querySelector("input[name$='.Total']");
+                    if (!totalInput) {
+                        totalInput = document.createElement("input");
+                        totalInput.type = "hidden";
+                        totalInput.name = linha.querySelector("input[name$='.PrecoUnitario']").name.replace("PrecoUnitario", "Total");
+                        linha.appendChild(totalInput);
+                    }
+                    calcularTotalLinha(linha);
+                });
+
+                // Mantém os valores de preço unitário e total formatados com vírgula para exibição (não altera valores enviados)
+                document.querySelectorAll("input[name$='.PrecoUnitario'], input[name$='.Total']").forEach(input => {
+                    let val = input.value.trim();
+                    if (!val.includes(',')) {
+                        // Se estiver com ponto decimal, converte para vírgula para exibição
+                        val = parseFloat(val).toFixed(2).replace('.', ',');
+                    }
+                    input.value = val;
+                });
+
             });
         });
     </script>
 }
 
-
-
-
-
-
-
-@* @model GestaoPedido.Dominio.Entidade.Pedido
-
-@{
-    ViewData["Title"] = "Incluir Pedido";
-}
-
-<div class="container mt-5">
-    <form asp-controller="Pedido"
-          asp-action="Incluir"
-          method="post"
-          class="needs-validation border rounded p-4 shadow-sm"
-          novalidate>
-
-        @if (TempData["MensagemErro"] != null)
-        {
-            <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
-                @TempData["MensagemErro"]
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        }
-
-        <div class="text-center mb-4">
-            <h1 class="display-4">Formulário de Inserção</h1>
-        </div>
-
-        <div class="mb-3">
-            <label for="id_Tenant" class="form-label">Tenant:</label>
-            @Html.DropDownListFor(a => a.Id_Cliente, (IEnumerable<SelectListItem>)ViewData["Clientes"], "Selecione um cliente", new { @class = "form-control", required = "required" })
-            <div class="form-text">*Campo obrigatório</div>
-            @Html.ValidationMessageFor(a => a.Id_Cliente, null, new { @class = "text-danger" })
-        </div>
-
-      
-
-       
-        <div class="d-flex justify-content-between">
-            <a class="btn btn-outline-secondary"
-               asp-controller="Pedido"
-               asp-action="Index"
-               role="button">Voltar</a>
-
-            <button type="submit" class="btn btn-outline-primary">Gravar</button>
-        </div>
-    </form>
-</div>
- *@

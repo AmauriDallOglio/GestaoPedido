@@ -18,17 +18,26 @@ namespace GestaoPedido.Aplicacao.Servico
         }
 
 
-        public async Task<Guid> IncluirAsync(PedidoDto dto, CancellationToken cancellationToken)
+        public async Task<Guid> IncluirAsync(PedidoIncluirDto dto, CancellationToken cancellationToken)
         {
-            var lista = RetornaValorDosProdutos(dto, cancellationToken).Result;
-            Pedido pedido = dto.Incluir(lista);
-            pedido.DefineDataPedido();
-            pedido.CalculaValorTotal();
-            Pedido? resultado = await _iGenericoRepositorioPedido.IncluirAsync(pedido, cancellationToken);
-            return resultado.Id;
+
+            try
+            {
+                var lista = RetornaValorDosProdutos(dto, cancellationToken).Result;
+                Pedido pedido = dto.Incluir(lista);
+                pedido.DefineDataPedido();
+                pedido.CalculaValorTotal();
+                Pedido? resultado = await _iGenericoRepositorioPedido.IncluirAsync(pedido, cancellationToken);
+                return resultado.Id;
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException(ex.Message.ToString());
+            }
+
         }
 
-        private async Task<Dictionary<Guid, decimal>> RetornaValorDosProdutos(PedidoDto dto, CancellationToken cancellationToken)
+        private async Task<Dictionary<Guid, decimal>> RetornaValorDosProdutos(PedidoIncluirDto dto, CancellationToken cancellationToken)
         {
             var idsProdutos = dto.PedidoProdutos.Select(p => p.IdProduto).Distinct().ToList();
             var lista = new Dictionary<Guid, decimal>();
