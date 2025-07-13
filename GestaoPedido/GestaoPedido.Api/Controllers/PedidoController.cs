@@ -14,7 +14,7 @@ namespace GestaoPedido.Api.Controllers
 
 
         [HttpPost("Inserir"), ActionName("Inserir")]
-        public async Task<IActionResult> Inserir([FromBody] PedidoDto request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Inserir([FromBody] PedidoIncluirDto request, CancellationToken cancellationToken)
         {
             var response = await _pedidoServico.IncluirAsync(request, cancellationToken);
             if (response != Guid.Empty)
