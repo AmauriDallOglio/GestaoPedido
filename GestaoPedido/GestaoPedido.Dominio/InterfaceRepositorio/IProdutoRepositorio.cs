@@ -2,7 +2,7 @@
 
 namespace GestaoPedido.Dominio.InterfaceRepositorio
 {
-    public interface IProdutoRepositorio
+    public interface IProdutoRepositorio : IGenericoRepositorio<Produto>
     {
         Task<Produto?> ObterPorIdAsync(Guid id, CancellationToken cancellationToken);
    //     Task<List<Produto>> ObterTodosAsync(CancellationToken cancellationToken);

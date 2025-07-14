@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GestaoPedido.Infraestrutura.Repositorio
 {
-    public class ProdutoRepositorio : GenericoRepositorio<Fornecedor>, IProdutoRepositorio
+    public class ProdutoRepositorio : GenericoRepositorio<Produto>, IProdutoRepositorio
     {
         private readonly GenericoContexto _context;
 
@@ -14,11 +14,11 @@ namespace GestaoPedido.Infraestrutura.Repositorio
             _context = context;
         }
 
-        public async Task<Produto?> ObterPorIdAsync(Guid id, CancellationToken cancellationToken)
-        {
-            var produto = await _context.ProdutoDb.FirstAsync(x => x.Id == id);
-            return produto;
-        }
+        //public async Task<Produto?> ObterPorIdAsync(Guid id, CancellationToken cancellationToken)
+        //{
+        //    var produto = await _context.ProdutoDb.FirstAsync(x => x.Id == id);
+        //    return produto;
+        //}
  
     }
 }
