@@ -8,10 +8,10 @@ namespace GestaoPedido.Dominio.Entidade
 
         [Required(ErrorMessage = "O pedido é obrigatório.")]
         public Guid IdPedido { get; set; }
-        //public virtual Pedido Pedido { get; set; }
+        public virtual Pedido Pedido { get; set; }
 
         public Guid? IdFornecedor { get; set; }
-        //public virtual Fornecedor? Fornecedor { get; set; }
+        public virtual Fornecedor? Fornecedor { get; set; }
 
         [Required(ErrorMessage = "A descrição é obrigatória.")]
         [StringLength(100, ErrorMessage = "A descrição não pode exceder 100 caracteres.")]

@@ -13,6 +13,7 @@ namespace GestaoPedido.Infraestrutura.Contexto
 
         public DbSet<Fornecedor> Fornecedor { get; set; }
         public DbSet<EtapaProducao> EtapaProducao { get; set; }
+        public DbSet<EtapaProducaoProduto> EtapaProducaoProduto { get; set; }
 
         public GenericoContexto(DbContextOptions<GenericoContexto> options) : base(options)
         {
@@ -30,6 +31,8 @@ namespace GestaoPedido.Infraestrutura.Contexto
             modelBuilder.ApplyConfiguration(new PedidoMapeamento());
             modelBuilder.ApplyConfiguration(new PedidoProdutoMapeamento());
             modelBuilder.ApplyConfiguration(new FornecedorMapeamento());
+            modelBuilder.ApplyConfiguration(new EtapaProducaoMapeamento());
+            modelBuilder.ApplyConfiguration(new EtapaProducaoProdutoMapeamento());
 
         }
     }
