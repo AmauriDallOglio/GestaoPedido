@@ -25,7 +25,14 @@ namespace GestaoPedido.Dominio.Entidade
         public virtual EtapaProducao EtapaProducao { get; set; } = new EtapaProducao();
         public virtual PedidoProduto PedidoProduto { get; set; } = new PedidoProduto();
 
-
+        public EtapaProducaoProduto Incluir(Guid idEtapaProducao, Guid idPedidoProduto, int quantidadeProduzida)
+        {
+            IdEtapaProducao = idEtapaProducao;
+            IdPedidoProduto = idPedidoProduto;
+            QuantidadeProduzida = quantidadeProduzida;
+            DataCadastro = DateTime.Now;
+            return this;
+        }
 
     }
 }
