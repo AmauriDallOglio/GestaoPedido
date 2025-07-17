@@ -9,7 +9,7 @@ namespace GestaoPedido.Aplicacao.Servico.InterfaceServico
     {
         Task<Guid> IncluirAsync(EtapaProducaoProdutoIncluirDto etapaProducaoProdutoIncluirDto, CancellationToken cancellationToken);
         Task<ResultadoOperacao> EditarAsync(EtapaProducaoProduto etapaProducao, CancellationToken cancellationToken);
-        Task<List<EtapaProducaoProduto>> ObterTodos(CancellationToken cancellationToken);
+        Task<List<EtapaProducaoProdutoObterTodosDto>> ObterTodosAsync(Guid idEtapaProducao, CancellationToken cancellationToken);
         Task<EtapaProducaoProduto> ObterPorId(Guid id, CancellationToken cancellationToken);
     }
 }

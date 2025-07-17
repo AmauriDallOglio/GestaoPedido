@@ -1,22 +1,21 @@
-﻿using GestaoPedido.Aplicacao.Servico;
+﻿using GestaoPedido.Aplicacao.Dto.EtapaProducaoProduto;
 using GestaoPedido.Aplicacao.Servico.InterfaceServico;
-using GestaoPedido.Compartilhado.Util;
 using GestaoPedido.Dominio.Entidade;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Globalization;
 
 namespace GestaoPedido.Site.Controllers
 {
     public class EtapaProducaoController : Controller
     {
         private readonly IEtapaProducaoServico _IEtapaProducaoServico;
+        private readonly IEtapaProducaoProdutoServico _IEtapaProducaoProdutoServico;
         private readonly IFornecedorServico _IFornecedorServico;
-        public EtapaProducaoController(IEtapaProducaoServico iEtapaProducaoServico, IFornecedorServico iFornecedorServico)
+        public EtapaProducaoController(IEtapaProducaoServico iEtapaProducaoServico, IFornecedorServico iFornecedorServico, IEtapaProducaoProdutoServico iEtapaProducaoProdutoServico)
         {
             _IEtapaProducaoServico = iEtapaProducaoServico;
             _IFornecedorServico = iFornecedorServico;
-
+            _IEtapaProducaoProdutoServico = iEtapaProducaoProdutoServico;
         }
 
         [HttpGet]
@@ -81,7 +80,22 @@ namespace GestaoPedido.Site.Controllers
         }
 
 
+        [HttpGet]
+        public async Task<IActionResult> Producao(Guid id, CancellationToken cancellationToken)
+        {
+            try
+            {
+                List<EtapaProducaoProdutoObterTodosDto> produtos = await _IEtapaProducaoProdutoServico.ObterTodosAsync(id, cancellationToken);
+                await CarregarViewDataAsync(cancellationToken);
+                return View(produtos);
+            }
+            catch (Exception erro)
+            {
+                TempData["MensagemErro"] = $"Atenção: {erro.Message}";
+                return RedirectToAction("Index");
+            }
 
+        }
 
     }
 }

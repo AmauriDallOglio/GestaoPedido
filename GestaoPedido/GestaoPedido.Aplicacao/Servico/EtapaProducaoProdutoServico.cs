@@ -47,11 +47,26 @@ namespace GestaoPedido.Aplicacao.Servico
             return resultadoOperacao;
         }
 
-        public async Task<List<EtapaProducaoProduto>> ObterTodos(CancellationToken cancellationToken)
+        public async Task<List<EtapaProducaoProdutoObterTodosDto>> ObterTodosAsync(Guid idEtapaProducao, CancellationToken cancellationToken)
         {
             try
             {
-                return await _iGenericoRepositorioEtapaProducaoProduto.ObterTodosAsync(cancellationToken);
+                List<EtapaProducaoProduto> produtosProduzidos = await _iEtapaProducaoProdutoRepositorio.ObterTodosIncludeAsync(idEtapaProducao, cancellationToken);
+                List<EtapaProducaoProdutoObterTodosDto> produtos = new List<EtapaProducaoProdutoObterTodosDto>();
+                foreach (EtapaProducaoProduto item in produtosProduzidos)
+                {
+                    EtapaProducaoProdutoObterTodosDto etapaProducaoProdutoObterTodosDto = new();
+                    etapaProducaoProdutoObterTodosDto.QuantidadeProduzida = item.QuantidadeProduzida;
+                    etapaProducaoProdutoObterTodosDto.Id = item.Id;
+                    etapaProducaoProdutoObterTodosDto.IdEtapaProducao = item.IdEtapaProducao;
+                    etapaProducaoProdutoObterTodosDto.Codigo = item.PedidoProduto.Produto.Codigo;
+                    etapaProducaoProdutoObterTodosDto.Descricao = item.PedidoProduto.Produto.Descricao;
+                    etapaProducaoProdutoObterTodosDto.Nome = item.PedidoProduto.Produto.Nome;
+                    produtos.Add(etapaProducaoProdutoObterTodosDto);
+
+                }
+               
+                return produtos;
             }
             catch (Exception ex)
             {
@@ -66,10 +81,10 @@ namespace GestaoPedido.Aplicacao.Servico
             if (entidade == null)
                 throw new Exception($"Produto da Etapa de Produção não localizado!");
 
-
-
             return entidade;
         }
+
+
 
 
         //private async Task<Dictionary<Guid, decimal>> RetornaValorDosProdutos(EtapaProducaoProdutoIncluirDto dto, CancellationToken cancellationToken)
