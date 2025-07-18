@@ -58,13 +58,13 @@
     </div>
 
     @* Botão Novo *@
-    <div class="shadow-sm p-3 bg-white rounded mb-3 d-flex justify-content-start">
+@*     <div class="shadow-sm p-3 bg-white rounded mb-3 d-flex justify-content-start">
         <a class="btn btn-outline-success"
            asp-controller="EtapaProducao"
            asp-action="Incluir">
             <i class="bi bi-plus-circle"></i> Incluir
         </a>
-    </div>
+    </div> *@
 
     @* Tabela *@
     <div class="shadow-sm p-3 bg-white rounded">
@@ -106,10 +106,19 @@
                             </td>
                             <td class="text-center">@etapa.DataCadastro.ToString("dd/MM/yyyy")</td>
                             <td class="text-center">
+
+                 @*                <a asp-controller="EtapaProducaoProduto"
+                                   asp-action="Index"
+                                   asp-route-idEtapaProducao="@etapa.Id"
+                                   class="btn btn-primary shadow-sm">
+                                   <i class="bi bi-tools"></i> Produção
+                                </a>
+ *@
+
                                 <a class="btn btn-outline-warning btn-sm"
-                                   asp-route-id="@etapa.Id"
-                                   asp-controller="EtapaProducao"
-                                   asp-action="Producao">
+                                   asp-route-idEtapaProducao="@etapa.Id"
+                                   asp-controller="EtapaProducaoProduto"
+                                   asp-action="Index">
                                     <i class="bi bi-pencil"></i> Produção
                                 </a>
 

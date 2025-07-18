@@ -70,7 +70,7 @@ namespace GestaoPedido.Aplicacao.Servico
                 throw new System.Exception("Pedido " + id.ToString() + ", não localizado!");
 
             bool resultado = await _iGenericoRepositorioPedido.ExcluirAsync(pedido, cancellationToken);
-            return await _iGenericoRepositorioPedido.ExcluirAsync(pedido, cancellationToken);
+            return resultado;
         }
 
 

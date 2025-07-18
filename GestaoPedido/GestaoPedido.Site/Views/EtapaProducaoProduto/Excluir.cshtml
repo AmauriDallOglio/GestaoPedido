@@ -1,0 +1,37 @@
+﻿@model GestaoPedido.Aplicacao.Dto.EtapaProducaoProduto.EtapaProducaoProdutoObterTodosDto
+
+@{
+    ViewData["Title"] = "Excluir Produto da Etapa de Produção";
+}
+
+<div class="container mt-5">
+    <div class="shadow-sm p-4 bg-white rounded">
+        <form asp-controller="EtapaProducaoProduto" asp-action="Excluir" method="post" class="needs-validation" novalidate>
+
+            @if (TempData["MensagemErro"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show mb-3" role="alert">
+                    @TempData["MensagemErro"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+                </div>
+            }
+
+            <div class="text-center mb-4">
+                <h1 class="display-6 text-danger">Deseja realmente excluir o produto da etapa?</h1>
+                <p><strong>Nome do Produto:</strong> @Model.NomeProduto</p>
+                <p><strong>ID:</strong> @Model.Id</p>
+            </div>
+
+            <input type="hidden" name="id" value="@Model.Id" />
+
+            <div class="d-flex justify-content-between gap-2">
+                <a asp-controller="EtapaProducaoProduto"
+                   asp-action="Index"
+                   class="btn btn-outline-secondary"
+                   role="button">Cancelar</a>
+
+                <button type="submit" class="btn btn-outline-danger">Confirmar Exclusão</button>
+            </div>
+        </form>
+    </div>
+</div>

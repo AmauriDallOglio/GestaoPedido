@@ -1,0 +1,63 @@
+﻿@using GestaoPedido.Aplicacao.Dto.EtapaProducaoProduto
+
+@model EtapaProducaoProdutoIncluirDto
+
+@{
+    ViewData["Title"] = "Incluir Etapa de Produção Produto";
+}
+
+<div class="container mt-5">
+    <div class="shadow-sm p-4 bg-white rounded">
+        <form asp-controller="EtapaProducaoProduto"
+              asp-action="Incluir"
+              method="post"
+              class="needs-validation"
+              novalidate>
+
+            @if (TempData["MensagemErro"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show mb-3" role="alert">
+                    @TempData["MensagemErro"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+                </div>
+            }
+
+            <div class="text-center mb-4">
+                <h1 class="display-6 text-primary">
+                    <i class="bi bi-boxes"></i> Incluir Produto na Etapa de Produção
+                </h1>
+            </div>
+
+            <div class="row g-3 mb-4">
+
+                <!-- Campo oculto: IdEtapaProducao -->
+                <input type="hidden" asp-for="IdEtapaProducao" />
+  
+
+                <div class="col-md-12">
+                    <label for="IdPedidoProduto" class="form-label">Produto:</label>
+                    <select asp-for="IdPedidoProduto" class="form-select" asp-items="ViewBag.Produtos" required>
+                        <option value="">Selecione um produto</option>
+                    </select>
+                    @Html.ValidationMessageFor(a => a.IdPedidoProduto, null, new { @class = "text-danger" })
+                </div>
+
+
+                <div class="col-md-6">
+                    <label for="QuantidadeProduzida" class="form-label">Quantidade Produzida:</label>
+                    <input type="number" asp-for="QuantidadeProduzida" class="form-control" min="1" placeholder="Digite a quantidade" required />
+                    @Html.ValidationMessageFor(a => a.QuantidadeProduzida, null, new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between gap-2">
+                <a class="btn btn-outline-secondary"
+                   asp-controller="EtapaProducaoProduto"
+                   asp-action="Index"
+                   role="button">Cancelar</a>
+
+                <button type="submit" class="btn btn-outline-primary">Gravar</button>
+            </div>
+        </form>
+    </div>
+</div>

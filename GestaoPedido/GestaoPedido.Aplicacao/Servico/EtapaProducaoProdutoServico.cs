@@ -3,6 +3,7 @@ using GestaoPedido.Aplicacao.Servico.InterfaceServico;
 using GestaoPedido.Compartilhado.Util;
 using GestaoPedido.Dominio.Entidade;
 using GestaoPedido.Dominio.InterfaceRepositorio;
+using GestaoPedido.Infraestrutura.Repositorio;
 
 namespace GestaoPedido.Aplicacao.Servico
 {
@@ -59,9 +60,11 @@ namespace GestaoPedido.Aplicacao.Servico
                     etapaProducaoProdutoObterTodosDto.QuantidadeProduzida = item.QuantidadeProduzida;
                     etapaProducaoProdutoObterTodosDto.Id = item.Id;
                     etapaProducaoProdutoObterTodosDto.IdEtapaProducao = item.IdEtapaProducao;
-                    etapaProducaoProdutoObterTodosDto.Codigo = item.PedidoProduto.Produto.Codigo;
-                    etapaProducaoProdutoObterTodosDto.Descricao = item.PedidoProduto.Produto.Descricao;
-                    etapaProducaoProdutoObterTodosDto.Nome = item.PedidoProduto.Produto.Nome;
+                    etapaProducaoProdutoObterTodosDto.CodigoPedido = "CodigoPedido ssss"; // item.PedidoProduto.Produto.Codigo;
+                    etapaProducaoProdutoObterTodosDto.DescricaoProduto = "DescricaoProduto dAAAAA"; // item.PedidoProduto.Produto.Descricao;
+                    etapaProducaoProdutoObterTodosDto.NomeProduto = "NomeProduto dfdfd"; //item.PedidoProduto.Produto.Nome;
+                    etapaProducaoProdutoObterTodosDto.DataCadastro = item.DataCadastro;
+                    etapaProducaoProdutoObterTodosDto.DataAlteracao = item.DataAlteracao;
                     produtos.Add(etapaProducaoProdutoObterTodosDto);
 
                 }
@@ -84,50 +87,45 @@ namespace GestaoPedido.Aplicacao.Servico
             return entidade;
         }
 
+        public async Task<EtapaProducaoProdutoObterTodosDto?> ObterPorIdAsync(Guid idEtapaProducao, Guid idEtapaProducaoProduto, CancellationToken cancellationToken)
+        {
+            EtapaProducaoProduto? produto = await _iEtapaProducaoProdutoRepositorio.ObterPorIdIncludeAsync(idEtapaProducao, idEtapaProducaoProduto, cancellationToken);
+            if (produto == null)
+                throw new Exception($"Produto da Etapa de Produção não localizado!");
+
+            EtapaProducaoProdutoObterTodosDto etapaProducaoProdutoObterTodosDto = new EtapaProducaoProdutoObterTodosDto();
+
+ 
+            etapaProducaoProdutoObterTodosDto.QuantidadeProduzida = produto.QuantidadeProduzida;
+            etapaProducaoProdutoObterTodosDto.Id = produto.Id;
+            etapaProducaoProdutoObterTodosDto.IdEtapaProducao = produto.IdEtapaProducao;
+            etapaProducaoProdutoObterTodosDto.CodigoPedido = "CodigoPedido ssss"; // item.PedidoProduto.Produto.Codigo;
+            etapaProducaoProdutoObterTodosDto.DescricaoProduto = "DescricaoProduto dAAAAA"; // item.PedidoProduto.Produto.Descricao;
+            etapaProducaoProdutoObterTodosDto.NomeProduto = "NomeProduto dfdfd"; //item.PedidoProduto.Produto.Nome;
+            etapaProducaoProdutoObterTodosDto.DataCadastro = produto.DataCadastro;
+            etapaProducaoProdutoObterTodosDto.DataAlteracao = produto.DataAlteracao;
+ 
+ 
 
 
 
-        //private async Task<Dictionary<Guid, decimal>> RetornaValorDosProdutos(EtapaProducaoProdutoIncluirDto dto, CancellationToken cancellationToken)
-        //{
-        //    var idsProdutos = dto.EtapaProducaoProdutoProdutos.Select(p => p.IdProduto).Distinct().ToList();
-        //    var lista = new Dictionary<Guid, decimal>();
+            return etapaProducaoProdutoObterTodosDto;
+        }
 
-        //    foreach (var id in idsProdutos)
-        //    {
-        //        Produto? produto = await _iProdutoRepositorio.ObterPorIdAsync(id, cancellationToken);
-        //        if (produto != null)
-        //            lista[id] = produto.Preco;
-        //    }
-
-        //    return lista;
-        //}
+         
 
 
 
-        //public async Task<bool> ExcluirAsync(Guid id, CancellationToken cancellationToken)
-        //{
-        //    EtapaProducaoProduto? pedido = await _iEtapaProducaoProdutoRepositorio.ob(id, cancellationToken);
-        //    if (pedido == null)
-        //        throw new System.Exception("EtapaProducaoProduto " + id.ToString() + ", não localizado!");
+        public async Task<bool> ExcluirAsync(Guid id, CancellationToken cancellationToken)
+        {
+            EtapaProducaoProduto? etapaProducaoProduto = await _iGenericoRepositorioEtapaProducaoProduto.ObterPorIdAsync(id, cancellationToken);
+            if (etapaProducaoProduto == null)
+                throw new System.Exception("Pedido " + id.ToString() + ", não localizado!");
 
-        //    bool resultado = await _iGenericoRepositorioEtapaProducaoProduto.ExcluirAsync(pedido, cancellationToken);
-        //    return await _iGenericoRepositorioEtapaProducaoProduto.ExcluirAsync(pedido, cancellationToken);
-        //}
-
-
-
-
-        //public async Task<List<EtapaProducaoProduto>> ObterTodos(CancellationToken cancellationToken)
-        //{
-        //    try
-        //    {
-        //        return await _iEtapaProducaoProdutoRepositorio.ObterTodosIncludeAsync(cancellationToken);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new ApplicationException("Não foi possível obter a lista de pedidos no momento. Tente novamente mais tarde.", ex);
-        //    }
-        //}
+            bool resultado = await _iGenericoRepositorioEtapaProducaoProduto.ExcluirAsync(etapaProducaoProduto, cancellationToken);
+            return resultado;
+        }
+         
 
 
     }
