@@ -26,6 +26,16 @@ namespace GestaoPedido.Api.Controllers
         }
 
 
+        [HttpDelete("Excluir/{id}"), ActionName("id")]
+        public async Task<IActionResult> Excluir([FromRoute] Guid id, CancellationToken cancellationToken)
+        {
+            var response = await _IEtapaProducaoProdutoServico.ExcluirAsync(id, cancellationToken);
+            if (response)
+            {
+                return Ok(response);
+            }
+            return BadRequest("Falha ao excluir o pedido.");
+        }
 
         [HttpGet("ObterPorId/{id}")]
         public async Task<IActionResult> ObterPorId([FromRoute] Guid id, CancellationToken cancellationToken)
@@ -40,14 +50,16 @@ namespace GestaoPedido.Api.Controllers
 
 
         [HttpGet("ObterTodos"), ActionName("ObterTodos")]
-        public async Task<IActionResult> ObterTodos(CancellationToken cancellationToken)
+        public async Task<IActionResult> ObterTodos([FromRoute] Guid idEtapaProducao, CancellationToken cancellationToken)
         {
-            List<EtapaProducaoProduto> resultado = await _IEtapaProducaoProdutoServico.ObterTodos(cancellationToken);
+            List<EtapaProducaoProdutoObterTodosDto> resultado = await _IEtapaProducaoProdutoServico.ObterTodosAsync(idEtapaProducao, cancellationToken);
             if (resultado != null)
             {
                 return Ok(resultado);
             }
             return BadRequest("Falha ao obter todos os EtapaProducaoProduto.");
         }
+
+
     }
 }
