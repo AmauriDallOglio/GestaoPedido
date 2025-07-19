@@ -12,6 +12,7 @@ namespace GestaoPedido.Site.Controllers
     {
         private readonly IEtapaProducaoProdutoServico _IEtapaProducaoProdutoServico;
         private readonly IFornecedorServico _IFornecedorServico;
+        private Guid _idEtapaProducao;
         public EtapaProducaoProdutoController(IEtapaProducaoProdutoServico iEtapaProducaoProdutoServico, IFornecedorServico iFornecedorServico)
         {
             _IEtapaProducaoProdutoServico = iEtapaProducaoProdutoServico;
@@ -25,6 +26,8 @@ namespace GestaoPedido.Site.Controllers
         {
             try
             {
+ 
+
                 List<EtapaProducaoProdutoObterTodosDto> produtos = await _IEtapaProducaoProdutoServico.ObterTodosAsync(idEtapaProducao, cancellationToken);
  
                 return View(produtos);
@@ -59,15 +62,23 @@ namespace GestaoPedido.Site.Controllers
                 //var produtosLista1 = produtosLista.Distinct();
                 //ViewBag.Produtos = produtosLista1;
 
+                //var produtosLista = produtos
+                //.Select(p => new SelectListItem
+                //{
+                //    Value = p.IdPedidoProduto.ToString(),
+                //    Text = p.NomeProduto
+                //})
+                //.Distinct()
+                //.ToList();
+
                 var produtosLista = produtos
+                .DistinctBy(p => p.IdPedidoProduto)
                 .Select(p => new SelectListItem
                 {
-                    Value = p.Id.ToString(),
+                    Value = p.IdPedidoProduto.ToString(),
                     Text = p.NomeProduto
                 })
-                .Distinct()
                 .ToList();
-
 
 
                 ViewBag.Produtos = produtosLista;
@@ -100,7 +111,7 @@ namespace GestaoPedido.Site.Controllers
                 await _IEtapaProducaoProdutoServico.IncluirAsync(etapaProducaoProdutoIncluirDto, cancellationToken);
 
                 TempData["MensagemSucesso"] = "Produto vinculado com sucesso à etapa de produção!";
-                return RedirectToAction("Detalhes", new { id = etapaProducaoProdutoIncluirDto.IdEtapaProducao });
+                return RedirectToAction("Index", new { idEtapaProducao = etapaProducaoProdutoIncluirDto.IdEtapaProducao });
             }
             catch (Exception erro)
             {
@@ -148,7 +159,7 @@ namespace GestaoPedido.Site.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Excluir(Pedido pedido, CancellationToken cancellationToken)
+        public async Task<IActionResult> Excluir(EtapaProducaoProdutoObterTodosDto pedido, CancellationToken cancellationToken)
         {
             try
             {
@@ -160,7 +171,7 @@ namespace GestaoPedido.Site.Controllers
                 }
 
                 TempData["MensagemSucesso"] = "Pedido excluído com sucesso";
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { idEtapaProducao = pedido.IdEtapaProducao });
             }
             catch (Exception erro)
             {

@@ -60,9 +60,10 @@ namespace GestaoPedido.Aplicacao.Servico
                     etapaProducaoProdutoObterTodosDto.QuantidadeProduzida = item.QuantidadeProduzida;
                     etapaProducaoProdutoObterTodosDto.Id = item.Id;
                     etapaProducaoProdutoObterTodosDto.IdEtapaProducao = item.IdEtapaProducao;
-                    etapaProducaoProdutoObterTodosDto.CodigoPedido = "CodigoPedido ssss"; // item.PedidoProduto.Produto.Codigo;
-                    etapaProducaoProdutoObterTodosDto.DescricaoProduto = "DescricaoProduto dAAAAA"; // item.PedidoProduto.Produto.Descricao;
-                    etapaProducaoProdutoObterTodosDto.NomeProduto = "NomeProduto dfdfd"; //item.PedidoProduto.Produto.Nome;
+                    etapaProducaoProdutoObterTodosDto.IdPedidoProduto = item.IdPedidoProduto;
+                    etapaProducaoProdutoObterTodosDto.CodigoPedido = item.PedidoProduto.Produto.Codigo;
+                    etapaProducaoProdutoObterTodosDto.DescricaoProduto =  item.PedidoProduto.Produto.Descricao;
+                    etapaProducaoProdutoObterTodosDto.NomeProduto = item.PedidoProduto.Produto.Nome;
                     etapaProducaoProdutoObterTodosDto.DataCadastro = item.DataCadastro;
                     etapaProducaoProdutoObterTodosDto.DataAlteracao = item.DataAlteracao;
                     produtos.Add(etapaProducaoProdutoObterTodosDto);

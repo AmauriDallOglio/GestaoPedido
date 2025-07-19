@@ -105,7 +105,7 @@
                     foreach (var item in Model)
                     {
                         <tr>
-@*                             <td>@item.Id</td>
+    @*                         <td>@item.Id</td>
                             <td>@item.IdEtapaProducao</td>
                             <td>@item.IdPedidoProduto</td> *@
                             <td class="text-center">@item.CodigoPedido</td>
@@ -117,12 +117,12 @@
                                 @(item.DataAlteracao.HasValue ? item.DataAlteracao.Value.ToString("dd/MM/yyyy HH:mm") : "-")
                             </td> *@
                             <td class="text-center">
-                                <a class="btn btn-outline-warning btn-sm"
+              @*                   <a class="btn btn-outline-warning btn-sm"
                                    asp-route-id="@item.Id"
                                    asp-controller="EtapaProducaoProduto"
                                    asp-action="Editar">
                                     <i class="bi bi-pencil"></i> Editar
-                                </a>
+                                </a> *@
 
                                 <a class="btn btn-outline-danger btn-sm"
                                    asp-controller="EtapaProducaoProduto"
