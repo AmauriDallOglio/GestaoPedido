@@ -1,4 +1,5 @@
-﻿using GestaoPedido.Aplicacao.Dto.EtapaProducaoProduto;
+﻿using GestaoPedido.Aplicacao.Dto;
+using GestaoPedido.Aplicacao.Dto.EtapaProducaoProduto;
 using GestaoPedido.Aplicacao.Servico.InterfaceServico;
 using GestaoPedido.Dominio.Entidade;
 using Microsoft.AspNetCore.Mvc;
@@ -21,10 +22,10 @@ namespace GestaoPedido.Site.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(CancellationToken cancellationToken)
         {
-            var etapas = await _IEtapaProducaoServico.ObterTodos(cancellationToken);
+            List<EtapaProducaoDto> etapas = await _IEtapaProducaoServico.CarregarGridAsync(cancellationToken);
             //throw new ArgumentException("Teste do erro");
-            List<EtapaProducao> resultado = etapas;
-            return View(resultado);
+ 
+            return View(etapas);
         }
 
         [HttpGet]

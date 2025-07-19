@@ -31,15 +31,16 @@
             <div class="row g-3 mb-4">
 
                 <!-- Campo oculto: IdEtapaProducao -->
+                <input type="hidden" asp-for="IdPedido" />
                 <input type="hidden" asp-for="IdEtapaProducao" />
   
 
                 <div class="col-md-12">
-                    <label for="IdPedidoProduto" class="form-label">Produto:</label>
-                    <select asp-for="IdPedidoProduto" class="form-select" asp-items="ViewBag.Produtos" required>
-                        <option value="">Selecione um produto</option>
+                    <label for="IdProduto" class="form-label">Produto:</label>
+                    <select asp-for="IdProduto" class="form-select" asp-items="ViewBag.Produtos" required>
+                        <option value="">Selecione o produto</option>
                     </select>
-                    @Html.ValidationMessageFor(a => a.IdPedidoProduto, null, new { @class = "text-danger" })
+                    @Html.ValidationMessageFor(a => a.IdProduto, null, new { @class = "text-danger" })
                 </div>
 
 

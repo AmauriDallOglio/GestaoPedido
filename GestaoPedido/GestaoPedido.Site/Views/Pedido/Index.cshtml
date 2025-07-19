@@ -131,8 +131,9 @@
             </tbody>
             <tfoot class="table-primary">
                 <tr>
-                    <td colspan="3" class="fw-bold text-center">Total de Registros: @Model.Count()</td>
-                    <td colspan="3" class="fw-bold text-end">Total Geral: @Model.Sum(p => p.ValorTotal).ToString("C")</td>
+                    <td colspan="1" class="fw-bold text-center">Total de Registros: @Model.Count()</td>
+                    <td colspan="3" class="fw-bold text-end">  @Model.Sum(p => p.ValorTotal).ToString("C")</td>
+                    <td colspan="2" class="fw-bold text-center"></td>
                 </tr>
             </tfoot>
         </table>

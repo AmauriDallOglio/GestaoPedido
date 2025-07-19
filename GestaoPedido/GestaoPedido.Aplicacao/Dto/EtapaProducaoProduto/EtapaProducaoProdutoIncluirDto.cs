@@ -9,6 +9,11 @@ namespace GestaoPedido.Aplicacao.Dto.EtapaProducaoProduto
         [Required(ErrorMessage = "O campo 'Etapa de Produção' é obrigatório.")]
         public Guid IdEtapaProducao { get; set; }
 
+ 
+
+        public Guid IdPedido { get; set; }
+        public Guid IdProduto { get; set; }
+
         [Required(ErrorMessage = "O campo 'Pedido Produto' é obrigatório.")]
         public Guid IdPedidoProduto { get; set; }
 

@@ -23,8 +23,23 @@ namespace GestaoPedido.Infraestrutura.Repositorio
 
         public async Task<List<EtapaProducao>> ObterTodosIncludeAsync(CancellationToken cancellationToken)
         {
-            var pedido = await _context.EtapaProducao.OrderByDescending(a => a.Id).Include(a => a.Fornecedor).Include(a => a.Pedido).ToListAsync();
-            return pedido;
+            try
+            {
+                var pedido = await _context.EtapaProducao
+                    .OrderByDescending(a => a.Id)
+                    .Include(a => a.Fornecedor)
+                    .Include(a => a.Pedido)
+                    .Include(a => a.EtapaProducaoProdutos)
+                     //   .ThenInclude(a => a.Produto)
+                    .ToListAsync();
+
+                return pedido;
+            }
+            catch (Exception ex)
+            {
+                // registre stacktrace ou mensagem completa
+                throw new Exception("Erro ao carregar Etapas de Produção", ex);
+            }
         }
 
     }

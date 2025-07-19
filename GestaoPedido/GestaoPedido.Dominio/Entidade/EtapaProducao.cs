@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GestaoPedido.Dominio.Entidade
 {
@@ -32,8 +33,10 @@ namespace GestaoPedido.Dominio.Entidade
         public DateTime DataCadastro { get; set; } = DateTime.Now;
         public DateTime? DataAlteracao { get; set; }
 
+  
+        public virtual ICollection<EtapaProducaoProduto> EtapaProducaoProdutos { get; set; } = new List<EtapaProducaoProduto>();
 
-        public EtapaProducao() { }
+        //public EtapaProducao() { }
 
         public EtapaProducao IncluirNoPedido(Guid idPedido, string descricao, int quantidade, DateTime dataInicialFabricacao, Guid? idFornecedor)
         {

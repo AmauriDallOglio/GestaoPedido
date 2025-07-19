@@ -54,7 +54,7 @@ namespace GestaoPedido.Aplicacao.Servico
             {
                 List<EtapaProducaoProduto> produtosProduzidos = await _iEtapaProducaoProdutoRepositorio.ObterTodosIncludeAsync(idEtapaProducao, cancellationToken);
                 List<EtapaProducaoProdutoObterTodosDto> produtos = new List<EtapaProducaoProdutoObterTodosDto>();
-                foreach (EtapaProducaoProduto item in produtosProduzidos)
+                foreach (EtapaProducaoProduto item in produtosProduzidos.OrderByDescending(a => a.DataCadastro))
                 {
                     EtapaProducaoProdutoObterTodosDto etapaProducaoProdutoObterTodosDto = new();
                     etapaProducaoProdutoObterTodosDto.QuantidadeProduzida = item.QuantidadeProduzida;

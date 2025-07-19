@@ -1,6 +1,7 @@
 ﻿using GestaoPedido.Dominio.Entidade;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Reflection.Emit;
 
 namespace GestaoPedido.Infraestrutura.Mapeamento
 {
@@ -24,6 +25,15 @@ namespace GestaoPedido.Infraestrutura.Mapeamento
             builder.HasOne(e => e.Pedido).WithMany().HasForeignKey(e => e.IdPedido).OnDelete(DeleteBehavior.Restrict).HasConstraintName("FK_EtapaProducao_Pedido");
             builder.HasOne(e => e.Fornecedor).WithMany().HasForeignKey(e => e.IdFornecedor).OnDelete(DeleteBehavior.Restrict).HasConstraintName("FK_EtapaProducao_Fornecedor");
             builder.HasIndex(e => new { e.IdPedido, e.IdFornecedor }).IsUnique().HasDatabaseName("UQ_EtapaProducao");
+
+
+            //builder.HasMany(e => e.EtapaProducaoProdutos)
+            //                .WithOne(p => p.EtapaProducao)
+            //                .HasForeignKey(p => p.IdEtapaProducao)
+            //                .OnDelete(DeleteBehavior.Restrict);
+
+
+
         }
     }
 }

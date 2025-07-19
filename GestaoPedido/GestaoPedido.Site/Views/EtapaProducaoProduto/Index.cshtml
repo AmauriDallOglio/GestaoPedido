@@ -8,7 +8,11 @@
     var filtroCodigo = Context.Request.Query["filtroCodigo"].ToString();
     var filtroProduto = Context.Request.Query["filtroProduto"].ToString();
 
-      var etapaProducao = Model.FirstOrDefault();
+    Guid idEtapaProducao = ViewBag.IdEtapaProducao;
+    Guid idPedido = ViewBag.IdPedido;
+
+    //var etapaProducaoProdutoDto = Model.FirstOrDefault();
+     
 
 }
 
@@ -58,28 +62,16 @@
     </div>
 
     @* Botão Novo *@
-@*     <div class="shadow-sm p-3 bg-white rounded mb-3 d-flex justify-content-start">
+    <div class="shadow-sm p-3 bg-white rounded mb-3 d-flex justify-content-start">
         <a class="btn btn-outline-success"
-           asp-controller="EtapaProducaoProduto"
-           asp-route-idEtapaProducao="@etapaProducao.Id"
- 
-
-           asp-action="Incluir">
+            asp-controller="EtapaProducaoProduto"
+            asp-route-idPedido="@idPedido"
+            asp-action="Incluir"
+            asp-route-idEtapaProducao="@idEtapaProducao">
             <i class="bi bi-plus-circle"></i> Incluir
         </a>
-    </div> *@
-
-    @if (etapaProducao != null)
-    {
-        <div class="shadow-sm p-3 bg-white rounded mb-3 d-flex justify-content-start">
-            <a class="btn btn-outline-success"
-               asp-controller="EtapaProducaoProduto"
-               asp-action="Incluir"
-               asp-route-idEtapaProducao="@etapaProducao.IdEtapaProducao">
-                <i class="bi bi-plus-circle"></i> Incluir
-            </a>
-        </div>
-    }
+    </div>
+    
 
 
     @* Tabela *@
@@ -145,7 +137,8 @@
             </tbody>
             <tfoot class="table-primary">
                 <tr>
-                    <td colspan="10" class="fw-bold text-center">Total de Registros: @Model.Count()</td>
+                    <td colspan="1" class="fw-bold text-center">Total de Registros: @Model.Count()</td>
+                    <td colspan="5" class="fw-bold text-center">Total produzido: @Model.Sum(x => x.QuantidadeProduzida)</td>
                 </tr>
             </tfoot>
         </table>

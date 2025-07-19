@@ -1,10 +1,24 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using GestaoPedido.Dominio.Entidade;
+using System.ComponentModel.DataAnnotations;
 
 namespace GestaoPedido.Aplicacao.Dto
 {
-    class EtapaProducaoDto
+    public class EtapaProducaoDto
     {
-
+        public Guid Id { get; set; }
+        public Guid IdPedido { get; set; }
+        public Guid? IdFornecedor { get; set; }
+        public string Descricao { get; set; } = string.Empty;
+        public int Quantidade { get; set; }
+        public int QuantidadeProduzida { get; set; }
+        public decimal PercentualProduzida { get; set; }
+        public DateTime DataInicialFabricacao { get; set; } = DateTime.Now;
+        public DateTime? DataFinalFabricacao { get; set; }
+        public byte Situacao { get; set; }
+        public DateTime DataCadastro { get; set; } = DateTime.Now;
+        public DateTime? DataAlteracao { get; set; }
+        public DateTime? DataUltimaAtualizacao { get; set; }
+        public String CodigoPedido { get; set; } = String.Empty;
     }
 
     public class EtapaProducaoIncluirNoPedidoDto()

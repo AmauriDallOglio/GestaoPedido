@@ -21,7 +21,10 @@ namespace GestaoPedido.Aplicacao.InjecaoDependencia
             services.AddScoped<PedidoServico>();
             services.AddScoped<IPedidoServico, PedidoServico>();
             services.AddScoped<IPedidoRepositorio, PedidoRepositorio>();
-   
+
+            services.AddScoped<PedidoProdutoServico>();
+            services.AddScoped<IPedidoProdutoServico, PedidoProdutoServico>();
+            services.AddScoped<IPedidoProdutoRepositorio, PedidoProdutoRepositorio>();
 
 
             services.AddScoped<IProdutoServico, ProdutoServico>();

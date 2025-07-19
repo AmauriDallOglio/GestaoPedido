@@ -2,6 +2,7 @@
 using GestaoPedido.Aplicacao.Servico;
 using GestaoPedido.Aplicacao.Servico.InterfaceServico;
 using GestaoPedido.Dominio.Entidade;
+using GestaoPedido.Dominio.InterfaceRepositorio;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
@@ -12,24 +13,26 @@ namespace GestaoPedido.Site.Controllers
     {
         private readonly IEtapaProducaoProdutoServico _IEtapaProducaoProdutoServico;
         private readonly IFornecedorServico _IFornecedorServico;
+        private readonly IPedidoProdutoServico _IPedidoProdutoServico;
         private Guid _idEtapaProducao;
-        public EtapaProducaoProdutoController(IEtapaProducaoProdutoServico iEtapaProducaoProdutoServico, IFornecedorServico iFornecedorServico)
+        public EtapaProducaoProdutoController(IEtapaProducaoProdutoServico iEtapaProducaoProdutoServico, IFornecedorServico iFornecedorServico, IPedidoProdutoServico pedidoProdutoServico)
         {
             _IEtapaProducaoProdutoServico = iEtapaProducaoProdutoServico;
             _IFornecedorServico = iFornecedorServico;
-
+            _IPedidoProdutoServico = pedidoProdutoServico;
         }
 
 
         [HttpGet]
-        public async Task<IActionResult> Index(Guid idEtapaProducao, CancellationToken cancellationToken)
+        public async Task<IActionResult> Index(Guid idEtapaProducao, Guid idPedido, CancellationToken cancellationToken)
         {
             try
             {
  
 
                 List<EtapaProducaoProdutoObterTodosDto> produtos = await _IEtapaProducaoProdutoServico.ObterTodosAsync(idEtapaProducao, cancellationToken);
- 
+                ViewBag.IdPedido = idPedido;
+                ViewBag.IdEtapaProducao = idEtapaProducao;
                 return View(produtos);
             }
             catch (Exception erro)
@@ -44,7 +47,7 @@ namespace GestaoPedido.Site.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> Incluir(Guid idEtapaProducao, CancellationToken cancellationToken)
+        public async Task<IActionResult> Incluir(Guid idEtapaProducao, Guid idPedido, CancellationToken cancellationToken)
         {
 
             try
@@ -52,7 +55,8 @@ namespace GestaoPedido.Site.Controllers
  
 
 
-                List<EtapaProducaoProdutoObterTodosDto> produtos = await _IEtapaProducaoProdutoServico.ObterTodosAsync(idEtapaProducao, cancellationToken);
+                //List<EtapaProducaoProdutoObterTodosDto> producaoProdutos = await _IEtapaProducaoProdutoServico.ObterTodosAsync(idEtapaProducao, cancellationToken);
+                List<PedidoProduto> pedidoProdutos = await _IPedidoProdutoServico.ObterTodosIncludeAsync(idPedido, cancellationToken);
 
                 //var produtosLista = produtos.Select(p => new
                 //{
@@ -71,12 +75,14 @@ namespace GestaoPedido.Site.Controllers
                 //.Distinct()
                 //.ToList();
 
+                List<Produto> produtos = pedidoProdutos.Select(a => a.Produto).ToList();
+
                 var produtosLista = produtos
-                .DistinctBy(p => p.IdPedidoProduto)
+                .DistinctBy(p => p.Id)
                 .Select(p => new SelectListItem
                 {
-                    Value = p.IdPedidoProduto.ToString(),
-                    Text = p.NomeProduto
+                    Value = p.Id.ToString(),
+                    Text = p.Nome.ToString()
                 })
                 .ToList();
 
@@ -95,30 +101,26 @@ namespace GestaoPedido.Site.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Incluir(EtapaProducaoProdutoIncluirDto etapaProducaoProdutoIncluirDto, CancellationToken cancellationToken)
+        public async Task<IActionResult> Incluir(EtapaProducaoProdutoIncluirDto dto, CancellationToken cancellationToken)
         {
             try
             {
-         
-                    var aaa = etapaProducaoProdutoIncluirDto.IdEtapaProducao;
-                    var bbb = etapaProducaoProdutoIncluirDto.IdPedidoProduto;
-                    var aaaa = etapaProducaoProdutoIncluirDto.QuantidadeProduzida;
 
- 
-          
+                PedidoProduto pedidoProduto = await _IPedidoProdutoServico.ObterPeloProdutoAsync(dto.IdPedido, dto.IdProduto, cancellationToken);
+                dto.IdPedidoProduto = pedidoProduto.Id;
 
                 // Chamada para gravar os dados
-                await _IEtapaProducaoProdutoServico.IncluirAsync(etapaProducaoProdutoIncluirDto, cancellationToken);
+                await _IEtapaProducaoProdutoServico.IncluirAsync(dto, cancellationToken);
 
                 TempData["MensagemSucesso"] = "Produto vinculado com sucesso à etapa de produção!";
-                return RedirectToAction("Index", new { idEtapaProducao = etapaProducaoProdutoIncluirDto.IdEtapaProducao });
+                return RedirectToAction("Index", new { idEtapaProducao = dto.IdEtapaProducao });
             }
             catch (Exception erro)
             {
                 TempData["MensagemErro"] = $"Erro ao incluir: {erro.Message}";
 
                 // Recarrega o combo em caso de exceção
-                List<EtapaProducaoProdutoObterTodosDto> produtos = await _IEtapaProducaoProdutoServico.ObterTodosAsync(etapaProducaoProdutoIncluirDto.IdEtapaProducao, cancellationToken);
+                List<EtapaProducaoProdutoObterTodosDto> produtos = await _IEtapaProducaoProdutoServico.ObterTodosAsync(dto.IdEtapaProducao, cancellationToken);
                 ViewBag.Produtos = produtos
                     .Select(p => new SelectListItem
                     {
@@ -128,7 +130,7 @@ namespace GestaoPedido.Site.Controllers
                     .Distinct()
                     .ToList();
 
-                return View(etapaProducaoProdutoIncluirDto);
+                return View(dto);
             }
         }
 
