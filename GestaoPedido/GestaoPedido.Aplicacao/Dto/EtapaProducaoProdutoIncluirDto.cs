@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace GestaoPedido.Aplicacao.Dto.EtapaProducaoProduto
+namespace GestaoPedido.Aplicacao.Dto
 {
     public class EtapaProducaoProdutoIncluirDto
     {

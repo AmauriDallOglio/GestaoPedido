@@ -21,24 +21,33 @@ namespace GestaoPedido.Infraestrutura.Repositorio
             return pedido;
         }
 
-        public async Task<List<EtapaProducao>> ObterTodosIncludeAsync(CancellationToken cancellationToken)
+        public async Task<List<EtapaProducao>> ObterTodosIncludeAsync(string filtroPedido, int? situacao, CancellationToken cancellationToken)
         {
             try
             {
-                var pedido = await _context.EtapaProducao
-                    .OrderByDescending(a => a.Id)
+                var query = _context.EtapaProducao
+                    .AsNoTracking()
                     .Include(a => a.Fornecedor)
                     .Include(a => a.Pedido)
                     .Include(a => a.EtapaProducaoProdutos)
-                     //   .ThenInclude(a => a.Produto)
-                    .ToListAsync();
+                    // .ThenInclude(a => a.Produto) // Se quiser incluir o produto, descomente essa linha
+                    .AsQueryable();
 
-                return pedido;
+                if (situacao.HasValue)
+                {
+                    query = query.Where(a => a.Situacao == situacao.Value);
+                }
+
+                if (!string.IsNullOrEmpty(filtroPedido))
+                {
+                    query = query.Where(a => a.Pedido.NumeroPedido.Contains(filtroPedido));
+                }
+
+                return await query.OrderByDescending(a => a.Id).ToListAsync(cancellationToken);
             }
             catch (Exception ex)
             {
-                // registre stacktrace ou mensagem completa
-                throw new Exception("Erro ao carregar Etapas de Produção", ex);
+                throw new Exception("Erro ao buscar etapas de produção.", ex);
             }
         }
 

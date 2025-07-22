@@ -19,7 +19,15 @@ namespace GestaoPedido.Aplicacao.Dto
         public DateTime? DataAlteracao { get; set; }
         public DateTime? DataUltimaAtualizacao { get; set; }
         public String CodigoPedido { get; set; } = String.Empty;
+ 
     }
+
+    public class EtapaProducaoFiltro()
+    {
+        public string FiltroPedido { get; set; } = string.Empty ;
+        public int? FiltroSituacao { get; set; }
+    }
+
 
     public class EtapaProducaoIncluirNoPedidoDto()
     {

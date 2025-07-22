@@ -5,8 +5,10 @@
 @{
     ViewData["Title"] = "Gerenciamento de Etapas de Produção";
 
-    var filtroDescricao = Context.Request.Query["filtroDescricao"].ToString();
-    var filtroSituacao = Context.Request.Query["filtroSituacao"].ToString();
+    var FiltroPedido = Context.Request.Query["filtroDescricao"].ToString();
+    //var FiltroSituacao = Context.Request.Query["filtroSituacao"].ToString();
+    int? filtroSituacao = ViewBag.FiltroSituacao as int?;
+    //int? filtroSituacao = Context.Request.Query["filtroSituacao"].ToString() is string fs && int.TryParse(fs, out var val) ? val : null;
 }
 
 <div class="container mt-5 shadow-sm p-3 bg-white rounded mb-3">
@@ -37,17 +39,17 @@
     <div class="shadow-sm p-3 bg-white rounded mb-3">
         <form asp-controller="EtapaProducao" asp-action="Index" method="get" class="row g-3 align-items-end">
             <div class="col-md-6">
-                <label for="filtroDescricao" class="form-label">Descrição</label>
-                <input type="text" name="filtroDescricao" id="filtroDescricao" class="form-control"
-                       value="@filtroDescricao" placeholder="Digite a descrição">
+                <label for="FiltroPedido" class="form-label">Pedido</label>
+                <input type="text" name="FiltroPedido" id="FiltroPedido" class="form-control"
+                       value="@FiltroPedido" placeholder="Digite a descrição">
             </div>
             <div class="col-md-3">
-                <label for="filtroSituacao" class="form-label">Situação</label>
-                <select class="form-select" name="filtroSituacao" id="filtroSituacao">
+                <label for="FiltroSituacao" class="form-label">Situação</label>
+                <select class="form-select" name="FiltroSituacao" id="FiltroSituacao">
                     <option value="">Todos</option>
-@*                     <option value="0" @(filtroSituacao == "0" ? "selected" : "")>Pendente</option>
-                    <option value="1" @(filtroSituacao == "1" ? "selected" : "")>Em Andamento</option>
-                    <option value="2" @(filtroSituacao == "2" ? "selected" : "")>Concluído</option> *@
+                    <option value="0" >Pendente</option>
+                    <option value="1" >Em Andamento</option>
+                    <option value="2" >Concluído</option>
                 </select>
             </div>
             <div class="col-md-3">

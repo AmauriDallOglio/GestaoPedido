@@ -38,6 +38,13 @@ namespace GestaoPedido.Dominio.Entidade
 
         //public EtapaProducao() { }
 
+        public EtapaProducao AlterarSituacao(byte situacao)
+        {
+            Situacao = situacao;
+            DataAlteracao = DateTime.Now;
+            return this;
+        }
+
         public EtapaProducao IncluirNoPedido(Guid idPedido, string descricao, int quantidade, DateTime dataInicialFabricacao, Guid? idFornecedor)
         {
             IdPedido = idPedido;

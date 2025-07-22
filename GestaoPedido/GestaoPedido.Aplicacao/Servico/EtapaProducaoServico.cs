@@ -19,11 +19,11 @@ namespace GestaoPedido.Aplicacao.Servico
         }
 
 
-        public async Task<List<EtapaProducaoDto>> CarregarGridAsync(CancellationToken cancellationToken)
+        public async Task<List<EtapaProducaoDto>> CarregarGridAsync(EtapaProducaoFiltro filtro, CancellationToken cancellationToken)
         {
             try
             {
-                List<EtapaProducao> etapas = await _iEtapaProducaoRepositorio.ObterTodosIncludeAsync(cancellationToken);
+                List<EtapaProducao> etapas = await _iEtapaProducaoRepositorio.ObterTodosIncludeAsync(filtro.FiltroPedido, filtro.FiltroSituacao, cancellationToken);
                 List<EtapaProducaoDto> etapasProducaoDto = new List<EtapaProducaoDto>();
                 foreach (EtapaProducao item in etapas)
                 {
@@ -43,7 +43,8 @@ namespace GestaoPedido.Aplicacao.Servico
                         DataCadastro = item.DataCadastro,
                         DataAlteracao = item.DataAlteracao,
                         DataUltimaAtualizacao = dataUltimaAtualizacao,
-                        CodigoPedido = item.Pedido.NumeroPedido
+                        CodigoPedido = item.Pedido.NumeroPedido,
+                        Situacao = item.Situacao
                     };
 
                     etapasProducaoDto.Add(dto);

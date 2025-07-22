@@ -20,11 +20,20 @@ namespace GestaoPedido.Site.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(CancellationToken cancellationToken)
+        public async Task<IActionResult> Index(EtapaProducaoFiltro filtro, CancellationToken cancellationToken)
         {
-            List<EtapaProducaoDto> etapas = await _IEtapaProducaoServico.CarregarGridAsync(cancellationToken);
+            List<EtapaProducaoDto> etapas = await _IEtapaProducaoServico.CarregarGridAsync(filtro, cancellationToken);
             //throw new ArgumentException("Teste do erro");
- 
+
+            if (!string.IsNullOrWhiteSpace(filtro.FiltroPedido))
+                etapas = etapas.Where(e => e.CodigoPedido.Contains(filtro.FiltroPedido)).ToList();
+
+            if (filtro.FiltroSituacao.HasValue)
+                etapas = etapas.Where(e => e.Situacao == filtro.FiltroSituacao.Value).ToList();
+
+            ViewBag.FiltroSituacao = filtro.FiltroSituacao ?? -1; // ou outro valor default
+            ViewBag.FiltroDescricao = filtro.FiltroPedido;
+
             return View(etapas);
         }
 
