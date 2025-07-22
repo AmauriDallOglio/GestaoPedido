@@ -9,5 +9,10 @@
         public string Telefone { get; set; } = string.Empty;
     }
 
+    public class ClienteFiltro
+    {
+        public string FiltroNome { get; set; } = string.Empty;
+    }
+
 
 }

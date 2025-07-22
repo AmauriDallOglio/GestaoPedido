@@ -43,7 +43,7 @@ namespace GestaoPedido.Site.Controllers
 
             try
             {
-                var clientes = await _iClienteServico.ObterTodos(cancellationToken);
+                var clientes = await _iClienteServico.ObterTodosAsync(cancellationToken);
                 ViewData["Clientes"] = clientes.Select(t => new SelectListItem
                 {
                     Value = t.Id.ToString(),
@@ -109,7 +109,7 @@ namespace GestaoPedido.Site.Controllers
 
         private async Task CarregarViewDataAsync(CancellationToken cancellationToken)
         {
-            var clientes = await _iClienteServico.ObterTodos(cancellationToken);
+            var clientes = await _iClienteServico.ObterTodosAsync(cancellationToken);
             ViewData["Clientes"] = clientes.Select(t => new SelectListItem
             {
                 Value = t.Id.ToString(),

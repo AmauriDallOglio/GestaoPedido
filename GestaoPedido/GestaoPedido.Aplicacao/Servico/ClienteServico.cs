@@ -1,4 +1,5 @@
-﻿using GestaoPedido.Aplicacao.Servico.InterfaceServico;
+﻿using GestaoPedido.Aplicacao.Dto;
+using GestaoPedido.Aplicacao.Servico.InterfaceServico;
 using GestaoPedido.Compartilhado.Util;
 using GestaoPedido.Dominio.Entidade;
 using GestaoPedido.Dominio.InterfaceRepositorio;
@@ -52,10 +53,16 @@ namespace GestaoPedido.Aplicacao.Servico
             return resultado;
         }
 
-
-        public async Task<List<Cliente>> ObterTodos( CancellationToken cancellationToken)
+        public async Task<List<Cliente>> ObterTodosAsync(CancellationToken cancellationToken)
         {
-            List<Cliente> resultado = await _IGeneticoRepositorioCliente.ObterTodosAsync(cancellationToken);
+            List<Cliente> resultado = await _IGeneticoRepositorioCliente.ObterTodosAsync( cancellationToken);
+            return resultado;
+        }
+
+
+        public async Task<List<Cliente>> ObterTodosAsync(ClienteFiltro clienteFiltro, CancellationToken cancellationToken)
+        {
+            List<Cliente> resultado = await _iClienteRepositorio.ObterTodosAsync(clienteFiltro.FiltroNome, cancellationToken);
             return resultado;
         }
 

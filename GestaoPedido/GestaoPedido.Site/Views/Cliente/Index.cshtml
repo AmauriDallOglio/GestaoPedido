@@ -3,7 +3,7 @@
 
 @{
     ViewData["Title"] = "Gerenciamento de Clientes";
-    var filtro = Context.Request.Query["filtro"];
+    var FiltroNome = Context.Request.Query["FiltroNome"];
 }
 
 <div class="container mt-5">
@@ -35,9 +35,9 @@
     <div class="shadow-sm p-3 bg-white rounded mb-3">
         <form asp-controller="Cliente" asp-action="Index" method="get" class="row g-2 align-items-end">
             <div class="col-md-6">
-                <label for="filtro" class="form-label">Pesquisar cliente</label>
-                <input type="text" name="filtro" id="filtro" class="form-control"
-                       value="@filtro" placeholder="Digite nome ou e-mail">
+                <label for="FiltroNome" class="form-label">Pesquisar cliente</label>
+                <input type="text" name="FiltroNome" id="FiltroNome" class="form-control"
+                       value="@FiltroNome" placeholder="Digite nome">
             </div>
             <div class="col-auto">
                 <button type="submit" class="btn btn-outline-primary">

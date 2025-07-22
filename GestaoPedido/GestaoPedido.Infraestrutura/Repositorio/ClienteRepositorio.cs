@@ -20,10 +20,17 @@ namespace GestaoPedido.Infraestrutura.Repositorio
         //    return cliente;
         //}
 
-        //public async Task<List<Cliente>> ObterTodosAsync( CancellationToken cancellationToken)
-        //{
-        //    var cliente = await _context.ClienteDb.OrderByDescending(a => a.Id).ToListAsync();
-        //    return cliente;
-        //}
+        public async Task<List<Cliente>> ObterTodosAsync(string nome, CancellationToken cancellationToken)
+        {
+            var query =  _context.ClienteDb
+                .AsNoTracking()
+                .AsQueryable();
+
+            if (!string.IsNullOrEmpty(nome))
+            {
+                query = query.Where(a => a.Nome.Contains(nome));
+            }
+            return await query.OrderByDescending(a => a.Id).ToListAsync(cancellationToken);
+        }
     }
 }
