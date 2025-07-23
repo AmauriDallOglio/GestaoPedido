@@ -3,9 +3,9 @@
 
 @{
     ViewData["Title"] = "Gerenciamento de Pedido";
-    var filtroNumeroPedido = Context.Request.Query["filtroNumeroPedido"].ToString();
-    var filtroCliente = Context.Request.Query["filtroCliente"].ToString();
-    var filtroSituacao = Context.Request.Query["filtroSituacao"].ToString();
+    var FiltroNumeroPedido = Context.Request.Query["FiltroNumeroPedido"].ToString();
+    var FiltroNomeCliente = Context.Request.Query["FiltroNomeCliente"].ToString();
+    var FiltroSituacao = Context.Request.Query["FiltroSituacao"].ToString();
 }
 
 <div class="container mt-5 shadow-sm p-3 bg-white rounded mb-3">
@@ -36,22 +36,22 @@
     <div class="shadow-sm p-3 bg-white rounded mb-3">
         <form asp-controller="Pedido" asp-action="Index" method="get" class="row g-3 align-items-end">
             <div class="col-md-4">
-                <label for="filtroNumeroPedido" class="form-label">Número do Pedido</label>
-                <input type="text" name="filtroNumeroPedido" id="filtroNumeroPedido" class="form-control"
-                       value="@filtroNumeroPedido" placeholder="Digite o número do pedido">
+                <label for="FiltroNumeroPedido" class="form-label">Número do Pedido</label>
+                <input type="text" name="FiltroNumeroPedido" id="FiltroNumeroPedido" class="form-control"
+                       value="@FiltroNumeroPedido" placeholder="Digite o número do pedido">
             </div>
             <div class="col-md-4">
-                <label for="filtroCliente" class="form-label">Cliente</label>
-                <input type="text" name="filtroCliente" id="filtroCliente" class="form-control"
-                       value="@filtroCliente" placeholder="Digite o nome do cliente">
+                <label for="FiltroNomeCliente" class="form-label">Cliente</label>
+                <input type="text" name="FiltroNomeCliente" id="FiltroNomeCliente" class="form-control"
+                       value="@FiltroNomeCliente" placeholder="Digite o nome do cliente">
             </div>
             <div class="col-md-2">
-                <label for="filtroSituacao" class="form-label">Situação</label>
-                <select class="form-select" name="filtroSituacao" id="filtroSituacao">
+                <label for="FiltroSituacao" class="form-label">Situação</label>
+                <select class="form-select" name="FiltroSituacao" id="FiltroSituacao">
                     <option value="">Todos</option>
-@*                     <option value="0" @(filtroSituacao == "0" ? "selected" : "")>Aberto</option>
-                    <option value="1" @(filtroSituacao == "1" ? "selected" : "")>Finalizado</option>
-                    <option value="2" @(filtroSituacao == "2" ? "selected" : "")>Cancelado</option> *@
+                    <option value="0">Pendente</option>
+                    <option value="1">Em Andamento</option>
+                    <option value="2">Concluído</option>
                 </select>
             </div>
             <div class="col-md-2">

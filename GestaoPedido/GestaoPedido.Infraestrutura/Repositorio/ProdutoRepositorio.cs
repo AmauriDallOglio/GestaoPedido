@@ -42,7 +42,7 @@ namespace GestaoPedido.Infraestrutura.Repositorio
             }
             catch (Exception ex)
             {
-                throw new Exception("Erro ao buscar etapas de produção.", ex);
+                throw new Exception("Erro ao buscar produto.", ex);
             }
         }
 

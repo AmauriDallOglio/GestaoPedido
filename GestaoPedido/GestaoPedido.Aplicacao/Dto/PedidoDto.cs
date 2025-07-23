@@ -61,6 +61,13 @@ namespace GestaoPedido.Aplicacao.Dto
         }
     }
 
+    public class PedidoFiltro()
+    {
+        public string FiltroNumeroPedido { get; set; } = string.Empty;
+        public string FiltroNomeCliente { get; set; } = string.Empty;
+        public int? FiltroSituacao { get; set; }
+    }
+
     public class PedidoProdutoIncluirDto
     {
         [Required(ErrorMessage = "O campo IdProduto é obrigatório.")]

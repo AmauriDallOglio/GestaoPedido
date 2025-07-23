@@ -96,6 +96,18 @@ namespace GestaoPedido.Aplicacao.Servico
             }
         }
 
+        public async Task<List<Pedido>> ObterTodosAsynsc(PedidoFiltro pedidoFiltro , CancellationToken cancellationToken)
+        {
+            try
+            {
+                List<Pedido> pedidos = await _iPedidoRepositorio.ObterTodosIncludeAsync(pedidoFiltro.FiltroNumeroPedido, pedidoFiltro.FiltroNomeCliente, pedidoFiltro.FiltroSituacao, cancellationToken);
+                return pedidos;
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Não foi possível obter a lista de pedidos no momento. Tente novamente mais tarde.", ex);
+            }
+        }
 
     }
 }

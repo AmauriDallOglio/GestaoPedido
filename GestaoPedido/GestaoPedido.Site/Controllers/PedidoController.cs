@@ -22,11 +22,11 @@ namespace GestaoPedido.Site.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> Index( CancellationToken cancellationToken)
+        public async Task<IActionResult> Index(PedidoFiltro pedidoFiltro, CancellationToken cancellationToken)
         {
             try
             {
-                List<Pedido> resultado = await _iPedidoServico.ObterTodos(cancellationToken);
+                List<Pedido> resultado = await _iPedidoServico.ObterTodosAsynsc(pedidoFiltro, cancellationToken);
                 return View(resultado);
             }
             catch (Exception erro)
