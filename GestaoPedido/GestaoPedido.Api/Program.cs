@@ -12,7 +12,7 @@ namespace GestaoPedido.Api
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-           // builder.Services.AddSqlServer<GenericoContexto>(builder.Configuration.GetConnectionString("ConexaoPadrao"));
+            // builder.Services.AddSqlServer<GenericoContexto>(builder.Configuration.GetConnectionString("ConexaoPadrao"));
 
 
             if (!builder.Environment.IsDevelopment())
@@ -31,6 +31,7 @@ namespace GestaoPedido.Api
 
                 builder.Services.AddDbContext<GenericoContexto>(options => options.UseSqlServer(AZURE_DB));
             }
+
 
 
 

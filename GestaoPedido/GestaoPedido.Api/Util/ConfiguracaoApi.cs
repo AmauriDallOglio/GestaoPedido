@@ -1,5 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Diagnostics;
+using System.Runtime.Intrinsics.X86;
+using System;
 
 namespace GestaoPedido.Api.Util
 {
@@ -35,7 +39,17 @@ namespace GestaoPedido.Api.Util
                 {
                     Version = "v1",
                     Title = "Gestão de pedidos.",
-                    Description = "Este trabalho tem como objetivo aplicar os conceitos fundamentais da arquitetura de software estudados ao longo dos módulos do curso. Para isso, foi desenvolvida uma solução que disponibiliza publicamente dados de um sistema simulando uma empresa de vendas on-line. O projeto foi concebido seguindo princípios arquiteturais sólidos, abordando temas como Fundamentos de Arquitetura de Software, Requisitos Arquiteturais, Modelagem Arquitetural, Design Patterns, Estilos Arquiteturais e Arquiteturas Modernas. A solução implementada consiste em uma API REST, estruturada no padrão arquitetural MVC, que permite a realização de operações CRUD sobre os dados do domínio escolhido, além de funcionalidades adicionais para garantir escalabilidade e segurança. Além da implementação, o trabalho inclui a documentação detalhada da arquitetura e do projeto, cobrindo aspectos como estrutura dos componentes, definição dos endpoints, regras de negócio e padrões utilizados.",
+                    Description = @"
+                        Pós - graduação em Arquitetura de Software
+                        Desafio Final - Projetar uma API REST seguindo o padrão arquitetural MVC
+                        Enunciado
+                        A Delta Têxtil, empresa do setor têxtil com sede em Brusque / SC, enfrenta gargalos operacionais críticos relacionados à comunicação e à integração tecnológica com fornecedores.A ausência de sistemas modernos e integrados compromete a eficiência produtiva, a confiabilidade das informações e a competitividade da organização.
+                        Diante desse cenário, o projeto propõe a implementação de uma solução baseada em nuvem, com uso de serviços PaaS no Microsoft Azure e uma API RESTful, visando modernizar a comunicação, integrar os processos e permitir maior visibilidade operacional.
+                        A proposta do projeto é modernizar o ambiente de integração da Delta Têxtil com seus fornecedores, por meio da implantação de uma arquitetura baseada em PaaS no Microsoft Azure. A solução envolverá o desenvolvimento de uma API RESTful em C# (.NET), hospedada na nuvem, que será responsável por expor dados estratégicos como Clientes, Produtos e Pedidos para parceiros externos, promovendo uma comunicação mais estruturada e eficiente.
+                        Com o avanço da computação em nuvem, soluções baseadas em Platform as a Service(PaaS) passaram a oferecer vantagens significativas em termos de escalabilidade, segurança e flexibilidade.Ao adotar esse modelo, o projeto visa ilustrar os ganhos de uma arquitetura moderna e desacoplada, capaz de facilitar a integração entre sistemas internos e externos, eliminando dependências do ERP legado e promovendo maior controle operacional.
+
+
+                    ",
                     TermsOfService = new Uri("https://github.com/AmauriDallOglio/GestaoPedido"),
                     Contact = new OpenApiContact
                     {

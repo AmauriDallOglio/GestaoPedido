@@ -54,7 +54,7 @@ namespace GestaoPedido.Api.Controllers
         [HttpGet("ObterTodos"), ActionName("ObterTodos")]
         public async Task<IActionResult> ObterTodos(CancellationToken cancellationToken)
         {
-            List<Cliente> resultado = await _iClienteServico.ObterTodos(cancellationToken);
+            List<Cliente> resultado = await _iClienteServico.ObterTodosAsync(cancellationToken);
             return Ok(resultado);
         }
     }
