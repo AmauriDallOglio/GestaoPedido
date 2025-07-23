@@ -15,11 +15,11 @@ namespace GestaoPedido.Site.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index( CancellationToken cancellationToken)
+        public async Task<IActionResult> Index(FiltroProduto filtroProduto, CancellationToken cancellationToken)
         {
             try
             {
-                List<Produto> resultado = await _iProdutoServico.ObterTodos(cancellationToken);
+                List<Produto> resultado = await _iProdutoServico.ObterTodosAsync(filtroProduto, cancellationToken);
                 return View(resultado);
             }
             catch (Exception erro)

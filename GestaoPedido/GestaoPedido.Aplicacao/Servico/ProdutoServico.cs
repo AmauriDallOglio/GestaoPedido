@@ -49,10 +49,17 @@ namespace GestaoPedido.Aplicacao.Servico
 
         }
 
-        public async Task<List<Produto>> ObterTodos( CancellationToken cancellationToken)
+        public async Task<List<Produto>> ObterTodosAsync( CancellationToken cancellationToken)
         {
 
             return await _iGenericoRepositorioProduto.ObterTodosAsync( cancellationToken);
+
+        }
+
+        public async Task<List<Produto>> ObterTodosAsync(FiltroProduto filtroProduto , CancellationToken cancellationToken)
+        {
+
+            return await _iProdutoRepositorio.ObterTodosIncludeAsync(filtroProduto.FiltroNome, filtroProduto.FiltroInativo, cancellationToken);
 
         }
 

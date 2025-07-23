@@ -51,7 +51,7 @@ namespace GestaoPedido.Site.Controllers
                 }).ToList();
 
 
-                var produtos = await _iProdutoServico.ObterTodos(cancellationToken);
+                var produtos = await _iProdutoServico.ObterTodosAsync(cancellationToken);
                 //ViewData["Produtos"] = produtos.Select(p => new SelectListItem
                 //{
                 //    Value = p.Id.ToString(),
@@ -116,7 +116,7 @@ namespace GestaoPedido.Site.Controllers
                 Text = t.Nome
             }).ToList();
 
-            var produtos = await _iProdutoServico.ObterTodos(cancellationToken);
+            var produtos = await _iProdutoServico.ObterTodosAsync(cancellationToken);
             var produtosLista = produtos.Select(p => new
             {
                 value = p.Id.ToString(),

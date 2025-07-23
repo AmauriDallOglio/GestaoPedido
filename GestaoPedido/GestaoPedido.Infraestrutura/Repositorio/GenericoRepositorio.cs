@@ -21,7 +21,7 @@ namespace GestaoPedido.Infraestrutura.Repositorio
             try
             {
                 await _dbSet.AddAsync(entidade);
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync(cancellationToken);
                 return entidade;
             }
             catch (Exception ex)
@@ -35,7 +35,7 @@ namespace GestaoPedido.Infraestrutura.Repositorio
             try
             {
                 _dbSet.Update(entidade);
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync(cancellationToken);
                 return entidade;
             }
             catch (Exception ex)
@@ -52,7 +52,7 @@ namespace GestaoPedido.Infraestrutura.Repositorio
                 if (deletar.Context == null)
                     throw new Exception("Não foi possível deletar o registro!");
 
-                int gravar = await _context.SaveChangesAsync();
+                int gravar = await _context.SaveChangesAsync(cancellationToken);
                 if (gravar == 0)
                     throw new Exception("Não foi possível excluir o registro, operação cancelada!");
 
@@ -71,7 +71,7 @@ namespace GestaoPedido.Infraestrutura.Repositorio
 
         public async Task<List<T>> ObterTodosAsync(CancellationToken cancellationToken)
         {
-            return await _dbSet.ToListAsync();
+            return await _dbSet.ToListAsync(cancellationToken);
         }
     }
 }

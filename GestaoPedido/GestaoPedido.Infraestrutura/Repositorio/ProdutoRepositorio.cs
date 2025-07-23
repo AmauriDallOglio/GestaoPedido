@@ -19,6 +19,34 @@ namespace GestaoPedido.Infraestrutura.Repositorio
         //    var produto = await _context.ProdutoDb.FirstAsync(x => x.Id == id);
         //    return produto;
         //}
- 
+
+        public async Task<List<Produto>> ObterTodosIncludeAsync(string filtroPedido, bool situacao, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var query = _context.ProdutoDb
+                    .AsNoTracking()
+                    .AsQueryable();
+
+                if (situacao)
+                {
+                    query = query.Where(a => a.Inativo == true);
+                }
+
+                if (!string.IsNullOrEmpty(filtroPedido))
+                {
+                    query = query.Where(a => a.Nome.Contains(filtroPedido));
+                }
+
+                return await query.OrderByDescending(a => a.Id).ToListAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro ao buscar etapas de produção.", ex);
+            }
+        }
+
+
+
     }
 }

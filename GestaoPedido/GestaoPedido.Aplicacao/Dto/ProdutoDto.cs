@@ -14,6 +14,13 @@ namespace GestaoPedido.Aplicacao.Dto
         public bool Inativo { get; set; }
     }
 
+    public class FiltroProduto()
+    {
+        public string FiltroNome { get; set; } = string.Empty;
+        public bool FiltroInativo { get; set; }
+
+    }
+
     public class ProdutoIncluirDto
     {
         public string Nome { get; set; } = string.Empty;
