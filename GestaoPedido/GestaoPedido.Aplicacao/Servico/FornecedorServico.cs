@@ -1,4 +1,5 @@
-﻿using GestaoPedido.Aplicacao.Servico.InterfaceServico;
+﻿using GestaoPedido.Aplicacao.Dto;
+using GestaoPedido.Aplicacao.Servico.InterfaceServico;
 using GestaoPedido.Compartilhado.Util;
 using GestaoPedido.Dominio.Entidade;
 using GestaoPedido.Dominio.InterfaceRepositorio;
@@ -54,6 +55,11 @@ namespace GestaoPedido.Aplicacao.Servico
             return resultado;
         }
 
+        public async Task<List<Fornecedor>> ObterTodosAsync(FornecedorFiltro fornecedorFiltro, CancellationToken cancellationToken)
+        {
+            List<Fornecedor> resultado = await _iFornecedorRepositorio.ObterTodosAsync(fornecedorFiltro.FiltroNome, fornecedorFiltro.FiltroDocumento, fornecedorFiltro.FiltroInativo, cancellationToken);
+            return resultado;
+        }
 
         public async Task<List<Fornecedor>> ObterTodos(CancellationToken cancellationToken)
         {

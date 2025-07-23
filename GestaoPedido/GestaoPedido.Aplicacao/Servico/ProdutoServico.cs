@@ -56,7 +56,7 @@ namespace GestaoPedido.Aplicacao.Servico
 
         }
 
-        public async Task<List<Produto>> ObterTodosAsync(FiltroProduto filtroProduto , CancellationToken cancellationToken)
+        public async Task<List<Produto>> ObterTodosAsync(ProdutoFiltro filtroProduto , CancellationToken cancellationToken)
         {
 
             return await _iProdutoRepositorio.ObterTodosIncludeAsync(filtroProduto.FiltroNome, filtroProduto.FiltroInativo, cancellationToken);

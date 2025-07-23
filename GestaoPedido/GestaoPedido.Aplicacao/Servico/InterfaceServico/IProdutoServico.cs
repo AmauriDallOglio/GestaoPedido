@@ -12,7 +12,7 @@ namespace GestaoPedido.Aplicacao.Servico.InterfaceServico
         Task<bool> ExcluirAsync(Guid id, CancellationToken cancellationToken);
 
         Task<List<Produto>> ObterTodosAsync(CancellationToken cancellationToken);
-        Task<List<Produto>> ObterTodosAsync(FiltroProduto filtroProduto, CancellationToken cancellationToken);
+        Task<List<Produto>> ObterTodosAsync(ProdutoFiltro filtroProduto, CancellationToken cancellationToken);
         Task<Produto> ObterPorId(Guid id, CancellationToken cancellationToken);
 
     }

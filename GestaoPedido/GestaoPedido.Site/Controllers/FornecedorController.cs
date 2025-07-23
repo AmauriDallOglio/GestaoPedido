@@ -1,4 +1,5 @@
-﻿using GestaoPedido.Aplicacao.Servico.InterfaceServico;
+﻿using GestaoPedido.Aplicacao.Dto;
+using GestaoPedido.Aplicacao.Servico.InterfaceServico;
 using GestaoPedido.Compartilhado.Util;
 using GestaoPedido.Dominio.Entidade;
 using Microsoft.AspNetCore.Mvc;
@@ -15,9 +16,9 @@ namespace GestaoPedido.Site.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(CancellationToken cancellationToken)
+        public async Task<IActionResult> Index(FornecedorFiltro filtro, CancellationToken cancellationToken)
         {
-            var fornecedores = await _iFornecedorServico.ObterTodos(cancellationToken);
+            var fornecedores = await _iFornecedorServico.ObterTodosAsync(filtro, cancellationToken);
             //throw new ArgumentException("Teste do erro");
             List<Fornecedor> resultado = fornecedores;
             return View(resultado);

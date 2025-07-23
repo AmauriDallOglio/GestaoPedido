@@ -5,9 +5,9 @@
     ViewData["Title"] = "Gerenciamento de Fornecedores";
     var filtro = Context.Request.Query["filtro"];
 
-    var filtroNome = Context.Request.Query["filtroNome"].ToString();
-    var filtroDocumento = Context.Request.Query["filtroDocumento"].ToString();
-    var filtroInativo = Context.Request.Query["filtroInativo"].ToString() == "true";
+    var FiltroNome = Context.Request.Query["FiltroNome"].ToString();
+    var FiltroDocumento = Context.Request.Query["FiltroDocumento"].ToString();
+    var FiltroInativo = Context.Request.Query["FiltroInativo"].ToString() == "true";
 
 }
 
@@ -39,20 +39,20 @@
     <div class="shadow-sm p-3 bg-white rounded mb-3">
         <form asp-controller="Fornecedor" asp-action="Index" method="get" class="row g-3 align-items-end">
             <div class="col-md-4">
-                <label for="filtroNome" class="form-label">Nome</label>
-                <input type="text" name="filtroNome" id="filtroNome" class="form-control"
-                       value="@filtroNome" placeholder="Digite o nome">
+                <label for="FiltroNome" class="form-label">Nome</label>
+                <input type="text" name="FiltroNome" id="FiltroNome" class="form-control"
+                       value="@FiltroNome" placeholder="Digite o nome">
             </div>
             <div class="col-md-4">
-                <label for="filtroDocumento" class="form-label">Documento</label>
-                <input type="text" name="filtroDocumento" id="filtroDocumento" class="form-control"
-                       value="@filtroDocumento" placeholder="Digite o documento">
+                <label for="FiltroDocumento" class="form-label">Documento</label>
+                <input type="text" name="FiltroDocumento" id="FiltroDocumento" class="form-control"
+                       value="@FiltroDocumento" placeholder="Digite o documento">
             </div>
             <div class="col-md-2 d-flex align-items-center">
                 <div class="form-check mt-3">
-                    <input class="form-check-input" type="checkbox" name="filtroInativo" id="filtroInativo" value="true"
-                           @(filtroInativo ? "checked" : "")>
-                    <label class="form-check-label" for="filtroInativo">
+                    <input class="form-check-input" type="checkbox" name="FiltroInativo" id="FiltroInativo" value="true"
+                    @(FiltroInativo ? "checked" : "")>
+                    <label class="form-check-label" for="FiltroInativo">
                         Apenas inativos
                     </label>
                 </div>

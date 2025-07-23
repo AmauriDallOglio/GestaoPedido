@@ -15,7 +15,7 @@ namespace GestaoPedido.Site.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(FiltroProduto filtroProduto, CancellationToken cancellationToken)
+        public async Task<IActionResult> Index(ProdutoFiltro filtroProduto, CancellationToken cancellationToken)
         {
             try
             {
