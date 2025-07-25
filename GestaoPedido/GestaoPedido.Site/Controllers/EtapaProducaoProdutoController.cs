@@ -106,8 +106,18 @@ namespace GestaoPedido.Site.Controllers
         {
             try
             {
+                if (dto.IdProduto == Guid.Empty)
+                {
+                    ModelState.AddModelError(nameof(dto.IdProduto), "O campo 'Produto' é obrigatório.");
+                }
 
-                PedidoProduto pedidoProduto = await _IPedidoProdutoServico.ObterPeloProdutoAsync(dto.IdPedido, dto.IdProduto, cancellationToken);
+                if (!ModelState.IsValid)
+                {
+   
+                    return View(dto);
+                }
+
+                PedidoProduto pedidoProduto = await _IPedidoProdutoServico.ObterPeloProdutoAsync(dto.IdPedido, dto.IdProduto??Guid.NewGuid(), cancellationToken);
                 dto.IdPedidoProduto = pedidoProduto.Id;
 
                 // Chamada para gravar os dados

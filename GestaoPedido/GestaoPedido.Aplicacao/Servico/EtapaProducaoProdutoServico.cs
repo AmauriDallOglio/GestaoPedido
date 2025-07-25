@@ -35,7 +35,7 @@ namespace GestaoPedido.Aplicacao.Servico
         {
             try
             {
-                EtapaProducaoProduto etapaProducaoProduto = new EtapaProducaoProduto().Incluir(dto.IdEtapaProducao, dto.IdPedidoProduto, dto.QuantidadeProduzida);
+                EtapaProducaoProduto etapaProducaoProduto = new EtapaProducaoProduto().Incluir(dto.IdEtapaProducao, dto.IdPedidoProduto, dto.QuantidadeProduzida??0);
                 EtapaProducaoProduto? resultado = await _iGenericoRepositorioEtapaProducaoProduto.IncluirAsync(etapaProducaoProduto, cancellationToken);
                 EtapaProducao? etapaProducao = await _iEtapaProducaoServico.ObterPorId(etapaProducaoProduto.IdEtapaProducao, cancellationToken);
                 etapaProducao.AlterarSituacao(1);

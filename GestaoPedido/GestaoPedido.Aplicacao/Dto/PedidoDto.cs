@@ -6,7 +6,15 @@ namespace GestaoPedido.Aplicacao.Dto
 {
     public class PedidoIncluirDto
     {
-        public Guid Id { get; set; }
+        //public Guid Id { get; set; }
+
+
+        //[NotMapped]
+        //[Required(ErrorMessage = "O campo Cliente é obrigatório.")]
+        //public Guid? IdClienteValidacao
+        //{
+        //    get => IdCliente == Guid.Empty ? (Guid?)null : IdCliente;
+        //}
 
         [Required(ErrorMessage = "O campo Cliente é obrigatório.")]
         public Guid IdCliente { get; set; }
@@ -35,7 +43,7 @@ namespace GestaoPedido.Aplicacao.Dto
             {
                 IdCliente = IdCliente,
                 NumeroPedido = NumeroPedido,
-                ValorTotal = 0m, // Inicializa para somar depois
+                ValorTotal = 0 , //0m, // Inicializa para somar depois
                 Situacao = Situacao,
                 DataCadastro = DataCadastro,
                 DataAlteracao = DataAlteracao,
@@ -48,9 +56,9 @@ namespace GestaoPedido.Aplicacao.Dto
                     return new PedidoProduto
                     {
                         IdProduto = x.IdProduto,
-                        Quantidade = quantidade,
+                        Quantidade = quantidade??0,
                         PrecoUnitario = preco,
-                        Total = total,
+                        Total = total??0,
                         DataCadastro = x.DataCadastro,
                         DataAlteracao = x.DataAlteracao
                     };
@@ -75,17 +83,17 @@ namespace GestaoPedido.Aplicacao.Dto
 
         [Required]
         [Range(1, int.MaxValue, ErrorMessage = "Quantidade deve ser maior que zero.")]
-        public int Quantidade { get; set; }
+        public int? Quantidade { get; set; }
 
         [Required]
         [Range(0, double.MaxValue, ErrorMessage = "Preço unitário não pode ser negativo.")]
         [Column(TypeName = "decimal(12,2)")]
-        public decimal PrecoUnitario { get; set; }
+        public decimal? PrecoUnitario { get; set; }
 
         [Required]
         [Range(0, double.MaxValue, ErrorMessage = "Total não pode ser negativo.")]
         [Column(TypeName = "decimal(12,2)")]
-        public decimal Total { get; set; }
+        public decimal? Total { get; set; }
 
         [Required]
         public DateTime DataCadastro { get; set; } = DateTime.Now;

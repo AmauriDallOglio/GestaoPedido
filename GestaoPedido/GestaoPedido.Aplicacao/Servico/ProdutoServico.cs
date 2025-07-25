@@ -18,7 +18,7 @@ namespace GestaoPedido.Aplicacao.Servico
 
         public async Task<Guid> IncluirAsync(ProdutoIncluirDto dto, CancellationToken cancellationToken)
         {
-            Produto produto = new Produto().Incluir(dto.Nome, dto.Descricao, dto.Preco, dto.Quantidade, dto.Codigo);
+            Produto produto = new Produto().Incluir(dto.Nome, dto.Descricao, dto.Preco??0, dto.Quantidade ?? 0, dto.Codigo);
 
             Produto resultado = await _iGenericoRepositorioProduto.IncluirAsync(produto, cancellationToken);
             return resultado.Id;
