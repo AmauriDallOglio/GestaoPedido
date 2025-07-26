@@ -1,10 +1,8 @@
 ﻿using GestaoPedido.Aplicacao.Dto;
-using GestaoPedido.Aplicacao.Dto.EtapaProducaoProduto;
 using GestaoPedido.Aplicacao.Servico.InterfaceServico;
 using GestaoPedido.Compartilhado.Util;
 using GestaoPedido.Dominio.Entidade;
 using GestaoPedido.Dominio.InterfaceRepositorio;
-using GestaoPedido.Infraestrutura.Repositorio;
 
 namespace GestaoPedido.Aplicacao.Servico
 {

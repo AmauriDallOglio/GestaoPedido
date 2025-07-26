@@ -1,5 +1,4 @@
 ﻿using GestaoPedido.Aplicacao.Dto;
-using GestaoPedido.Aplicacao.Dto.EtapaProducaoProduto;
 using GestaoPedido.Compartilhado.Util;
 using GestaoPedido.Dominio.Entidade;
 

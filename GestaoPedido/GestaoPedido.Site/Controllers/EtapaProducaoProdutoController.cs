@@ -1,5 +1,4 @@
 ﻿using GestaoPedido.Aplicacao.Dto;
-using GestaoPedido.Aplicacao.Dto.EtapaProducaoProduto;
 using GestaoPedido.Aplicacao.Servico.InterfaceServico;
 using GestaoPedido.Dominio.Entidade;
 using Microsoft.AspNetCore.Mvc;
