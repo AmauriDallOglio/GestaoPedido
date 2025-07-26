@@ -5,8 +5,8 @@
 @{
     ViewData["Title"] = "Gerenciamento de Etapas de Produção";
 
-    var FiltroPedido = Context.Request.Query["filtroDescricao"].ToString();
-    //var FiltroSituacao = Context.Request.Query["filtroSituacao"].ToString();
+    var FiltroPedido = Context.Request.Query["FiltroPedido"].ToString();
+    var FiltroSituacao = Context.Request.Query["FiltroSituacao"].ToString();
     int? filtroSituacao = ViewBag.FiltroSituacao as int?;
     //int? filtroSituacao = Context.Request.Query["filtroSituacao"].ToString() is string fs && int.TryParse(fs, out var val) ? val : null;
 }
@@ -41,7 +41,7 @@
             <div class="col-md-6">
                 <label for="FiltroPedido" class="form-label">Pedido</label>
                 <input type="text" name="FiltroPedido" id="FiltroPedido" class="form-control"
-                       value="@FiltroPedido" placeholder="Digite a descrição">
+                       value="@FiltroPedido" placeholder="Digite o número do pedido">
             </div>
             <div class="col-md-3">
                 <label for="FiltroSituacao" class="form-label">Situação</label>
@@ -59,15 +59,7 @@
             </div>
         </form>
     </div>
-
-    @* Botão Novo *@
-@*     <div class="shadow-sm p-3 bg-white rounded mb-3 d-flex justify-content-start">
-        <a class="btn btn-outline-success"
-           asp-controller="EtapaProducao"
-           asp-action="Incluir">
-            <i class="bi bi-plus-circle"></i> Incluir
-        </a>
-    </div> *@
+ 
 
     @* Tabela *@
     <div class="shadow-sm p-3 bg-white rounded">
@@ -75,14 +67,14 @@
             <thead class="table-primary">
                 <tr>
                     <th style="width: 10%">Pedido</th>
-                    <th style="width: 5%" class="text-center">Quantidade</th>
-                    <th style="width: 5%" class="text-center">Situação</th>
                     <th style="width: 10%" class="text-center">Data Cadastro</th>
                     <th style="width: 10%" class="text-center">Data Inicial</th>
                     <th style="width: 10%" class="text-center">Data Final</th>
-                    <th style="width: 10%" class="text-center">Ult. Atualização</th>
+                    <th style="width: 5%" class="text-center">Quantidade</th>
                     <th style="width: 5%" class="text-center">Produzido</th>
-                    <th style="width: 5%" class="text-center">% Produzido</th>
+                    <th style="width: 5%" class="text-center">%</th>
+                    <th style="width: 10%" class="text-center">Ult. Atualização</th>
+                    <th style="width: 5%" class="text-center">Situação</th>
                     <th style="width: 30%" class="text-center">Ações</th>
                 </tr>
             </thead>
@@ -93,7 +85,17 @@
                     {
                         <tr>
                             <td>@etapa.CodigoPedido</td>
+                            <td class="text-center">@etapa.DataCadastro.ToString("dd/MM/yyyy")</td>
+                            <td class="text-center">@etapa.DataInicialFabricacao.ToString("dd/MM/yyyy")</td>
+                            <td class="text-center">
+                                @(etapa.DataFinalFabricacao?.ToString("dd/MM/yyyy") ?? "-")
+                            </td>
                             <td class="text-center">@etapa.Quantidade</td>
+                            <td class="text-center">@etapa.QuantidadeProduzida</td>
+                            <td class="text-center">@etapa.PercentualProduzida%</td>
+                            <td class="text-center">
+                                @(etapa.DataUltimaAtualizacao?.ToString("dd/MM/yyyy HH:mm") ?? "-")
+                            </td>
                             <td class="text-center">
                                 @{
                                     var situacao = etapa.Situacao switch
@@ -106,16 +108,6 @@
                                 }
                                 @situacao
                             </td>
-                            <td class="text-center">@etapa.DataCadastro.ToString("dd/MM/yyyy")</td>
-                            <td class="text-center">@etapa.DataInicialFabricacao.ToString("dd/MM/yyyy")</td>
-                            <td class="text-center">
-                                @(etapa.DataFinalFabricacao?.ToString("dd/MM/yyyy") ?? "-")
-                            </td>
-                            <td class="text-center">
-                                @(etapa.DataUltimaAtualizacao?.ToString("dd/MM/yyyy HH:mm") ?? "-")
-                            </td>
-                            <td class="text-center">@etapa.QuantidadeProduzida</td>
-                            <td class="text-center">@etapa.PercentualProduzida</td>
                             <td class="text-center">
 
                                 @* 
@@ -130,6 +122,7 @@
                                 <a class="btn btn-outline-warning btn-sm"
                                    asp-route-idEtapaProducao="@etapa.Id"
                                    asp-route-idPedido="@etapa.IdPedido"
+                                   asp-route-codigoPedido="@etapa.CodigoPedido"
                                    asp-controller="EtapaProducaoProduto"
                                    asp-action="Index">
                                     <i class="bi bi-pencil"></i> Produção
@@ -156,7 +149,7 @@
                 else
                 {
                     <tr>
-                        <td colspan="9" class="text-center">Nenhum registro encontrado.</td>
+                        <td colspan="10" class="text-center">Nenhum registro encontrado.</td>
                     </tr>
                 }
             </tbody>

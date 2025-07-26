@@ -79,8 +79,9 @@
                     <th style="width: 15%">Número Pedido</th>
                     <th style="width: 25%">Cliente</th>
                     <th style="width: 15%">Data Cadastro</th>
-                    <th style="width: 15%" class="text-end">Valor Total</th>
+                    <th style="width: 10%" class="text-end">Valor Total</th>
                     <th style="width: 10%" class="text-center">Qtd Produtos</th>
+                    <th style="width: 5%" class="text-center">Situação</th>
                     <th style="width: 20%" class="text-center">Ações</th>
                 </tr>
             </thead>
@@ -95,6 +96,18 @@
                             <td>@pedido.DataCadastro.ToString("dd/MM/yyyy")</td>
                             <td class="text-end">@pedido.ValorTotal.ToString("C")</td>
                             <td class="text-center">@pedido.PedidoProdutos?.Count() </td>
+                            <td class="text-center">
+                                @{
+                                    var situacao = @pedido.Situacao switch
+                                    {
+                                        0 => "Pendente",
+                                        1 => "Em Andamento",
+                                        2 => "Concluído",
+                                        _ => "Desconhecida"
+                                    };
+                                }
+                                @situacao
+                            </td>
                             <td class="text-center">
                                 @* Exemplo de ações: editar, detalhes (comentadas) *@
                                 @* 
@@ -133,7 +146,7 @@
                 <tr>
                     <td colspan="1" class="fw-bold text-center">Total de Registros: @Model.Count()</td>
                     <td colspan="3" class="fw-bold text-end">  @Model.Sum(p => p.ValorTotal).ToString("C")</td>
-                    <td colspan="2" class="fw-bold text-center"></td>
+                    <td colspan="3" class="fw-bold text-center"></td>
                 </tr>
             </tfoot>
         </table>

@@ -5,6 +5,10 @@
 
 @{
     ViewData["Title"] = "Incluir Etapa de Produção Produto";
+    Guid idPedido = ViewBag.IdPedido;
+    Guid idEtapaProducao = ViewBag.IdEtapaProducao;
+    string codigoPedido = ViewBag.CodigoPedido;
+ 
 }
 
 <div class="container mt-5">
@@ -34,7 +38,7 @@
                 <!-- Campo oculto: IdEtapaProducao -->
                 <input type="hidden" asp-for="IdPedido" />
                 <input type="hidden" asp-for="IdEtapaProducao" />
-  
+                <input type="hidden" asp-for="CodigoPedido" />
 
                 <div class="col-md-12">
                     <label for="IdProduto" class="form-label">Produto:</label>
@@ -56,6 +60,9 @@
                 <a class="btn btn-outline-secondary"
                    asp-controller="EtapaProducaoProduto"
                    asp-action="Index"
+                   asp-route-idPedido="@idPedido"
+                   asp-route-idEtapaProducao="@idEtapaProducao"
+                   asp-route-codigoPedido="@codigoPedido"
                    role="button">Cancelar</a>
 
                 <button type="submit" class="btn btn-outline-primary">Gravar</button>

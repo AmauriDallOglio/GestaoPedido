@@ -5,9 +5,10 @@
 @{
     ViewData["Title"] = "Gerenciamento de Produção por Produto";
 
-    var filtroCodigo = Context.Request.Query["filtroCodigo"].ToString();
+     // var filtroCodigo = Context.Request.Query["filtroCodigo"].ToString();
     var filtroProduto = Context.Request.Query["filtroProduto"].ToString();
-
+    var CodigoPedido = ViewBag.CodigoPedido;
+    var filtroCodigo = ViewBag.filtroCodigo;
     Guid idEtapaProducao = ViewBag.IdEtapaProducao;
     Guid idPedido = ViewBag.IdPedido;
 
@@ -43,18 +44,19 @@
     @* Filtros *@
     <div class="shadow-sm p-3 bg-white rounded mb-3">
         <form asp-controller="EtapaProducaoProduto" asp-action="Index" method="get" class="row g-3 align-items-end">
-            <div class="col-md-6">
-                <label for="filtroCodigo" class="form-label">Código Pedido</label>
+            <div class="col-md-5">
+                <label for="filtroCodigo" class="form-label">Pedido</label>
                 <input type="text" name="filtroCodigo" id="filtroCodigo" class="form-control"
-                       value="@filtroCodigo" placeholder="Digite o código do pedido">
+                       value="@filtroCodigo" placeholder="Digite o código do pedido" disabled>
             </div>
-            <div class="col-md-6">
-                <label for="filtroProduto" class="form-label">Nome do Produto</label>
+            <div class="col-md-5">
+                <label for="filtroProduto" class="form-label">Produto</label>
                 <input type="text" name="filtroProduto" id="filtroProduto" class="form-control"
                        value="@filtroProduto" placeholder="Digite o nome do produto">
             </div>
-            <div class="col-md-3">
-                <button type="submit" class="btn btn-outline-primary w-100">
+            <div class="col-md-2">
+                <button type="submit" 
+                    class="btn btn-outline-primary w-100">
                     <i class="bi bi-search"></i> Buscar
                 </button>
             </div>
@@ -66,8 +68,9 @@
         <a class="btn btn-outline-success"
             asp-controller="EtapaProducaoProduto"
             asp-route-idPedido="@idPedido"
-            asp-action="Incluir"
-            asp-route-idEtapaProducao="@idEtapaProducao">
+            asp-route-idEtapaProducao="@idEtapaProducao"
+           asp-route-codigoPedido="@CodigoPedido"
+            asp-action="Incluir">
             <i class="bi bi-plus-circle"></i> Incluir
         </a>
     </div>
@@ -79,15 +82,11 @@
         <table class="table table-bordered table-hover table-striped align-middle">
             <thead class="table-primary">
                 <tr>
-@*                     <th>ID</th>
-                    <th>ID Etapa Produção</th>
-                    <th>ID Pedido Produto</th> *@
-                    <th class="text-center">Código Pedido</th>
-                    <th class="text-center">Nome Produto</th>
-                    <th class="text-center">Descrição Produto</th>
-                    <th class="text-center">Quantidade Produzida</th>
-                    <th class="text-center">Data Cadastro</th>
-                    @* <th class="text-center">Data Alteração</th> *@
+                    @* <th class="text-center">Pedido</th> *@
+                    <th class="text-center">Produto</th>
+                    <th class="text-center">Descrição</th>
+                    <th class="text-center">Produzida</th>
+                    <th class="text-center">Data</th>
                     <th class="text-center">Ações</th>
                 </tr>
             </thead>
@@ -97,25 +96,12 @@
                     foreach (var item in Model)
                     {
                         <tr>
-    @*                         <td>@item.Id</td>
-                            <td>@item.IdEtapaProducao</td>
-                            <td>@item.IdPedidoProduto</td> *@
-                            <td class="text-center">@item.CodigoPedido</td>
+                            @* <td class="text-center">@item.CodigoPedido</td> *@
                             <td class="text-center">@item.NomeProduto</td>
                             <td class="text-center">@(string.IsNullOrWhiteSpace(item.DescricaoProduto) ? "-" : item.DescricaoProduto)</td>
                             <td class="text-center">@item.QuantidadeProduzida</td>
                             <td class="text-center">@item.DataCadastro.ToString("dd/MM/yyyy HH:mm")</td>
-@*                             <td class="text-center">
-                                @(item.DataAlteracao.HasValue ? item.DataAlteracao.Value.ToString("dd/MM/yyyy HH:mm") : "-")
-                            </td> *@
                             <td class="text-center">
-              @*                   <a class="btn btn-outline-warning btn-sm"
-                                   asp-route-id="@item.Id"
-                                   asp-controller="EtapaProducaoProduto"
-                                   asp-action="Editar">
-                                    <i class="bi bi-pencil"></i> Editar
-                                </a> *@
-
                                 <a class="btn btn-outline-danger btn-sm"
                                    asp-controller="EtapaProducaoProduto"
                                    asp-action="Excluir"
@@ -123,7 +109,6 @@
                                    asp-route-idEtapaProducaoProduto="@item.Id">
                                     <i class="bi bi-trash"></i> Excluir
                                 </a>
-
                             </td>
                         </tr>
                     }
@@ -131,14 +116,16 @@
                 else
                 {
                     <tr>
-                        <td colspan="10" class="text-center">Nenhum registro encontrado.</td>
+                        <td colspan="6" class="text-center">Nenhum registro encontrado.</td>
                     </tr>
                 }
             </tbody>
             <tfoot class="table-primary">
                 <tr>
-                    <td colspan="1" class="fw-bold text-center">Total de Registros: @Model.Count()</td>
-                    <td colspan="5" class="fw-bold text-center">Total produzido: @Model.Sum(x => x.QuantidadeProduzida)</td>
+                    <td colspan="1" class="fw-bold text-center">Registros: @Model.Count()</td>
+                    <td colspan="1" class="fw-bold text-center"></td>
+                    <td colspan="1" class="fw-bold text-center">Total: @Model.Sum(x => x.QuantidadeProduzida)</td>
+                    <td colspan="3" class="fw-bold text-center"></td>
                 </tr>
             </tfoot>
         </table>

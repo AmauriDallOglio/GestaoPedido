@@ -13,22 +13,25 @@ namespace GestaoPedido.Aplicacao.Servico
         private readonly IEtapaProducaoServico _iEtapaProducaoServico;
         //private readonly IEtapaProducaoRepositorio _iEtapaProducaoRepositorio;
         private readonly IEtapaProducaoProdutoRepositorio _iEtapaProducaoProdutoRepositorio;
-       // private readonly IProdutoRepositorio _iProdutoRepositorio;
+        //private readonly IPedidoRepositorio _IPedidoRepositorio;
+        private readonly IProdutoRepositorio _iProdutoRepositorio;
         private readonly IGenericoRepositorio<EtapaProducaoProduto> _iGenericoRepositorioEtapaProducaoProduto;
         private readonly IGenericoRepositorio<EtapaProducao> _iGenericoRepositorioEtapaProducao;
         public EtapaProducaoProdutoServico(IEtapaProducaoProdutoRepositorio iEtapaProducaoProdutoRepositorio,
-                                          // IProdutoRepositorio iProdutoRepositorio, 
+                                           IProdutoRepositorio iProdutoRepositorio,
                                            IGenericoRepositorio<EtapaProducaoProduto> iGenericoRepositorioEtapaProducaoProduto,
                                            IGenericoRepositorio<EtapaProducao> iGenericoRepositorioEtapaProducao,
-                                           IEtapaProducaoServico iEtapaProducaoServico)
+                                           IEtapaProducaoServico iEtapaProducaoServico
+                                           )
                                           // IEtapaProducaoRepositorio iEtapaProducaoRepositorio)
         {
             _iEtapaProducaoProdutoRepositorio = iEtapaProducaoProdutoRepositorio;
-          //  _iProdutoRepositorio = iProdutoRepositorio;
+            _iProdutoRepositorio = iProdutoRepositorio;
             _iGenericoRepositorioEtapaProducaoProduto = iGenericoRepositorioEtapaProducaoProduto;
             _iEtapaProducaoServico = iEtapaProducaoServico;
            // _iEtapaProducaoRepositorio = iEtapaProducaoRepositorio;
             _iGenericoRepositorioEtapaProducao = iGenericoRepositorioEtapaProducao;
+            //_IPedidoRepositorio = pedidoRepositorio;
         }
 
         public async Task<Guid> IncluirAsync(EtapaProducaoProdutoIncluirDto dto, CancellationToken cancellationToken)
@@ -70,6 +73,8 @@ namespace GestaoPedido.Aplicacao.Servico
             {
                 List<EtapaProducaoProduto> produtosProduzidos = await _iEtapaProducaoProdutoRepositorio.ObterTodosIncludeAsync(idEtapaProducao, cancellationToken);
                 List<EtapaProducaoProdutoObterTodosDto> produtos = new List<EtapaProducaoProdutoObterTodosDto>();
+                var idPedido = produtosProduzidos.Select(a => a.PedidoProduto.IdPedido).FirstOrDefault();
+                //Pedido pedido = _IPedidoRepositorio.ObterPorIdAsync(idPedido, cancellationToken).Result;
                 foreach (EtapaProducaoProduto item in produtosProduzidos.OrderByDescending(a => a.DataCadastro))
                 {
                     EtapaProducaoProdutoObterTodosDto etapaProducaoProdutoObterTodosDto = new();
@@ -77,7 +82,7 @@ namespace GestaoPedido.Aplicacao.Servico
                     etapaProducaoProdutoObterTodosDto.Id = item.Id;
                     etapaProducaoProdutoObterTodosDto.IdEtapaProducao = item.IdEtapaProducao;
                     etapaProducaoProdutoObterTodosDto.IdPedidoProduto = item.IdPedidoProduto;
-                    etapaProducaoProdutoObterTodosDto.CodigoPedido = item.PedidoProduto.Produto.Codigo;
+                   // etapaProducaoProdutoObterTodosDto.CodigoPedido = pedido.NumeroPedido;
                     etapaProducaoProdutoObterTodosDto.DescricaoProduto =  item.PedidoProduto.Produto.Descricao;
                     etapaProducaoProdutoObterTodosDto.NomeProduto = item.PedidoProduto.Produto.Nome;
                     etapaProducaoProdutoObterTodosDto.DataCadastro = item.DataCadastro;

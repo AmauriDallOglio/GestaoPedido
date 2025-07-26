@@ -9,7 +9,7 @@ namespace GestaoPedido.Aplicacao.Dto
         [Required(ErrorMessage = "O campo 'Etapa de Produção' é obrigatório.")]
         public Guid IdEtapaProducao { get; set; }
 
-
+        public string CodigoPedido { get; set; } = string.Empty;
  
         public Guid IdPedido { get; set; }
         [Required(ErrorMessage = "O campo 'Produto' é obrigatório.")]
