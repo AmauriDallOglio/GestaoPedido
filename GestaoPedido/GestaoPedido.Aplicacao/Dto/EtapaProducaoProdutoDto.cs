@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+﻿using GestaoPedido.Dominio.Entidade;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -68,8 +69,25 @@ namespace GestaoPedido.Aplicacao.Dto
         public string NomeProduto { get; set; } = string.Empty;
 
         public string? DescricaoProduto { get; set; }
+ 
 
+        public Guid IdPedido { get; set; }
 
+ 
+        public EtapaProducaoProdutoObterTodosDto ConverterEtapaProducaoProduto(EtapaProducaoProduto etapaProducaoProduto)
+        {
+            QuantidadeProduzida = etapaProducaoProduto.QuantidadeProduzida;
+            Id = etapaProducaoProduto.Id;
+            IdEtapaProducao = etapaProducaoProduto.IdEtapaProducao;
+            IdPedidoProduto = etapaProducaoProduto.IdPedidoProduto;
+            IdPedido = etapaProducaoProduto.EtapaProducao.Pedido.Id;
+            CodigoPedido = etapaProducaoProduto.EtapaProducao.Pedido.NumeroPedido;
+            DescricaoProduto = etapaProducaoProduto.PedidoProduto.Produto.Descricao;
+            NomeProduto = etapaProducaoProduto.PedidoProduto.Produto.Nome;
+            DataCadastro = etapaProducaoProduto.DataCadastro;
+            DataAlteracao = etapaProducaoProduto.DataAlteracao;
+            return this;
+        }
 
 
     }
@@ -84,12 +102,22 @@ namespace GestaoPedido.Aplicacao.Dto
         public Guid IdEtapaProducao { get; set; }
         public string NomeProduto { get; set; } = string.Empty ;
 
-        public EtapaProducaoProdutoExcluirDto(Guid id, Guid idEtapaProduca, string nomeProduto)
+        public Guid IdPedido { get; set; }
+        public string CodigoPedido { get; set; } = string.Empty;
+        public EtapaProducaoProdutoExcluirDto()  
+        {
+        }
+
+        public EtapaProducaoProdutoExcluirDto(Guid id, Guid idEtapaProduca, string nomeProduto, Guid idPedido, string codigoPedido)
         {
             Id = id;
             IdEtapaProducao = idEtapaProduca;
             NomeProduto = nomeProduto;
+            IdPedido = idPedido;
+            CodigoPedido = codigoPedido;
             return;
+        
+                
         }
 
     }

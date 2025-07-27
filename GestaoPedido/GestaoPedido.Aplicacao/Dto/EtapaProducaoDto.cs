@@ -19,6 +19,26 @@ namespace GestaoPedido.Aplicacao.Dto
         public DateTime? DataAlteracao { get; set; }
         public DateTime? DataUltimaAtualizacao { get; set; }
         public String CodigoPedido { get; set; } = String.Empty;
+
+        public EtapaProducaoDto ConverterEtapaProducao(EtapaProducao etapaProducao, DateTime dataUltimaAtualizacao, int quantidadeProduzida)
+        {
+            QuantidadeProduzida = quantidadeProduzida;
+            Id = etapaProducao.Id;
+            Descricao = etapaProducao.Descricao;
+            Quantidade = etapaProducao.Quantidade;
+            PercentualProduzida = etapaProducao.Quantidade > 0 ? (int)Math.Round((decimal)quantidadeProduzida / etapaProducao.Quantidade * 100) : 0;
+            IdFornecedor = etapaProducao.IdFornecedor;
+            IdPedido = etapaProducao.IdPedido;
+            DataInicialFabricacao = etapaProducao.DataInicialFabricacao;
+            DataFinalFabricacao = etapaProducao.DataFinalFabricacao;
+            DataCadastro = etapaProducao.DataCadastro;
+            DataAlteracao = etapaProducao.DataAlteracao;
+            DataUltimaAtualizacao = dataUltimaAtualizacao;
+            CodigoPedido = etapaProducao.Pedido.NumeroPedido;
+            Situacao = etapaProducao.Situacao;
+
+            return this;
+        }
  
     }
 

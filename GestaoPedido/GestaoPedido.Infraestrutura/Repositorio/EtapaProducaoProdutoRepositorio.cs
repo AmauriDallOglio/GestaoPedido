@@ -19,6 +19,8 @@ namespace GestaoPedido.Infraestrutura.Repositorio
                                                                                      .Where(a => a.IdEtapaProducao == idEtapaProducao )
                                                                                      .Include(a => a.PedidoProduto)
                                                                                      .ThenInclude(a => a.Produto)
+                                                                                     .Include(a => a.EtapaProducao)
+                                                                                     .ThenInclude(a => a.Pedido)
                                                                                      .ToListAsync(cancellationToken);
             return produtos;
         }
@@ -29,6 +31,8 @@ namespace GestaoPedido.Infraestrutura.Repositorio
                                                                                .Where(a => a.IdEtapaProducao == idEtapaProducao && a.Id == idEtapaProducaoProduto)
                                                                                .Include(a => a.PedidoProduto)
                                                                                .ThenInclude(a => a.Produto)
+                                                                                .Include(a => a.EtapaProducao)
+                                                                                .ThenInclude(a => a.Pedido)
                                                                                .FirstOrDefaultAsync(cancellationToken);
             return produtos;
         }

@@ -27,26 +27,9 @@ namespace GestaoPedido.Aplicacao.Servico
                 List<EtapaProducaoDto> etapasProducaoDto = new List<EtapaProducaoDto>();
                 foreach (EtapaProducao item in etapas)
                 {
-                    var quantidadeProduzida = item.EtapaProducaoProdutos.Sum(a => a.QuantidadeProduzida);
+                    int quantidadeProduzida = item.EtapaProducaoProdutos.Sum(a => a.QuantidadeProduzida);
                     DateTime dataUltimaAtualizacao = item.EtapaProducaoProdutos.OrderByDescending(a => a.DataCadastro).Select(a => a.DataCadastro).FirstOrDefault();
-                    EtapaProducaoDto dto = new()
-                    {
-                        QuantidadeProduzida = quantidadeProduzida,
-                        Id = item.Id,
-                        Descricao = item.Descricao,
-                        Quantidade = item.Quantidade,
-                        PercentualProduzida = item.Quantidade > 0 ? (int)Math.Round((decimal)quantidadeProduzida / item.Quantidade * 100) : 0,
-                        IdFornecedor = item.IdFornecedor,
-                        IdPedido = item.IdPedido,
-                        DataInicialFabricacao = item.DataInicialFabricacao,
-                        DataFinalFabricacao = item.DataFinalFabricacao,
-                        DataCadastro = item.DataCadastro,
-                        DataAlteracao = item.DataAlteracao,
-                        DataUltimaAtualizacao = dataUltimaAtualizacao,
-                        CodigoPedido = item.Pedido.NumeroPedido,
-                        Situacao = item.Situacao
-                    };
-
+                    EtapaProducaoDto dto = new EtapaProducaoDto().ConverterEtapaProducao(item, dataUltimaAtualizacao, quantidadeProduzida);
                     etapasProducaoDto.Add(dto);
                 }
                 return etapasProducaoDto;

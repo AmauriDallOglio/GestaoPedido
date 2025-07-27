@@ -17,15 +17,17 @@
             }
 
             <!-- Campo oculto: IdEtapaProducao -->
-            <input type="hidden" asp-for="IdEtapaProducao" />
+         @*    <input type="hidden" asp-for="IdEtapaProducao" /> *@
+            <input type="hidden" name="IdEtapaProducao" value="@Model.IdEtapaProducao" />
+            <input type="hidden" name="Id" value="@Model.Id" />
+            <input type="hidden" name="CodigoPedido" value="@Model.CodigoPedido" />
+
 
             <div class="text-center mb-4">
                 <h1 class="display-6 text-danger">Deseja realmente excluir o produto da etapa?</h1>
                 <p><strong>Nome do Produto:</strong> @Model.NomeProduto</p>
                 <p><strong>ID:</strong> @Model.Id</p>
             </div>
-
-            <input type="hidden" name="id" value="@Model.Id" />
 
             <div class="d-flex justify-content-between gap-2">
                 <a asp-controller="EtapaProducaoProduto"

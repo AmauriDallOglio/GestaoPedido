@@ -9,10 +9,7 @@ namespace GestaoPedido.Aplicacao.Servico
     public class EtapaProducaoProdutoServico : IEtapaProducaoProdutoServico
     {
         private readonly IEtapaProducaoServico _iEtapaProducaoServico;
-        //private readonly IEtapaProducaoRepositorio _iEtapaProducaoRepositorio;
         private readonly IEtapaProducaoProdutoRepositorio _iEtapaProducaoProdutoRepositorio;
-        //private readonly IPedidoRepositorio _IPedidoRepositorio;
-        private readonly IProdutoRepositorio _iProdutoRepositorio;
         private readonly IGenericoRepositorio<EtapaProducaoProduto> _iGenericoRepositorioEtapaProducaoProduto;
         private readonly IGenericoRepositorio<EtapaProducao> _iGenericoRepositorioEtapaProducao;
         public EtapaProducaoProdutoServico(IEtapaProducaoProdutoRepositorio iEtapaProducaoProdutoRepositorio,
@@ -21,15 +18,11 @@ namespace GestaoPedido.Aplicacao.Servico
                                            IGenericoRepositorio<EtapaProducao> iGenericoRepositorioEtapaProducao,
                                            IEtapaProducaoServico iEtapaProducaoServico
                                            )
-                                          // IEtapaProducaoRepositorio iEtapaProducaoRepositorio)
         {
             _iEtapaProducaoProdutoRepositorio = iEtapaProducaoProdutoRepositorio;
-            _iProdutoRepositorio = iProdutoRepositorio;
             _iGenericoRepositorioEtapaProducaoProduto = iGenericoRepositorioEtapaProducaoProduto;
             _iEtapaProducaoServico = iEtapaProducaoServico;
-           // _iEtapaProducaoRepositorio = iEtapaProducaoRepositorio;
             _iGenericoRepositorioEtapaProducao = iGenericoRepositorioEtapaProducao;
-            //_IPedidoRepositorio = pedidoRepositorio;
         }
 
         public async Task<Guid> IncluirAsync(EtapaProducaoProdutoIncluirDto dto, CancellationToken cancellationToken)
@@ -70,26 +63,14 @@ namespace GestaoPedido.Aplicacao.Servico
             try
             {
                 List<EtapaProducaoProduto> produtosProduzidos = await _iEtapaProducaoProdutoRepositorio.ObterTodosIncludeAsync(idEtapaProducao, cancellationToken);
-                List<EtapaProducaoProdutoObterTodosDto> produtos = new List<EtapaProducaoProdutoObterTodosDto>();
-                var idPedido = produtosProduzidos.Select(a => a.PedidoProduto.IdPedido).FirstOrDefault();
-                //Pedido pedido = _IPedidoRepositorio.ObterPorIdAsync(idPedido, cancellationToken).Result;
+                List<EtapaProducaoProdutoObterTodosDto> listaProdutosProduzidos = new List<EtapaProducaoProdutoObterTodosDto>();
                 foreach (EtapaProducaoProduto item in produtosProduzidos.OrderByDescending(a => a.DataCadastro))
                 {
-                    EtapaProducaoProdutoObterTodosDto etapaProducaoProdutoObterTodosDto = new();
-                    etapaProducaoProdutoObterTodosDto.QuantidadeProduzida = item.QuantidadeProduzida;
-                    etapaProducaoProdutoObterTodosDto.Id = item.Id;
-                    etapaProducaoProdutoObterTodosDto.IdEtapaProducao = item.IdEtapaProducao;
-                    etapaProducaoProdutoObterTodosDto.IdPedidoProduto = item.IdPedidoProduto;
-                   // etapaProducaoProdutoObterTodosDto.CodigoPedido = pedido.NumeroPedido;
-                    etapaProducaoProdutoObterTodosDto.DescricaoProduto =  item.PedidoProduto.Produto.Descricao;
-                    etapaProducaoProdutoObterTodosDto.NomeProduto = item.PedidoProduto.Produto.Nome;
-                    etapaProducaoProdutoObterTodosDto.DataCadastro = item.DataCadastro;
-                    etapaProducaoProdutoObterTodosDto.DataAlteracao = item.DataAlteracao;
-                    produtos.Add(etapaProducaoProdutoObterTodosDto);
-
+                    var etapaProducaoProdutoObterTodosDto = new EtapaProducaoProdutoObterTodosDto().ConverterEtapaProducaoProduto(item);
+                    listaProdutosProduzidos.Add(etapaProducaoProdutoObterTodosDto);
                 }
                
-                return produtos;
+                return listaProdutosProduzidos;
             }
             catch (Exception ex)
             {
@@ -113,22 +94,7 @@ namespace GestaoPedido.Aplicacao.Servico
             if (produto == null)
                 throw new Exception($"Produto da Etapa de Produção não localizado!");
 
-            EtapaProducaoProdutoObterTodosDto etapaProducaoProdutoObterTodosDto = new EtapaProducaoProdutoObterTodosDto();
-
- 
-            etapaProducaoProdutoObterTodosDto.QuantidadeProduzida = produto.QuantidadeProduzida;
-            etapaProducaoProdutoObterTodosDto.Id = produto.Id;
-            etapaProducaoProdutoObterTodosDto.IdEtapaProducao = produto.IdEtapaProducao;
-            etapaProducaoProdutoObterTodosDto.CodigoPedido = produto.PedidoProduto.Produto.Codigo;
-            etapaProducaoProdutoObterTodosDto.DescricaoProduto = produto.PedidoProduto.Produto.Descricao;
-            etapaProducaoProdutoObterTodosDto.NomeProduto = produto.PedidoProduto.Produto.Nome;
-            etapaProducaoProdutoObterTodosDto.DataCadastro = produto.DataCadastro;
-            etapaProducaoProdutoObterTodosDto.DataAlteracao = produto.DataAlteracao;
- 
- 
-
-
-
+            var etapaProducaoProdutoObterTodosDto = new EtapaProducaoProdutoObterTodosDto().ConverterEtapaProducaoProduto(produto);
             return etapaProducaoProdutoObterTodosDto;
         }
 

@@ -156,7 +156,7 @@ namespace GestaoPedido.Site.Controllers
             try
             {
                 EtapaProducaoProdutoObterTodosDto pedido = await _IEtapaProducaoProdutoServico.ObterPorIdAsync( idEtapaProducao,  idEtapaProducaoProduto, cancellationToken);
-                EtapaProducaoProdutoExcluirDto objeto = new EtapaProducaoProdutoExcluirDto(pedido.Id, pedido.IdEtapaProducao, pedido.NomeProduto);
+                EtapaProducaoProdutoExcluirDto objeto = new EtapaProducaoProdutoExcluirDto(pedido.Id, pedido.IdEtapaProducao, pedido.NomeProduto, pedido.IdPedido, pedido.CodigoPedido);
                 return View(objeto);
             }
             catch (Exception erro)
@@ -167,7 +167,7 @@ namespace GestaoPedido.Site.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Excluir(EtapaProducaoProdutoObterTodosDto pedido, CancellationToken cancellationToken)
+        public async Task<IActionResult> Excluir(EtapaProducaoProdutoExcluirDto pedido, CancellationToken cancellationToken)
         {
             try
             {
@@ -175,13 +175,13 @@ namespace GestaoPedido.Site.Controllers
                 if (resultado == false)
                 {
                     TempData["MensagemErro"] = "Produto da etapa de produção não encontrado!";
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Excluir");
                 }
 
                 TempData["MensagemSucesso"] = "Produto da etapa de produção excluído com sucesso!";
-                return RedirectToAction("Index", new { idEtapaProducao = pedido.IdEtapaProducao });
+                return RedirectToAction("Index", new { idEtapaProducao = pedido.IdEtapaProducao, idPedido = pedido.IdPedido, codigoPedido = pedido.CodigoPedido });
             }
-            catch (Exception erro)
+            catch (Exception erro)   
             {
                 TempData["MensagemErro"] = $"Atenção: {erro.Message}";
                 return RedirectToAction("Excluir");
