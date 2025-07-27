@@ -34,6 +34,9 @@ namespace GestaoPedido.Site
 
 
             ServicosDependencia.RegistrarServicosInjecaoDependencia(builder.Services);
+ 
+            builder.Services.AddApplicationInsightsTelemetry(builder.Configuration);
+
 
             builder.Services.AddControllersWithViews();
 
