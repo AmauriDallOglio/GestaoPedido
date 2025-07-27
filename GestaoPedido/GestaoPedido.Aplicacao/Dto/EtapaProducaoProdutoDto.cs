@@ -84,6 +84,14 @@ namespace GestaoPedido.Aplicacao.Dto
         public Guid IdEtapaProducao { get; set; }
         public string NomeProduto { get; set; } = string.Empty ;
 
+        public EtapaProducaoProdutoExcluirDto(Guid id, Guid idEtapaProduca, string nomeProduto)
+        {
+            Id = id;
+            IdEtapaProducao = idEtapaProduca;
+            NomeProduto = nomeProduto;
+            return;
+        }
+
     }
 
 

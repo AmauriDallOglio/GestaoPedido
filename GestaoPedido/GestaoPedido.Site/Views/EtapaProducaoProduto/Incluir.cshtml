@@ -5,8 +5,11 @@
 
 @{
     ViewData["Title"] = "Incluir Etapa de Produção Produto";
-    Guid idPedido = ViewBag.IdPedido;
-    Guid idEtapaProducao = ViewBag.IdEtapaProducao;
+    Guid? idPedido = ViewBag.IdPedido != null ? Guid.Parse(ViewBag.IdPedido.ToString()) : (Guid?)null;
+    Guid? idEtapaProducao = ViewBag.IdEtapaProducao != null
+       ? Guid.Parse(ViewBag.IdEtapaProducao.ToString())
+       : (Guid?)null;
+ 
     string codigoPedido = ViewBag.CodigoPedido;
  
 }
@@ -35,10 +38,11 @@
 
             <div class="row g-3 mb-4">
 
-                <!-- Campo oculto: IdEtapaProducao -->
-                <input type="hidden" asp-for="IdPedido" />
-                <input type="hidden" asp-for="IdEtapaProducao" />
-                <input type="hidden" asp-for="CodigoPedido" />
+                <!-- Campo oculto -->
+
+                <input type="hidden" asp-for="IdPedido" value="@idPedido" />
+                <input type="hidden" asp-for="IdEtapaProducao" value="@idEtapaProducao" />
+                <input type="hidden" asp-for="CodigoPedido" value="@codigoPedido" />
 
                 <div class="col-md-12">
                     <label for="IdProduto" class="form-label">Produto:</label>

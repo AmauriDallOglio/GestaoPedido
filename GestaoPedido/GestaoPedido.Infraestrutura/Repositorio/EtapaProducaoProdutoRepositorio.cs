@@ -15,13 +15,21 @@ namespace GestaoPedido.Infraestrutura.Repositorio
 
         public async Task<List<EtapaProducaoProduto>> ObterTodosIncludeAsync(Guid idEtapaProducao, CancellationToken cancellationToken)
         {
-            List<EtapaProducaoProduto> produtos = await _context.EtapaProducaoProduto.Where(a => a.IdEtapaProducao == idEtapaProducao ).Include(a => a.PedidoProduto).ThenInclude(a => a.Produto).ToListAsync();
+            List<EtapaProducaoProduto> produtos = await _context.EtapaProducaoProduto.AsNoTracking()
+                                                                                     .Where(a => a.IdEtapaProducao == idEtapaProducao )
+                                                                                     .Include(a => a.PedidoProduto)
+                                                                                     .ThenInclude(a => a.Produto)
+                                                                                     .ToListAsync(cancellationToken);
             return produtos;
         }
 
         public async Task<EtapaProducaoProduto> ObterPorIdIncludeAsync(Guid idEtapaProducao, Guid idEtapaProducaoProduto, CancellationToken cancellationToken)
         {
-            EtapaProducaoProduto produtos = await _context.EtapaProducaoProduto.Where(a => a.IdEtapaProducao == idEtapaProducao && a.Id == idEtapaProducaoProduto).FirstOrDefaultAsync();
+            EtapaProducaoProduto? produtos = await _context.EtapaProducaoProduto.AsNoTracking()
+                                                                               .Where(a => a.IdEtapaProducao == idEtapaProducao && a.Id == idEtapaProducaoProduto)
+                                                                               .Include(a => a.PedidoProduto)
+                                                                               .ThenInclude(a => a.Produto)
+                                                                               .FirstOrDefaultAsync(cancellationToken);
             return produtos;
         }
 

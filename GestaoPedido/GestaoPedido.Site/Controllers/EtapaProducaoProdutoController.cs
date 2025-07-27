@@ -3,6 +3,7 @@ using GestaoPedido.Aplicacao.Servico.InterfaceServico;
 using GestaoPedido.Dominio.Entidade;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace GestaoPedido.Site.Controllers
@@ -54,25 +55,15 @@ namespace GestaoPedido.Site.Controllers
             try
             {
 
-                List<PedidoProduto> pedidoProdutos = await _IPedidoProdutoServico.ObterTodosIncludeAsync(idPedido, cancellationToken);
 
 
-                List<Produto> produtos = pedidoProdutos.Select(a => a.Produto).ToList();
-
-                var produtosLista = produtos
-                .DistinctBy(p => p.Id)
-                .Select(p => new SelectListItem
-                {
-                    Value = p.Id.ToString(),
-                    Text = p.Nome.ToString()
-                })
-                .ToList();
+                await CarregarComboAsync(idPedido, cancellationToken);
+ 
 
                 ViewBag.CodigoPedido = codigoPedido;
                 ViewBag.IdEtapaProducao = idEtapaProducao;
                 ViewBag.IdPedido = idPedido;
 
-                ViewBag.Produtos = produtosLista;
  
                 return View();
 
@@ -84,6 +75,9 @@ namespace GestaoPedido.Site.Controllers
             }
         }
 
+     
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Incluir(EtapaProducaoProdutoIncluirDto dto, CancellationToken cancellationToken)
@@ -94,11 +88,17 @@ namespace GestaoPedido.Site.Controllers
                 if (!ModelState.IsValid)
                 {
                     TempData["MensagemErro"] = "Todos os campos obrigatórios devem ser preenchidos.";
+                    await CarregarComboAsync(dto.IdPedido, cancellationToken);
+
+                    ViewBag.CodigoPedido = dto.CodigoPedido;
+                    ViewBag.IdEtapaProducao = dto.IdEtapaProducao;
+                    ViewBag.IdPedido = dto.IdPedido;
+                    ViewBag.IdPedidoProduto = dto.IdPedidoProduto;
                     return View(dto);
                 }
 
-                PedidoProduto pedidoProduto = await _IPedidoProdutoServico.ObterPeloProdutoAsync(dto.IdPedido, dto.IdProduto??Guid.NewGuid(), cancellationToken);
-                dto.IdPedidoProduto = pedidoProduto.Id;
+                //   PedidoProduto pedidoProduto = await _IPedidoProdutoServico.ObterPeloProdutoAsync(dto.IdPedido, dto.IdProduto??Guid.NewGuid(), cancellationToken);
+                dto.IdPedidoProduto = dto.IdProduto??Guid.Empty; //pedidoProduto.Id;
 
                 // Chamada para gravar os dados
                 await _IEtapaProducaoProdutoServico.IncluirAsync(dto, cancellationToken);
@@ -126,6 +126,20 @@ namespace GestaoPedido.Site.Controllers
         }
 
 
+        private async Task CarregarComboAsync(Guid idPedido, CancellationToken cancellationToken)
+        {
+            List<PedidoProduto> pedidoProdutos = await _IPedidoProdutoServico.ObterTodosIncludeAsync(idPedido, cancellationToken);
+            var produtosLista = pedidoProdutos
+                .DistinctBy(p => p.Id)
+                .Select(p => new SelectListItem
+                {
+                    Value = p.Id.ToString(),
+                    Text = p.Produto.Nome.ToString()
+                })
+                .ToList();
+ 
+            ViewBag.Produtos = produtosLista;
+        }
 
         public class SeuViewModel
         {
@@ -142,7 +156,8 @@ namespace GestaoPedido.Site.Controllers
             try
             {
                 EtapaProducaoProdutoObterTodosDto pedido = await _IEtapaProducaoProdutoServico.ObterPorIdAsync( idEtapaProducao,  idEtapaProducaoProduto, cancellationToken);
-                return View(pedido);
+                EtapaProducaoProdutoExcluirDto objeto = new EtapaProducaoProdutoExcluirDto(pedido.Id, pedido.IdEtapaProducao, pedido.NomeProduto);
+                return View(objeto);
             }
             catch (Exception erro)
             {

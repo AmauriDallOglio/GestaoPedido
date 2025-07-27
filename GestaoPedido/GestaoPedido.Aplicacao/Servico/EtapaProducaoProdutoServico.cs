@@ -119,9 +119,9 @@ namespace GestaoPedido.Aplicacao.Servico
             etapaProducaoProdutoObterTodosDto.QuantidadeProduzida = produto.QuantidadeProduzida;
             etapaProducaoProdutoObterTodosDto.Id = produto.Id;
             etapaProducaoProdutoObterTodosDto.IdEtapaProducao = produto.IdEtapaProducao;
-            etapaProducaoProdutoObterTodosDto.CodigoPedido = "CodigoPedido ssss"; // item.PedidoProduto.Produto.Codigo;
-            etapaProducaoProdutoObterTodosDto.DescricaoProduto = "DescricaoProduto dAAAAA"; // item.PedidoProduto.Produto.Descricao;
-            etapaProducaoProdutoObterTodosDto.NomeProduto = "NomeProduto dfdfd"; //item.PedidoProduto.Produto.Nome;
+            etapaProducaoProdutoObterTodosDto.CodigoPedido = produto.PedidoProduto.Produto.Codigo;
+            etapaProducaoProdutoObterTodosDto.DescricaoProduto = produto.PedidoProduto.Produto.Descricao;
+            etapaProducaoProdutoObterTodosDto.NomeProduto = produto.PedidoProduto.Produto.Nome;
             etapaProducaoProdutoObterTodosDto.DataCadastro = produto.DataCadastro;
             etapaProducaoProdutoObterTodosDto.DataAlteracao = produto.DataAlteracao;
  

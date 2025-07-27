@@ -15,14 +15,17 @@ namespace GestaoPedido.Infraestrutura.Repositorio
 
         public async Task<List<PedidoProduto>> ObterTodosIncludeAsync(Guid idPedido, CancellationToken cancellationToken)
         {
-            List<PedidoProduto> pedidoProdutos = await _context.PedidoProdutoDb.Where(a => a.IdPedido == idPedido).Include(a => a.Produto).ToListAsync();
+            List<PedidoProduto> pedidoProdutos = await _context.PedidoProdutoDb.AsNoTracking()
+                                                                                .Where(a => a.IdPedido == idPedido)
+                                                                                .Include(a => a.Produto).ToListAsync();
             return pedidoProdutos;
         }
 
 
         public async Task<PedidoProduto> ObterProdutoAsync(Guid idPedido, Guid idProduto, CancellationToken cancellationToken)
         {
-            PedidoProduto pedidoProduto = await _context.PedidoProdutoDb.Where(a => a.IdPedido == idPedido && a.IdProduto == idProduto).FirstOrDefaultAsync();
+            PedidoProduto pedidoProduto = await _context.PedidoProdutoDb.AsNoTracking()
+                                                                        .Where(a => a.IdPedido == idPedido && a.IdProduto == idProduto).FirstOrDefaultAsync();
             return pedidoProduto;
 
         }
