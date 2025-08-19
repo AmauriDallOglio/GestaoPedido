@@ -1,15 +1,114 @@
-FACULDADE XP
-PÓS-GRADUAÇÃO EM ARQUITETURA DE SOFTWARE
+#  Trabalho de Conclusão de Pós-Graduação em Arquitetura de Software
+
+## 1. Introdução
+
+O presente trabalho de conclusão de curso de pós-graduação em **Arquitetura de Software** tem como objetivo apresentar uma solução completa e integrada para um sistema de vendas online, abordando desde a concepção da arquitetura de software até a sua implementação e *deployment* em um ambiente de nuvem de alta disponibilidade.  
+
+A crescente demanda por serviços online, impulsionada pela transformação digital, exige que as aplicações sejam não apenas funcionais, mas também **robustas, escaláveis e resilientes**, capazes de operar ininterruptamente e de se adaptar dinamicamente às flutuações de carga.  
+
+Neste contexto, a arquitetura de software assume um papel fundamental, definindo a estrutura, os componentes e as interações que garantem a qualidade e a sustentabilidade de um sistema.  
+
+---
+
+## 2. Fundamentos de Arquitetura de Software
+
+A arquitetura de software é a estrutura fundamental de um sistema, englobando seus componentes, as relações entre eles e os princípios e diretrizes que governam seu design e evolução.  
+
+### 2.1 Conceitos de Arquitetura de Software
+
+- **Fundamentos de Arquitetura de Software**: Princípios básicos que guiam a construção de sistemas robustos.  
+- **Requisitos Arquiteturais**: Desempenho, segurança e escalabilidade.  
+- **Modelagem Arquitetural**: Representação visual da arquitetura com notações padronizadas.  
+- **Design Patterns e Estilos Arquiteturais**: Soluções comprovadas para problemas recorrentes.  
+- **Arquiteturas de Software da Atualidade**: Estudo das principais abordagens modernas.  
+
+### 2.2 Modelagem Arquitetural: C4 Model
+
+O **C4 Model** permite descrever a arquitetura em diferentes níveis de abstração:
+
+1. **Diagrama de Contexto**: Mostra como o sistema interage com usuários e sistemas externos.  
+2. **Diagrama de Contêineres**: Detalha os principais componentes internos do sistema (Web, API, Banco de Dados).  
+3. **Diagrama de Componentes**: Aprofunda a visão de cada contêiner, destacando responsabilidades.  
+4. **Diagrama de Código (opcional)**: Mostra a estrutura detalhada do código.  
+
+### 2.3 Padrão MVC (Model-View-Controller)
+
+O padrão **MVC** organiza o sistema em três camadas:
+
+- **Model**: Responsável pelos dados e regras de negócio.  
+- **View**: Camada de apresentação (interface do usuário).  
+- **Controller**: Intermediário entre Model e View, controlando o fluxo da aplicação.  
+
+Vantagens:  
+✅ Isolamento das camadas  
+✅ Facilidade de testes  
+✅ Reuso de componentes  
+✅ Portabilidade de Views  
+
+---
+
+## 3. Arquitetura da Solução em Nuvem (Microsoft Azure)
+
+A solução foi projetada para garantir **alta disponibilidade, resiliência e escalabilidade** utilizando a plataforma **Microsoft Azure**.  
+
+### 3.1 Diagramas da Arquitetura em Nuvem
+
+- **Diagrama de Contexto**: Interação entre usuário, navegador, rede e sistema.  
+- **Diagrama de Contêineres**: Mostra VNets, Balanceador de Carga, VMs, IAM e Banco SQL.  
+- **Diagrama de Componentes**: Detalha grupos de recursos, redes virtuais, balanceamento e comunicação entre backend e banco de dados.  
+
+### 3.2 Componentes de Arquitetura do Azure
+
+- **Resource Groups**   
+- **Virtual Networks (VNets)** com segmentação por sub-redes  
+- **Load Balancer** para distribuir tráfego entre VMs  
+- **Storage Accounts** e **Azure Disks**  
+- **Virtual Machines (VMs)** Linux com escalonamento automático (3 a 6 instâncias)  
+- **SQL Database (PaaS)** com backup automático e replicação multi-regional  
+
+---
+
+## 4. Projeto e Implementação da API RESTful
+
+### 4.1 Organização do Projeto
+
+Estrutura modular do sistema:
+
+### 4.2 Modelo de Dados (DER)
+
+Tabelas principais:  
+
+- **Cliente**: (Id, Nome, Email, Ativo)  
+- **Produto**: (Id, Nome, Descricao, Preco, Quantidade, Ativo, DataCadastro)  
+- **Pedido**: (Id, Id_Cliente, DataPedido, ValorTotal)  
+- **PedidoProduto**: (Id, Id_Pedido, Id_Produto, Quantidade, PrecoUnitario, Total)
+
+### 4.3 Documentação da API com Swagger
+
+Benefícios do Swagger:
+Clareza e entendimento
+Facilidade de integração
+Manutenção e evolução
+Automação de documentação
+Exemplo de endpoints:
+GET /api/Cliente/ObterTodos
+POST /api/Produto/Inserir
+DELETE /api/Pedido/Excluir/{id}
+
+## 5. Conclusão
+
+Este trabalho demonstrou a importância da integração entre arquitetura de software e computação em nuvem para o desenvolvimento de sistemas robustos e escaláveis.
+Principais pontos:
+Aplicação prática do MVC e do C4 Model
+Implementação de uma API RESTful documentada com Swagger
+Uso do Microsoft Azure para alta disponibilidade, resiliência e escalabilidade
+Combinação de teoria e prática, resultando em uma solução completa e moderna
+A combinação de uma arquitetura bem definida com infraestrutura de nuvem robusta é essencial para sistemas que precisam garantir alta disponibilidade, desempenho e segurança em um mercado cada vez mais dinâmico.
+
+
+
+
  
-
-
--------
-
-
-Este trabalho tem como objetivo aplicar os conceitos fundamentais da arquitetura de software estudados ao longo dos módulos do curso. Para isso, foi desenvolvida uma solução que disponibiliza publicamente dados de um sistema simulando uma empresa de vendas on-line.
-O projeto foi concebido seguindo princípios arquiteturais sólidos, abordando temas como Fundamentos de Arquitetura de Software, Requisitos Arquiteturais, Modelagem Arquitetural, Design Patterns, Estilos Arquiteturais e Arquiteturas Modernas. A solução implementada consiste em uma API REST, estruturada no padrão arquitetural MVC, que permite a realização de operações CRUD sobre os dados do domínio escolhido, além de funcionalidades adicionais para garantir escalabilidade e segurança.
-Além da implementação, o trabalho inclui a documentação detalhada da arquitetura e do projeto, cobrindo aspectos como estrutura dos componentes, definição dos endpoints, regras de negócio e padrões utilizados. 
-
  
 ![fff](https://github.com/user-attachments/assets/3c7fc314-a4d9-4660-a7fc-793438dc8f8e)
 
