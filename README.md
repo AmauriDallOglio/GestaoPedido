@@ -22,14 +22,19 @@ A arquitetura de software é a estrutura fundamental de um sistema, englobando s
 - **Design Patterns e Estilos Arquiteturais**: Soluções comprovadas para problemas recorrentes.  
 - **Arquiteturas de Software da Atualidade**: Estudo das principais abordagens modernas.  
 
-### 2.2 Modelagem Arquitetural: C4 Model
+### 2.2 Modelagem Arquitetural: 
 
+**Metodologias Utilizadas:**
 O **C4 Model** permite descrever a arquitetura em diferentes níveis de abstração:
 
-1. **Diagrama de Contexto**: Mostra como o sistema interage com usuários e sistemas externos.  
-2. **Diagrama de Contêineres**: Detalha os principais componentes internos do sistema (Web, API, Banco de Dados).  
-3. **Diagrama de Componentes**: Aprofunda a visão de cada contêiner, destacando responsabilidades.  
-4. **Diagrama de Código (opcional)**: Mostra a estrutura detalhada do código.  
+1. **C4 Model Diagrama de Contexto**: Mostra como o sistema interage com usuários e sistemas externos.  
+2. **C4 Model Diagrama de Contêineres**: Detalha os principais componentes internos do sistema (Web, API, Banco de Dados).  
+3. **C4 Model Diagrama de Componentes**: Aprofunda a visão de cada contêiner, destacando responsabilidades.  
+4. **C4 Model Diagrama de Código (opcional)**: Mostra a estrutura detalhada do código.  
+5. **5W2H**: Definições claras de escopo, motivos, locais, responsáveis, formas e custos.
+6. **SWOT**: Pontos fortes, fracos, oportunidades e ameaças para a arquitetura.
+7. **Design Thinking**: Empatia, definição de problema, ideação, prototipação e teste.
+
 
 ### 2.3 Padrão MVC (Model-View-Controller)
 
@@ -65,7 +70,8 @@ A solução foi projetada para garantir **alta disponibilidade, resiliência e e
 - **Storage Accounts** e **Azure Disks**  
 - **Virtual Machines (VMs)** Linux com escalonamento automático (3 a 6 instâncias)  
 - **SQL Database (PaaS)** com backup automático e replicação multi-regional  
-
+- **Monitoramento)** Application Insights
+- **App Service** API Backend: ASP.NET Core MVC
 ---
 
 ## 4. Projeto e Implementação da API RESTful
