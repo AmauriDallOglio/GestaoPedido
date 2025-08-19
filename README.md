@@ -103,7 +103,7 @@ DELETE /api/Pedido/Excluir/{id}
 
 ## 5. Conclusão
 
-Este trabalho demonstrou a importância da integração entre arquitetura de software e computação em nuvem para o desenvolvimento de sistemas robustos e escaláveis.
+Estes trabalhos demonstrou a importância da integração entre arquitetura de software e computação em nuvem para o desenvolvimento de sistemas robustos e escaláveis.
 Principais pontos:
 Aplicação prática do MVC e do C4 Model
 Implementação de uma API RESTful documentada com Swagger
@@ -112,6 +112,15 @@ Combinação de teoria e prática, resultando em uma solução completa e modern
 A combinação de uma arquitetura bem definida com infraestrutura de nuvem robusta é essencial para sistemas que precisam garantir alta disponibilidade, desempenho e segurança em um mercado cada vez mais dinâmico.
 
 
+Trabalho final do bootcamp Arquiteto(a) de Software:
+[1 - Projetar uma API REST seguindo o padrão arquitetural MVC.pdf](https://github.com/user-attachments/files/21873642/1.-.Projetar.uma.API.REST.seguindo.o.padrao.arquitetural.MVC.pdf)
+
+Trabalho final do bootcamp Arquiteto(a) de Soluções:
+[2 - Trabalho de Arquitetura em Nuvem Solução Escalável e Resiliente na Microsoft Azure.pdf](https://github.com/user-attachments/files/21873645/2.-.Trabalho.de.Arquitetura.em.Nuvem.Solucao.Escalavel.e.Resiliente.na.Microsoft.Azure.pdf)
+
+
+Trabalho final do projeto Aplicado - Arquitetura de Software e Soluções
+[Projeto Aplicado - Arquitetura de Software e Soluções Amauri DallOglio.pdf](https://github.com/user-attachments/files/21873679/Projeto.Aplicado.-.Arquitetura.de.Software.e.Solucoes.Amauri.DallOglio.pdf)
 
 
  
@@ -120,18 +129,38 @@ A combinação de uma arquitetura bem definida com infraestrutura de nuvem robus
 
 ![nova2](https://github.com/user-attachments/assets/6dafbd78-1cb3-4031-af3a-d673ed27695e)
 
-![image](https://github.com/user-attachments/assets/e2fd3b8f-c841-4a03-9601-41659f8d853b)
 
 
-![image](https://github.com/user-attachments/assets/21386dda-c997-4f8a-a0c5-d9e26cbdb671)
-
-![image](https://github.com/user-attachments/assets/c7ad9698-22e8-4795-946c-a3f5100f4ece)
-
-![image](https://github.com/user-attachments/assets/043b7f6e-8809-4611-90b0-2932f8ff4495)
+<img width="607" height="867" alt="image" src="https://github.com/user-attachments/assets/a776e905-523f-422b-ba67-440bf70d1634" />
 
 
-![image](https://github.com/user-attachments/assets/50fcf3a5-1b47-4b30-b9b0-d8ee3ce9ff37)
 
-![image](https://github.com/user-attachments/assets/51eff884-ff5e-43a3-9c02-b9874bd7c375)
+
+
+<img width="1916" height="866" alt="image" src="https://github.com/user-attachments/assets/b0bf7f5e-9b9a-4158-b429-f1ff4bcfb7ce" />
+
+
+ <img width="1914" height="862" alt="image" src="https://github.com/user-attachments/assets/6a28dcad-84a0-447a-ad4e-f0758943dfed" />
+
+ <img width="1891" height="864" alt="image" src="https://github.com/user-attachments/assets/57d69f70-a78e-4334-adca-fa9e628ff733" />
+
+<img width="1912" height="859" alt="image" src="https://github.com/user-attachments/assets/66bb19ac-7a97-4650-a198-5b37623a20dc" />
+
+<img width="1914" height="862" alt="image" src="https://github.com/user-attachments/assets/b0bebb09-3079-4f1a-90b4-804c9f858739" />
+
+<img width="1912" height="854" alt="image" src="https://github.com/user-attachments/assets/05a25ecd-a2c3-4d7a-b3cc-764ae50b9787" />
+
+<img width="1915" height="863" alt="image" src="https://github.com/user-attachments/assets/96ceb0e7-afbd-4304-9f44-e935674778e6" />
+
+
+
+
+
+
+
+
+
+
+
 
 
