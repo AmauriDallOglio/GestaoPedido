@@ -120,7 +120,8 @@ Trabalho final do bootcamp Arquiteto(a) de Soluções:
 
 
 Trabalho final do projeto Aplicado - Arquitetura de Software e Soluções
-[Projeto Aplicado - Arquitetura de Software e Soluções Amauri DallOglio.pdf](https://github.com/user-attachments/files/21873679/Projeto.Aplicado.-.Arquitetura.de.Software.e.Solucoes.Amauri.DallOglio.pdf)
+[Projeto Aplicado - Modernização de ambientes On Premises para serviços PaaS com Microsoft Azure.pdf](https://github.com/user-attachments/files/21915535/Projeto.Aplicado.-.Modernizacao.de.ambientes.On.Premises.para.servicos.PaaS.com.Microsoft.Azure.pdf)
+
 
 
  
